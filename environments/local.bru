@@ -2,6 +2,8 @@ vars {
   baseUrl: http://localhost:8080
   testEmail: dev+{{$randomInt}}@luminavault.test
   testPassword: CorrectHorseBatteryStaple1!
+  webauthnUsername: dev+{{$randomInt}}@luminavault.test
+  webauthnDisplayName: LuminaVault Dev
 }
 
 vars:secret [
@@ -9,5 +11,9 @@ vars:secret [
   refreshToken,
   userId,
   mfaChallengeId,
-  resetCode
+  resetCode,
+  webauthnRegistrationOptions,
+  webauthnRegistrationCredential,
+  webauthnAuthenticationOptions,
+  webauthnAuthenticationCredential
 ]

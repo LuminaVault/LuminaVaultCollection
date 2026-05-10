@@ -14,5 +14,10 @@ docs {
   via post-response scripts. Protected requests (`Me`, `Logout`) read
   those vars automatically.
 
+  WebAuthn requests live under `Auth/` too. Use `WebAuthn Register Options`
+  and `WebAuthn Authenticate Options` to fetch challenges locally, then paste
+  the browser-generated credential JSON into the matching finish request env
+  vars before sending the finish call.
+
   Run `Register` once, then `Login` — every subsequent request authenticates.
 }

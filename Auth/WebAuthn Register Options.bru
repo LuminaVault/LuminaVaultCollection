@@ -1,0 +1,40 @@
+meta {
+  name: WebAuthn Register Options
+  type: http
+  seq: 20
+}
+
+post {
+  url: {{baseUrl}}/v1/auth/webauthn/register/options
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "username": "{{webauthnUsername}}",
+    "displayName": "{{webauthnDisplayName}}"
+  }
+}
+
+script:post-response {
+  if (res.status === 200 || res.status === 201) {
+    const data = res.getBody();
+    if (data.options) bru.setEnvVar("webauthnRegistrationOptions", JSON.stringify(data.options));
+    if (data.options?.challenge) bru.setEnvVar("webauthnRegistrationChallenge", data.options.challenge);
+    if (data.options?.rp?.id) bru.setEnvVar("webauthnRpId", data.options.rp.id);
+  }
+}
+
+tests {
+  test("status 2xx", function() {
+    expect(res.status).to.be.oneOf([200, 201]);
+  });
+  test("returns registration options", function() {
+    expect(res.getBody().options).to.be.ok;
+  });
+}
