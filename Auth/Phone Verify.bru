@@ -1,11 +1,11 @@
 meta {
-  name: Register
+  name: Phone Verify
   type: http
-  seq: 1
+  seq: 14
 }
 
 post {
-  url: {{baseUrl}}/v1/auth/register
+  url: {{baseUrl}}/v1/auth/phone/verify
   body: json
   auth: none
 }
@@ -16,27 +16,31 @@ headers {
 
 body:json {
   {
-    "email": "{{testEmail}}",
-    "username": "{{testUsername}}",
-    "password": "{{testPassword}}"
+    "phone": "{{testPhone}}",
+    "code": "000000"
   }
 }
 
 script:post-response {
-  if (res.status === 200 || res.status === 201) {
+  if (res.status === 200) {
     const data = res.getBody();
     if (data.accessToken)  bru.setEnvVar("accessToken",  data.accessToken);
     if (data.refreshToken) bru.setEnvVar("refreshToken", data.refreshToken);
     if (data.userId)       bru.setEnvVar("userId",       data.userId);
-    if (data.email)        bru.setEnvVar("testEmail",    data.email);
   }
 }
 
 tests {
-  test("status 2xx", function() {
-    expect(res.status).to.be.oneOf([200, 201]);
+  test("status 200", function() {
+    expect(res.status).to.equal(200);
   });
   test("returns access token", function() {
     expect(res.getBody().accessToken).to.be.a("string");
   });
+}
+
+docs {
+  Set `code` to the OTP from `Phone Start`'s server log. On success returns
+  full AuthResponse + creates User if absent (placeholder email
+  `<E164>@phone.luminavault.local`, auto-username via UsernamePolicy).
 }
