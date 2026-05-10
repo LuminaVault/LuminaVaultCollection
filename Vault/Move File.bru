@@ -1,0 +1,49 @@
+meta {
+  name: Move File
+  type: http
+  seq: 5
+}
+
+post {
+  url: {{baseUrl}}/v1/vault/files/move
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{accessToken}}
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "path": "drafts/v1.md",
+    "newPath": "notes/final.md"
+  }
+}
+
+tests {
+  test("status 200", function() {
+    expect(res.status).to.equal(200);
+  });
+}
+
+docs {
+  Renames a vault file in-place. Both `path` and `newPath` are sanitized
+  the same way as upload (relative, no `..`, allowed extensions only) and
+  must remain inside the tenant's `raw/` root after resolution.
+
+  Errors:
+  - `404` — `path` does not exist for the calling tenant (also returned
+    when another tenant owns it; server never reveals existence).
+  - `409` — `newPath` is already taken by another row for this tenant.
+  - `400` — body is missing `path` / `newPath`, or sanitization rejected
+    one of them.
+
+  After a successful move:
+  - `GET /v1/vault/files` shows the row at `newPath`, not `path`.
+  - `<tenantRaw>/<path>` no longer exists; `<tenantRaw>/<newPath>` does.
+}

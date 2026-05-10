@@ -1,0 +1,57 @@
+meta {
+  name: List Files
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{baseUrl}}/v1/vault/files?limit=50
+  body: none
+  auth: bearer
+}
+
+params:query {
+  limit: 50
+  ~space: ai
+  ~before: 2026-05-10T22:00:00.000Z|11111111-2222-3333-4444-555555555555
+  ~after: 2026-05-10T20:00:00.000Z|11111111-2222-3333-4444-555555555555
+}
+
+auth:bearer {
+  token: {{accessToken}}
+}
+
+tests {
+  test("status 200", function() {
+    expect(res.status).to.equal(200);
+  });
+  test("returns files array", function() {
+    expect(res.getBody().files).to.be.an("array");
+  });
+  test("each file has path + sha256", function() {
+    const files = res.getBody().files;
+    if (files.length > 0) {
+      expect(files[0].path).to.be.a("string");
+      expect(files[0].sha256).to.match(/^[0-9a-f]{64}$/);
+    }
+  });
+}
+
+docs {
+  Lists `vault_files` rows for the authenticated tenant, sorted by
+  `created_at DESC` (then `id DESC` for tie-breaks).
+
+  Query parameters:
+  - `limit` — page size, 1..200, default 50
+  - `space` — optional space slug filter (e.g. `ai`, `health`)
+  - `before` — opaque cursor; rows with `(createdAt, id)` strictly less than this
+  - `after`  — opaque cursor; rows with `(createdAt, id)` strictly greater
+
+  The cursor format is `<ISO8601-with-fractional-seconds>|<UUID>`. To paginate
+  forwards (oldest in the page → next batch), feed `nextBefore` from the
+  previous response back in as `before`. When `nextBefore` is `null`, the
+  page is the last one.
+
+  Tenant isolation is enforced server-side: another user's files never
+  appear in this listing.
+}

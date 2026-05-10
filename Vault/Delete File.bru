@@ -1,0 +1,47 @@
+meta {
+  name: Delete File
+  type: http
+  seq: 4
+}
+
+delete {
+  url: {{baseUrl}}/v1/vault/files?path=notes/today.md
+  body: none
+  auth: bearer
+}
+
+params:query {
+  path: notes/today.md
+}
+
+auth:bearer {
+  token: {{accessToken}}
+}
+
+tests {
+  test("status 204", function() {
+    expect(res.status).to.equal(204);
+  });
+}
+
+docs {
+  Soft-deletes the file at the given relative path. The DB row is dropped
+  and the on-disk blob is moved to
+  `<tenantRaw>/_deleted/<unix-ts>/<original-path>` so the data can still be
+  recovered manually.
+
+  Path sanitization rules match `Upload Markdown.bru`: relative, no `..`,
+  must end in an allowed extension. Cross-tenant requests return `404`
+  (never `403`) so the server never reveals whether another tenant owns
+  that path.
+
+  After a delete:
+  - `GET /v1/vault/files` no longer lists this path.
+  - `<vault.rootPath>/tenants/<userID>/raw/notes/today.md` does not exist.
+  - `<vault.rootPath>/tenants/<userID>/raw/_deleted/<ts>/notes/today.md` does.
+
+  Verify on the host:
+  ```
+  ls -la data/luminavault/tenants/<userID>/raw/_deleted/
+  ```
+}
