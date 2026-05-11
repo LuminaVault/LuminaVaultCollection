@@ -1,0 +1,40 @@
+meta {
+  name: Recent Achievement Unlocks
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{baseUrl}}/v1/achievements/recent?limit=10
+  body: none
+  auth: bearer
+}
+
+params:query {
+  limit: 10
+}
+
+auth:bearer {
+  token: {{accessToken}}
+}
+
+tests {
+  test("status 200", function() {
+    expect(res.status).to.equal(200);
+  });
+  test("returns unlocks array", function() {
+    const body = res.getBody();
+    expect(body.unlocks).to.be.an("array");
+    body.unlocks.forEach(u => {
+      expect(u.key).to.be.a("string");
+      expect(u.label).to.be.a("string");
+      expect(u.unlockedAt).to.be.a("string");
+    });
+  });
+}
+
+docs {
+  Newest-first list of unlocked sub-achievements for the authenticated
+  user. `limit` defaults to 10, clamped to 50. Used by the iOS "Recent
+  unlocks" surface on the Forms screen.
+}

@@ -1,0 +1,44 @@
+meta {
+  name: List Achievements
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/v1/achievements
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{accessToken}}
+}
+
+tests {
+  test("status 200", function() {
+    expect(res.status).to.equal(200);
+  });
+  test("returns catalogVersion + archetypes", function() {
+    const body = res.getBody();
+    expect(body.catalogVersion).to.be.a("number");
+    expect(body.archetypes).to.be.an("array");
+    expect(body.archetypes.length).to.equal(4);
+    const keys = body.archetypes.map(a => a.key).sort();
+    expect(keys).to.deep.equal(["lightbringer", "reignmaker", "shadowlord", "soulseeker"]);
+    body.archetypes.forEach(a => {
+      expect(a.sub).to.be.an("array");
+      a.sub.forEach(s => {
+        expect(s.key).to.be.a("string");
+        expect(s.target).to.be.a("number");
+        expect(s.progress).to.be.a("number");
+      });
+    });
+  });
+}
+
+docs {
+  Catalog (4 archetypes × 3-5 sub-achievements) joined with per-user
+  progress. Each `sub` row carries `target`, current `progress`, and the
+  `unlockedAt` timestamp (null if still locked). `catalogVersion` lets the
+  iOS client detect newly shipped entries without a template fetch.
+}
