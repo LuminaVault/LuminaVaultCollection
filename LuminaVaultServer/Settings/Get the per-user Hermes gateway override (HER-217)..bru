@@ -1,0 +1,11 @@
+meta {
+  name: Get the per-user Hermes gateway override (HER-217).
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/v1/settings/hermes
+  body: none
+  auth: inherit
+}

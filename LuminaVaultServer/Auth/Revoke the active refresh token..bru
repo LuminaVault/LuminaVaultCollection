@@ -1,0 +1,11 @@
+meta {
+  name: Revoke the active refresh token.
+  type: http
+  seq: 4
+}
+
+post {
+  url: {{baseUrl}}/v1/auth/logout
+  body: none
+  auth: inherit
+}

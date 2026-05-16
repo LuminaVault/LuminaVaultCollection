@@ -1,0 +1,27 @@
+meta {
+  name: Ingest health events (Apple Health / Withings / manual).
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{baseUrl}}/v1/health
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "events": [
+      {
+        "eventType": "",
+        "valueNumeric": 0,
+        "valueText": "",
+        "unit": "",
+        "recordedAt": "",
+        "source": "",
+        "metadata": {}
+      }
+    ]
+  }
+}

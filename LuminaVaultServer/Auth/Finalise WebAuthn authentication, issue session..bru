@@ -1,0 +1,11 @@
+meta {
+  name: Finalise WebAuthn authentication, issue session.
+  type: http
+  seq: 22
+}
+
+post {
+  url: {{baseUrl}}/v1/auth/webauthn/authenticate/finish
+  body: none
+  auth: inherit
+}

@@ -1,0 +1,19 @@
+meta {
+  name: Capture a URL with async OG / YouTube / X enrichment (HER-149).
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{baseUrl}}/v1/capture/safari
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "url": "",
+    "notes": "",
+    "spaceId": ""
+  }
+}

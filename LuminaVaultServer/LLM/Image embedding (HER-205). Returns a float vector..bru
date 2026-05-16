@@ -1,0 +1,19 @@
+meta {
+  name: Image embedding (HER-205). Returns a float vector.
+  type: http
+  seq: 4
+}
+
+post {
+  url: {{baseUrl}}/v1/vision/embed
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "image": "",
+    "mimeType": "",
+    "model": ""
+  }
+}

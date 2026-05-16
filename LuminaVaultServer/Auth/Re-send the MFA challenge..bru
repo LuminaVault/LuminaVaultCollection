@@ -1,0 +1,11 @@
+meta {
+  name: Re-send the MFA challenge.
+  type: http
+  seq: 6
+}
+
+post {
+  url: {{baseUrl}}/v1/auth/mfa/resend
+  body: none
+  auth: inherit
+}

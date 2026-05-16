@@ -1,0 +1,19 @@
+meta {
+  name: Recompute memory scores for one tenant.
+  type: http
+  seq: 8
+}
+
+post {
+  url: {{baseUrl}}/v1/admin/memory/recompute/:userID
+  body: none
+  auth: bearer
+}
+
+params:path {
+  userID: 
+}
+
+auth:bearer {
+  token: {{token}}
+}

@@ -1,0 +1,18 @@
+meta {
+  name: Partial update.
+  type: http
+  seq: 5
+}
+
+patch {
+  url: {{baseUrl}}/v1/memory/:id
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "content": "",
+    "tags": []
+  }
+}

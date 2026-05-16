@@ -1,0 +1,11 @@
+meta {
+  name: Recently unlocked achievements.
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{baseUrl}}/v1/achievements/recent
+  body: none
+  auth: inherit
+}

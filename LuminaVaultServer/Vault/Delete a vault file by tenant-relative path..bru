@@ -1,0 +1,15 @@
+meta {
+  name: Delete a vault file by tenant-relative path.
+  type: http
+  seq: 4
+}
+
+delete {
+  url: {{baseUrl}}/v1/vault/files/:path
+  body: none
+  auth: inherit
+}
+
+params:path {
+  path: 
+}

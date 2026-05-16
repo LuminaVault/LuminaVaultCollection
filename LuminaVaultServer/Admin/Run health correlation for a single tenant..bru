@@ -1,0 +1,19 @@
+meta {
+  name: Run health correlation for a single tenant.
+  type: http
+  seq: 6
+}
+
+post {
+  url: {{baseUrl}}/v1/admin/health/correlate/:userID
+  body: none
+  auth: bearer
+}
+
+params:path {
+  userID: 
+}
+
+auth:bearer {
+  token: {{token}}
+}

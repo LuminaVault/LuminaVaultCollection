@@ -1,0 +1,15 @@
+meta {
+  name: Stream the full per-tenant vault as a ZIP (HER-91).
+  type: http
+  seq: 5
+}
+
+get {
+  url: {{baseUrl}}/v1/vault/export
+  body: none
+  auth: inherit
+}
+
+params:query {
+  ~since: 
+}

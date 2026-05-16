@@ -1,0 +1,17 @@
+meta {
+  name: GDPR right-to-erasure (HER-92).
+  type: http
+  seq: 1
+}
+
+delete {
+  url: {{baseUrl}}/v1/account
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "password": ""
+  }
+}

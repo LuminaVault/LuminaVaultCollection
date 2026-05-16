@@ -1,0 +1,21 @@
+meta {
+  name: Create a space.
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{baseUrl}}/v1/spaces
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "name": "",
+    "slug": "",
+    "description": "",
+    "color": "",
+    "icon": ""
+  }
+}

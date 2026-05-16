@@ -1,0 +1,11 @@
+meta {
+  name: Exchange Google ID token for a LuminaVault session.
+  type: http
+  seq: 13
+}
+
+post {
+  url: {{baseUrl}}/v1/auth/oauth/google/exchange
+  body: none
+  auth: inherit
+}

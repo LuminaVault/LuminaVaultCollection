@@ -1,0 +1,18 @@
+meta {
+  name: Compile a vault batch through the Hermes learning loop.
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{baseUrl}}/v1/kb-compile
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "vaultFileIds": [],
+    "forceFullRecompile": false
+  }
+}

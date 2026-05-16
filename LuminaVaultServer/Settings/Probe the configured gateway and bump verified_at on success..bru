@@ -1,0 +1,11 @@
+meta {
+  name: Probe the configured gateway and bump verified_at on success.
+  type: http
+  seq: 4
+}
+
+post {
+  url: {{baseUrl}}/v1/settings/hermes/test
+  body: none
+  auth: inherit
+}

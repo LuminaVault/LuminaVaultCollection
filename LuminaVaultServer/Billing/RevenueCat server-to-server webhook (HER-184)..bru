@@ -1,0 +1,19 @@
+meta {
+  name: RevenueCat server-to-server webhook (HER-184).
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{baseUrl}}/v1/billing/revenuecat-webhook
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {}
+}

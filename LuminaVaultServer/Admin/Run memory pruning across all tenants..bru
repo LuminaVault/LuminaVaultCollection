@@ -1,0 +1,15 @@
+meta {
+  name: Run memory pruning across all tenants.
+  type: http
+  seq: 9
+}
+
+post {
+  url: {{baseUrl}}/v1/admin/memory/prune
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}

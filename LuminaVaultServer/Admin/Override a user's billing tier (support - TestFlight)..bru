@@ -1,0 +1,26 @@
+meta {
+  name: Override a user's billing tier (support / TestFlight).
+  type: http
+  seq: 11
+}
+
+put {
+  url: {{baseUrl}}/v1/admin/users/:userID/tier-override
+  body: json
+  auth: bearer
+}
+
+params:path {
+  userID: 
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+    "override": "",
+    "expiresAt": ""
+  }
+}

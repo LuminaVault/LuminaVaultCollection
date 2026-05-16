@@ -1,0 +1,11 @@
+meta {
+  name: Exchange Apple Sign-In ID token for a LuminaVault session.
+  type: http
+  seq: 12
+}
+
+post {
+  url: {{baseUrl}}/v1/auth/oauth/apple/exchange
+  body: none
+  auth: inherit
+}

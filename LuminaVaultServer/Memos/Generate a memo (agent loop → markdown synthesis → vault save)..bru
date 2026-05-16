@@ -1,0 +1,18 @@
+meta {
+  name: Generate a memo (agent loop → markdown synthesis → vault save).
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{baseUrl}}/v1/memos
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "topic": "",
+    "depth": ""
+  }
+}
