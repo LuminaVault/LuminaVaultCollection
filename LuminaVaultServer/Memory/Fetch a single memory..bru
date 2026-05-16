@@ -1,0 +1,11 @@
+meta {
+  name: Fetch a single memory.
+  type: http
+  seq: 4
+}
+
+get {
+  url: {{baseUrl}}/v1/memory/:id
+  body: none
+  auth: inherit
+}

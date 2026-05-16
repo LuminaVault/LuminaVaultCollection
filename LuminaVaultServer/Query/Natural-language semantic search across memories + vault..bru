@@ -1,0 +1,18 @@
+meta {
+  name: Natural-language semantic search across memories + vault.
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{baseUrl}}/v1/query
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "query": "",
+    "limit": 0
+  }
+}

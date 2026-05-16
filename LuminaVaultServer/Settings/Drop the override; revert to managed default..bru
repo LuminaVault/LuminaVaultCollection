@@ -1,0 +1,11 @@
+meta {
+  name: Drop the override; revert to managed default.
+  type: http
+  seq: 3
+}
+
+delete {
+  url: {{baseUrl}}/v1/settings/hermes
+  body: none
+  auth: inherit
+}

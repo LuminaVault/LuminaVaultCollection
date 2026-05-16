@@ -1,0 +1,19 @@
+meta {
+  name: Prune memories for one tenant.
+  type: http
+  seq: 10
+}
+
+post {
+  url: {{baseUrl}}/v1/admin/memory/prune/:userID
+  body: none
+  auth: bearer
+}
+
+params:path {
+  userID: 
+}
+
+auth:bearer {
+  token: {{token}}
+}

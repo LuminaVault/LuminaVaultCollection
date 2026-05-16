@@ -1,0 +1,18 @@
+meta {
+  name: Update privacy flags.
+  type: http
+  seq: 2
+}
+
+put {
+  url: {{baseUrl}}/v1/auth/me/privacy
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "privacyNoCNOrigin": false,
+    "contextRouting": false
+  }
+}

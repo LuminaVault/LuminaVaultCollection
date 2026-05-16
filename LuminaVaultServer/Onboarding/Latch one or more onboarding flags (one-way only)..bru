@@ -1,0 +1,22 @@
+meta {
+  name: Latch one or more onboarding flags (one-way only).
+  type: http
+  seq: 2
+}
+
+patch {
+  url: {{baseUrl}}/v1/onboarding
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "signupCompleted": false,
+    "emailVerifiedCompleted": false,
+    "soulConfiguredCompleted": false,
+    "firstCaptureCompleted": false,
+    "firstKBCompileCompleted": false,
+    "firstQueryCompleted": false
+  }
+}

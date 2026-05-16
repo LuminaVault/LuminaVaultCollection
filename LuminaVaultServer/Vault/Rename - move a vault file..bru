@@ -1,0 +1,18 @@
+meta {
+  name: Rename / move a vault file.
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{baseUrl}}/v1/vault/files/move
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "from": "",
+    "to": ""
+  }
+}

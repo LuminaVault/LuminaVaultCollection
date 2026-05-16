@@ -1,0 +1,19 @@
+meta {
+  name: Capture a memory (creates or updates by content hash).
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{baseUrl}}/v1/memory/upsert
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "content": "",
+    "tags": [],
+    "sourceVaultFileId": ""
+  }
+}

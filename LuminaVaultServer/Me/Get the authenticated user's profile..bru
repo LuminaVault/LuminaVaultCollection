@@ -1,0 +1,11 @@
+meta {
+  name: Get the authenticated user's profile.
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/v1/auth/me
+  body: none
+  auth: inherit
+}

@@ -1,0 +1,17 @@
+meta {
+  name: Speech-to-text (HER-203). Multipart audio upload.
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{baseUrl}}/v1/transcribe
+  body: multipartForm
+  auth: inherit
+}
+
+body:multipart-form {
+  audio: 
+  model: 
+  language: 
+}

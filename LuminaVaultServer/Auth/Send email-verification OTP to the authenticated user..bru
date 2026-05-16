@@ -1,0 +1,11 @@
+meta {
+  name: Send email-verification OTP to the authenticated user.
+  type: http
+  seq: 10
+}
+
+post {
+  url: {{baseUrl}}/v1/auth/email/send-verify
+  body: none
+  auth: inherit
+}

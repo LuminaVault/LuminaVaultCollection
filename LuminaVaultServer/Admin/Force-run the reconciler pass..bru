@@ -1,0 +1,15 @@
+meta {
+  name: Force-run the reconciler pass.
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{baseUrl}}/v1/admin/hermes-profiles/reconcile
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}

@@ -1,0 +1,11 @@
+meta {
+  name: Get WebAuthn authentication options for a known user.
+  type: http
+  seq: 21
+}
+
+post {
+  url: {{baseUrl}}/v1/auth/webauthn/authenticate/options
+  body: none
+  auth: inherit
+}

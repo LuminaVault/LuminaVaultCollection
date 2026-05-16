@@ -1,0 +1,20 @@
+meta {
+  name: Text-to-speech (HER-204). Returns audio/mpeg.
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{baseUrl}}/v1/tts
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "text": "",
+    "voice": "",
+    "model": "",
+    "format": ""
+  }
+}

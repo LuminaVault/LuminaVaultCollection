@@ -1,0 +1,11 @@
+meta {
+  name: Delete a space.
+  type: http
+  seq: 5
+}
+
+delete {
+  url: {{baseUrl}}/v1/spaces/:id
+  body: none
+  auth: inherit
+}

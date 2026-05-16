@@ -1,0 +1,21 @@
+meta {
+  name: Manually trigger a skill run.
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{baseUrl}}/v1/skills/:name/run
+  body: json
+  auth: inherit
+}
+
+params:path {
+  name: 
+}
+
+body:json {
+  {
+    "args": {}
+  }
+}

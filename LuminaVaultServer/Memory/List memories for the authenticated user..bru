@@ -1,0 +1,16 @@
+meta {
+  name: List memories for the authenticated user.
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/v1/memory
+  body: none
+  auth: inherit
+}
+
+params:query {
+  ~limit: 
+  ~offset: 
+}

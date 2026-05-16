@@ -1,0 +1,15 @@
+meta {
+  name: Recompute memory scores for all tenants.
+  type: http
+  seq: 7
+}
+
+post {
+  url: {{baseUrl}}/v1/admin/memory/recompute
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}

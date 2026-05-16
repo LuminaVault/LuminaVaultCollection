@@ -1,0 +1,11 @@
+meta {
+  name: Verify magic-link OTP, issue session.
+  type: http
+  seq: 18
+}
+
+post {
+  url: {{baseUrl}}/v1/auth/email/verify
+  body: none
+  auth: inherit
+}
