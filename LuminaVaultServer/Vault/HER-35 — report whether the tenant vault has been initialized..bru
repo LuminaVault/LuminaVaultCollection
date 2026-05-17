@@ -1,0 +1,11 @@
+meta {
+  name: HER-35 — report whether the tenant vault has been initialized.
+  type: http
+  seq: 7
+}
+
+get {
+  url: {{baseUrl}}/v1/vault/status
+  body: none
+  auth: inherit
+}
