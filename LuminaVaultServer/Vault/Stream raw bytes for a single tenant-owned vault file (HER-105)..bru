@@ -1,10 +1,10 @@
 meta {
-  name: Delete a vault file by tenant-relative path.
+  name: Stream raw bytes for a single tenant-owned vault file (HER-105).
   type: http
-  seq: 5
+  seq: 4
 }
 
-delete {
+get {
   url: {{baseUrl}}/v1/vault/files/:path
   body: none
   auth: inherit

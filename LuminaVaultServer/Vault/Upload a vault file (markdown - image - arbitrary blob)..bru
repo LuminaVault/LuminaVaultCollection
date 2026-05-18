@@ -1,19 +1,16 @@
 meta {
-  name: List vault files.
+  name: Upload a vault file (markdown / image / arbitrary blob).
   type: http
-  seq: 2
+  seq: 1
 }
 
-get {
+post {
   url: {{baseUrl}}/v1/vault/files
   body: none
   auth: inherit
 }
 
 params:query {
-  ~space: 
-  ~q: 
-  ~before: 
-  ~after: 
-  ~limit: 
+  path: 
+  ~space_id: 
 }
