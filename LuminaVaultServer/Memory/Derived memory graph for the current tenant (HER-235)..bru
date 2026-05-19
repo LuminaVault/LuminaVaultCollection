@@ -1,0 +1,17 @@
+meta {
+  name: Derived memory graph for the current tenant (HER-235).
+  type: http
+  seq: 8
+}
+
+get {
+  url: {{baseUrl}}/v1/memory/graph
+  body: none
+  auth: inherit
+}
+
+params:query {
+  ~limit: 
+  ~similarityThreshold: 
+  ~maxEdgesPerNode: 
+}
