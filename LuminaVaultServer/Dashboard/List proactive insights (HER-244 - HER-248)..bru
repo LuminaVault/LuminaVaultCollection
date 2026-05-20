@@ -1,0 +1,16 @@
+meta {
+  name: List proactive insights (HER-244 / HER-248).
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{baseUrl}}/v1/insights
+  body: none
+  auth: inherit
+}
+
+params:query {
+  ~section: 
+  ~limit: 
+}
