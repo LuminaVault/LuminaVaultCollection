@@ -1,0 +1,11 @@
+meta {
+  name: Soft-dismiss an insight (HER-37 Slice D).
+  type: http
+  seq: 6
+}
+
+post {
+  url: {{baseUrl}}/v1/insights/:id/dismiss
+  body: none
+  auth: inherit
+}
