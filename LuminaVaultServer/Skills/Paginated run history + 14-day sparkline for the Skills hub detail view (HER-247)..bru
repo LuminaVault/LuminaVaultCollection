@@ -1,0 +1,19 @@
+meta {
+  name: Paginated run history + 14-day sparkline for the Skills hub detail view (HER-247).
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{baseUrl}}/v1/skills/:name/runs
+  body: none
+  auth: inherit
+}
+
+params:query {
+  ~limit: 
+}
+
+params:path {
+  name: 
+}

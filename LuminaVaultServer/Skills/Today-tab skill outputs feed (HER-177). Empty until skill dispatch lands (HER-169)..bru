@@ -1,0 +1,16 @@
+meta {
+  name: Today-tab skill outputs feed (HER-177). Empty until skill dispatch lands (HER-169).
+  type: http
+  seq: 4
+}
+
+get {
+  url: {{baseUrl}}/v1/skills/outputs
+  body: none
+  auth: inherit
+}
+
+params:query {
+  ~since: 
+  ~limit: 
+}

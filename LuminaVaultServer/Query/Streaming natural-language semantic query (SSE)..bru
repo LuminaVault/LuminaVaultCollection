@@ -1,0 +1,18 @@
+meta {
+  name: Streaming natural-language semantic query (SSE).
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{baseUrl}}/v1/query/stream
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "query": "",
+    "limit": 0
+  }
+}
