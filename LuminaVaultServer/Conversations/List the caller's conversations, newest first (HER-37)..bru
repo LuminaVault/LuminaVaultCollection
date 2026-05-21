@@ -1,0 +1,11 @@
+meta {
+  name: List the caller's conversations, newest first (HER-37).
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{baseUrl}}/v1/conversations
+  body: none
+  auth: inherit
+}

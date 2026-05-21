@@ -1,0 +1,17 @@
+meta {
+  name: Stream an assistant turn over SSE (HER-37).
+  type: http
+  seq: 5
+}
+
+post {
+  url: {{baseUrl}}/v1/conversations/:id/messages/stream
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "content": ""
+  }
+}
