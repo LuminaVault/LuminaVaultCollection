@@ -1,0 +1,23 @@
+meta {
+  name: Toggle enable/disable, set schedule override, or pick APNS category (HER-247 / HER-178).
+  type: http
+  seq: 2
+}
+
+patch {
+  url: {{baseUrl}}/v1/skills/:name
+  body: json
+  auth: inherit
+}
+
+params:path {
+  name: 
+}
+
+body:json {
+  {
+    "enabled": false,
+    "scheduleOverride": "",
+    "apnsCategory": ""
+  }
+}

@@ -1,0 +1,19 @@
+meta {
+  name: Update per-tenant APNS category opt-out (HER-179).
+  type: http
+  seq: 6
+}
+
+put {
+  url: {{baseUrl}}/v1/me/apns-categories
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "chatEnabled": false,
+    "nudgeEnabled": false,
+    "digestEnabled": false
+  }
+}

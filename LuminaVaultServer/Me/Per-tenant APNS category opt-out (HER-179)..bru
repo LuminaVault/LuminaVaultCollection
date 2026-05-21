@@ -1,0 +1,11 @@
+meta {
+  name: Per-tenant APNS category opt-out (HER-179).
+  type: http
+  seq: 5
+}
+
+get {
+  url: {{baseUrl}}/v1/me/apns-categories
+  body: none
+  auth: inherit
+}

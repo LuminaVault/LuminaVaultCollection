@@ -1,0 +1,11 @@
+meta {
+  name: List skills + per-tenant state for the Skills hub (HER-247).
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/v1/skills
+  body: none
+  auth: inherit
+}
