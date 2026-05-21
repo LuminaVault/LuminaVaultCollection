@@ -1,0 +1,16 @@
+meta {
+  name: List chat-history sessions for the OS Shell Sessions tab (HER-245 / HER-259).
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/v1/sessions
+  body: none
+  auth: inherit
+}
+
+params:query {
+  ~limit: 
+  ~workspace: 
+}
