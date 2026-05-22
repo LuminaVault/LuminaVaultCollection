@@ -1,0 +1,11 @@
+meta {
+  name: List supported Hermes messaging gateways + per-user status (HER-241).
+  type: http
+  seq: 11
+}
+
+get {
+  url: {{baseUrl}}/v1/me/hermes-gateways
+  body: none
+  auth: inherit
+}

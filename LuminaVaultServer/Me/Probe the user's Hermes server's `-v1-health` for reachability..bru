@@ -1,0 +1,11 @@
+meta {
+  name: Probe the user's Hermes server's `/v1/health` for reachability.
+  type: http
+  seq: 15
+}
+
+post {
+  url: {{baseUrl}}/v1/me/hermes-gateways/:id/test
+  body: none
+  auth: inherit
+}
