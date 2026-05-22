@@ -1,0 +1,17 @@
+meta {
+  name: Upsert encrypted config for a gateway.
+  type: http
+  seq: 13
+}
+
+put {
+  url: {{baseUrl}}/v1/me/hermes-gateways/:id
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "config": {}
+  }
+}

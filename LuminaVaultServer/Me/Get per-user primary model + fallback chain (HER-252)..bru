@@ -1,0 +1,11 @@
+meta {
+  name: Get per-user primary model + fallback chain (HER-252).
+  type: http
+  seq: 16
+}
+
+get {
+  url: {{baseUrl}}/v1/me/preferences/llm
+  body: none
+  auth: inherit
+}
