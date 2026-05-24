@@ -1,0 +1,11 @@
+meta {
+  name: Cheap count of vault rows with `processed_at` IS NULL (HER-293).
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{baseUrl}}/v1/kb-compile/pending
+  body: none
+  auth: inherit
+}

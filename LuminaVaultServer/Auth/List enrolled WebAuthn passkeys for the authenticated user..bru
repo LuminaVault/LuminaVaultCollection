@@ -1,0 +1,11 @@
+meta {
+  name: List enrolled WebAuthn passkeys for the authenticated user.
+  type: http
+  seq: 23
+}
+
+get {
+  url: {{baseUrl}}/v1/auth/webauthn/credentials
+  body: none
+  auth: inherit
+}
