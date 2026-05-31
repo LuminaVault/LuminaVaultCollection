@@ -1,0 +1,15 @@
+meta {
+  name: Current central Hermes image + available-update info.
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/v1/system/hermes/version
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}

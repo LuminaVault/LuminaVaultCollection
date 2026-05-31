@@ -1,0 +1,15 @@
+meta {
+  name: Import session status + items (with proposed Spaces).
+  type: http
+  seq: 4
+}
+
+get {
+  url: {{baseUrl}}/v1/import/:id
+  body: none
+  auth: inherit
+}
+
+params:path {
+  id: 
+}

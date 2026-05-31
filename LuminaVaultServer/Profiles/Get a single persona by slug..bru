@@ -1,0 +1,11 @@
+meta {
+  name: Get a single persona by slug.
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{baseUrl}}/v1/profiles/:slug
+  body: none
+  auth: inherit
+}

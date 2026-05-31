@@ -1,0 +1,21 @@
+meta {
+  name: Start a Hermes self-update (detached, blue-green).
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{baseUrl}}/v1/system/hermes/update
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+    "targetTag": ""
+  }
+}

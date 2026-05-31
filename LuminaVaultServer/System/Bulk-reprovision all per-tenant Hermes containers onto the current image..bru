@@ -1,0 +1,15 @@
+meta {
+  name: Bulk-reprovision all per-tenant Hermes containers onto the current image.
+  type: http
+  seq: 7
+}
+
+post {
+  url: {{baseUrl}}/v1/system/hermes/reprovision
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}

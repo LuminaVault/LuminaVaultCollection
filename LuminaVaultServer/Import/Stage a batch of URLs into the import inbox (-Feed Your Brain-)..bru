@@ -1,0 +1,18 @@
+meta {
+  name: Stage a batch of URLs into the import inbox ("Feed Your Brain").
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{baseUrl}}/v1/import
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "sourceType": "",
+    "urls": []
+  }
+}

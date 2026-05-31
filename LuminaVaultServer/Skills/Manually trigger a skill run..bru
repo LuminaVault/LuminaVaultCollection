@@ -1,7 +1,7 @@
 meta {
   name: Manually trigger a skill run.
   type: http
-  seq: 5
+  seq: 6
 }
 
 post {
@@ -16,6 +16,8 @@ params:path {
 
 body:json {
   {
-    "args": {}
+    "input": "",
+    "arguments": {},
+    "save": false
   }
 }

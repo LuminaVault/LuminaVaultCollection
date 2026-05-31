@@ -1,0 +1,19 @@
+meta {
+  name: Update a persona's label / system prompt / enabled skills.
+  type: http
+  seq: 4
+}
+
+patch {
+  url: {{baseUrl}}/v1/profiles/:slug
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "label": "",
+    "systemPrompt": "",
+    "skillsEnabled": []
+  }
+}

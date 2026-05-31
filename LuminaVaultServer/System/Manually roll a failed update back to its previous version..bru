@@ -1,0 +1,19 @@
+meta {
+  name: Manually roll a failed update back to its previous version.
+  type: http
+  seq: 6
+}
+
+post {
+  url: {{baseUrl}}/v1/system/hermes/update/:jobID/rollback
+  body: none
+  auth: bearer
+}
+
+params:path {
+  jobID: 
+}
+
+auth:bearer {
+  token: {{token}}
+}

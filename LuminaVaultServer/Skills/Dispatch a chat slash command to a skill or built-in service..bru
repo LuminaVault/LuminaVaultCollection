@@ -1,0 +1,17 @@
+meta {
+  name: Dispatch a chat slash command to a skill or built-in service.
+  type: http
+  seq: 5
+}
+
+post {
+  url: {{baseUrl}}/v1/skills/slash
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "command": ""
+  }
+}

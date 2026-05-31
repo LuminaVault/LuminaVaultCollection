@@ -1,0 +1,11 @@
+meta {
+  name: List the caller's Hermes personas.
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/v1/profiles
+  body: none
+  auth: inherit
+}

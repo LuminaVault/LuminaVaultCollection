@@ -1,0 +1,19 @@
+meta {
+  name: Full status snapshot for one update job (poll fallback).
+  type: http
+  seq: 4
+}
+
+get {
+  url: {{baseUrl}}/v1/system/hermes/update/:jobID
+  body: none
+  auth: bearer
+}
+
+params:path {
+  jobID: 
+}
+
+auth:bearer {
+  token: {{token}}
+}

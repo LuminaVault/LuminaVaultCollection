@@ -1,0 +1,21 @@
+meta {
+  name: Apply the Space mapping — file items, enrich links, scoped compile.
+  type: http
+  seq: 6
+}
+
+post {
+  url: {{baseUrl}}/v1/import/:id/approve
+  body: json
+  auth: inherit
+}
+
+params:path {
+  id: 
+}
+
+body:json {
+  {
+    "overrides": {}
+  }
+}

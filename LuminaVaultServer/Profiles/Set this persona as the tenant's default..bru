@@ -1,0 +1,11 @@
+meta {
+  name: Set this persona as the tenant's default.
+  type: http
+  seq: 6
+}
+
+post {
+  url: {{baseUrl}}/v1/profiles/:slug/activate
+  body: none
+  auth: inherit
+}
