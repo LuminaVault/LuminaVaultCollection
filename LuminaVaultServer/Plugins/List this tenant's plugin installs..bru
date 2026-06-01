@@ -1,0 +1,11 @@
+meta {
+  name: List this tenant's plugin installs.
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{baseUrl}}/v1/plugins/installs
+  body: none
+  auth: inherit
+}

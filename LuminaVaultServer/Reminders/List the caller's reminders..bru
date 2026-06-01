@@ -1,0 +1,15 @@
+meta {
+  name: List the caller's reminders.
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/v1/reminders
+  body: none
+  auth: inherit
+}
+
+params:query {
+  ~limit: 
+}

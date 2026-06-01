@@ -1,0 +1,11 @@
+meta {
+  name: Delete a reminder.
+  type: http
+  seq: 4
+}
+
+delete {
+  url: {{baseUrl}}/v1/reminders/:id
+  body: none
+  auth: inherit
+}

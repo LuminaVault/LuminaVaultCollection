@@ -1,0 +1,11 @@
+meta {
+  name: List the caller's todos (open first, then by soonest due).
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/v1/todos
+  body: none
+  auth: inherit
+}
