@@ -1,0 +1,18 @@
+meta {
+  name: Install a plugin with its config (re-installing replaces config).
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{baseUrl}}/v1/plugins/installs
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "pluginSlug": "",
+    "config": {}
+  }
+}

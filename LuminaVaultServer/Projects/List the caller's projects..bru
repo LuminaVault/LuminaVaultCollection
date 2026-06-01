@@ -1,0 +1,15 @@
+meta {
+  name: List the caller's projects.
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/v1/projects
+  body: none
+  auth: inherit
+}
+
+params:query {
+  ~limit: 
+}

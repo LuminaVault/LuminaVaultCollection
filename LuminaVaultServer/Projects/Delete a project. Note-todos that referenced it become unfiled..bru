@@ -1,0 +1,11 @@
+meta {
+  name: Delete a project. Note-todos that referenced it become unfiled.
+  type: http
+  seq: 4
+}
+
+delete {
+  url: {{baseUrl}}/v1/projects/:id
+  body: none
+  auth: inherit
+}

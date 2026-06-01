@@ -1,0 +1,20 @@
+meta {
+  name: Toggle done / edit title, due date, or project.
+  type: http
+  seq: 3
+}
+
+patch {
+  url: {{baseUrl}}/v1/todos/:id
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "title": "",
+    "done": false,
+    "dueAt": "",
+    "projectID": ""
+  }
+}

@@ -1,0 +1,15 @@
+meta {
+  name: List first-party plugins available to install.
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/v1/plugins/catalog
+  body: none
+  auth: inherit
+}
+
+params:query {
+  ~category: 
+}

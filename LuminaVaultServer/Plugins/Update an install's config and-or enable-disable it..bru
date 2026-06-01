@@ -1,0 +1,22 @@
+meta {
+  name: Update an install's config and/or enable-disable it.
+  type: http
+  seq: 4
+}
+
+patch {
+  url: {{baseUrl}}/v1/plugins/installs/:id
+  body: json
+  auth: inherit
+}
+
+params:path {
+  id: 
+}
+
+body:json {
+  {
+    "config": {},
+    "status": ""
+  }
+}

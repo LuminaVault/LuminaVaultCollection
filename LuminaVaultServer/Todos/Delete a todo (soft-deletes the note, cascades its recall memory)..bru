@@ -1,0 +1,11 @@
+meta {
+  name: Delete a todo (soft-deletes the note, cascades its recall memory).
+  type: http
+  seq: 4
+}
+
+delete {
+  url: {{baseUrl}}/v1/todos/:id
+  body: none
+  auth: inherit
+}

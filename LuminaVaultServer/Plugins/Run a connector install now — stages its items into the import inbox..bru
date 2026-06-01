@@ -1,0 +1,15 @@
+meta {
+  name: Run a connector install now — stages its items into the import inbox.
+  type: http
+  seq: 6
+}
+
+post {
+  url: {{baseUrl}}/v1/plugins/installs/:id/sync
+  body: none
+  auth: inherit
+}
+
+params:path {
+  id: 
+}

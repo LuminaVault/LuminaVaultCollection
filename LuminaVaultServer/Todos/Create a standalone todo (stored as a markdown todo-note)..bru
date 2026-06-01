@@ -1,0 +1,19 @@
+meta {
+  name: Create a standalone todo (stored as a markdown todo-note).
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{baseUrl}}/v1/todos
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "title": "",
+    "dueAt": "",
+    "projectID": ""
+  }
+}

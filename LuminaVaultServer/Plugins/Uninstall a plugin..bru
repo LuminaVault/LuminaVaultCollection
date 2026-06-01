@@ -1,0 +1,15 @@
+meta {
+  name: Uninstall a plugin.
+  type: http
+  seq: 5
+}
+
+delete {
+  url: {{baseUrl}}/v1/plugins/installs/:id
+  body: none
+  auth: inherit
+}
+
+params:path {
+  id: 
+}
