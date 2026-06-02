@@ -1,0 +1,22 @@
+meta {
+  name: Rename a column.
+  type: http
+  seq: 8
+}
+
+patch {
+  url: {{baseUrl}}/v1/boards/:boardID/columns/:columnID
+  body: json
+  auth: inherit
+}
+
+params:path {
+  boardID: 
+  columnID: 
+}
+
+body:json {
+  {
+    "title": ""
+  }
+}

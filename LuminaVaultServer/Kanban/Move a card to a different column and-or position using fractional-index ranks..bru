@@ -1,0 +1,23 @@
+meta {
+  name: Move a card to a different column and/or position using fractional-index ranks.
+  type: http
+  seq: 14
+}
+
+post {
+  url: {{baseUrl}}/v1/cards/:cardID/move
+  body: json
+  auth: inherit
+}
+
+params:path {
+  cardID: 
+}
+
+body:json {
+  {
+    "toColumnID": "",
+    "beforeID": "",
+    "afterID": ""
+  }
+}

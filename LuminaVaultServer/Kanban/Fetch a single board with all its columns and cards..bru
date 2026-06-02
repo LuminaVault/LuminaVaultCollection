@@ -1,0 +1,15 @@
+meta {
+  name: Fetch a single board with all its columns and cards.
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{baseUrl}}/v1/boards/:boardID
+  body: none
+  auth: inherit
+}
+
+params:path {
+  boardID: 
+}

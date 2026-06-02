@@ -1,0 +1,15 @@
+meta {
+  name: Fetch only the current version counter for a board (cheap poll / ETag alternative).
+  type: http
+  seq: 6
+}
+
+get {
+  url: {{baseUrl}}/v1/boards/:boardID/version
+  body: none
+  auth: inherit
+}
+
+params:path {
+  boardID: 
+}

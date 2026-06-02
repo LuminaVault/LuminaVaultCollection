@@ -1,0 +1,24 @@
+meta {
+  name: Update card fields (title, body, priority, dueAt).
+  type: http
+  seq: 12
+}
+
+patch {
+  url: {{baseUrl}}/v1/cards/:cardID
+  body: json
+  auth: inherit
+}
+
+params:path {
+  cardID: 
+}
+
+body:json {
+  {
+    "title": "",
+    "body": "",
+    "priority": "",
+    "dueAt": ""
+  }
+}

@@ -1,0 +1,21 @@
+meta {
+  name: Append a new column to the board.
+  type: http
+  seq: 7
+}
+
+post {
+  url: {{baseUrl}}/v1/boards/:boardID/columns
+  body: json
+  auth: inherit
+}
+
+params:path {
+  boardID: 
+}
+
+body:json {
+  {
+    "title": ""
+  }
+}

@@ -1,0 +1,11 @@
+meta {
+  name: List all boards for the authenticated tenant.
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/v1/boards
+  body: none
+  auth: inherit
+}

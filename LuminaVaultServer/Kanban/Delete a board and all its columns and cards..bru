@@ -1,0 +1,15 @@
+meta {
+  name: Delete a board and all its columns and cards.
+  type: http
+  seq: 5
+}
+
+delete {
+  url: {{baseUrl}}/v1/boards/:boardID
+  body: none
+  auth: inherit
+}
+
+params:path {
+  boardID: 
+}

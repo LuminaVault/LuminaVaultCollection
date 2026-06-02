@@ -1,0 +1,23 @@
+meta {
+  name: Reorder a column relative to its siblings using fractional-index ranks.
+  type: http
+  seq: 10
+}
+
+post {
+  url: {{baseUrl}}/v1/boards/:boardID/columns/reorder
+  body: json
+  auth: inherit
+}
+
+params:path {
+  boardID: 
+}
+
+body:json {
+  {
+    "columnID": "",
+    "beforeID": "",
+    "afterID": ""
+  }
+}

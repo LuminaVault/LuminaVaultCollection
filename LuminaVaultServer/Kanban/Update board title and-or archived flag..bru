@@ -1,0 +1,22 @@
+meta {
+  name: Update board title and/or archived flag.
+  type: http
+  seq: 4
+}
+
+patch {
+  url: {{baseUrl}}/v1/boards/:boardID
+  body: json
+  auth: inherit
+}
+
+params:path {
+  boardID: 
+}
+
+body:json {
+  {
+    "title": "",
+    "archived": false
+  }
+}
