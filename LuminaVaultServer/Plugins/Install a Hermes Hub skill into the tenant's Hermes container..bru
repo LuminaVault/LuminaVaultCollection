@@ -1,0 +1,15 @@
+meta {
+  name: Install a Hermes Hub skill into the tenant's Hermes container.
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{baseUrl}}/v1/plugins/hermes-skills/install
+  body: none
+  auth: inherit
+}
+
+params:query {
+  id: 
+}

@@ -1,0 +1,15 @@
+meta {
+  name: SSE stream of HermesGatewayApplyEvent for one job.
+  type: http
+  seq: 20
+}
+
+get {
+  url: {{baseUrl}}/v1/me/hermes-gateways/apply/:jobID/stream
+  body: none
+  auth: inherit
+}
+
+params:path {
+  jobID: 
+}

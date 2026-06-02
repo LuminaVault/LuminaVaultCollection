@@ -1,0 +1,11 @@
+meta {
+  name: Read-only list of skills installed in the tenant's Hermes agent.
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{baseUrl}}/v1/plugins/hermes-skills
+  body: none
+  auth: inherit
+}

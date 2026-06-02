@@ -1,0 +1,19 @@
+meta {
+  name: Set one domain's consent; disallow purges the synced server copy.
+  type: http
+  seq: 2
+}
+
+put {
+  url: {{baseUrl}}/v1/apple/consent
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "domain": "",
+    "allowed": false,
+    "allowWrites": false
+  }
+}

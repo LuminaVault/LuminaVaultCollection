@@ -1,0 +1,11 @@
+meta {
+  name: Per-domain Apple data-access consent snapshot.
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/v1/apple/consent
+  body: none
+  auth: inherit
+}

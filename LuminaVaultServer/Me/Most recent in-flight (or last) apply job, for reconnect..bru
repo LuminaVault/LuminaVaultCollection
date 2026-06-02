@@ -1,0 +1,11 @@
+meta {
+  name: Most recent in-flight (or last) apply job, for reconnect.
+  type: http
+  seq: 18
+}
+
+get {
+  url: {{baseUrl}}/v1/me/hermes-gateways/apply/current
+  body: none
+  auth: inherit
+}

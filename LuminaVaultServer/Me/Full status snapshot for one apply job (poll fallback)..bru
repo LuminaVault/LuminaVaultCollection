@@ -1,0 +1,15 @@
+meta {
+  name: Full status snapshot for one apply job (poll fallback).
+  type: http
+  seq: 19
+}
+
+get {
+  url: {{baseUrl}}/v1/me/hermes-gateways/apply/:jobID
+  body: none
+  auth: inherit
+}
+
+params:path {
+  jobID: 
+}

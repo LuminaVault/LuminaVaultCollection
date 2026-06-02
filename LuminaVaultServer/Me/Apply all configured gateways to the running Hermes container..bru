@@ -1,0 +1,11 @@
+meta {
+  name: Apply all configured gateways to the running Hermes container.
+  type: http
+  seq: 17
+}
+
+post {
+  url: {{baseUrl}}/v1/me/hermes-gateways/apply
+  body: none
+  auth: inherit
+}

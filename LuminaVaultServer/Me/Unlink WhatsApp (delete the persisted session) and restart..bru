@@ -1,0 +1,11 @@
+meta {
+  name: Unlink WhatsApp (delete the persisted session) and restart.
+  type: http
+  seq: 23
+}
+
+delete {
+  url: {{baseUrl}}/v1/me/hermes-gateways/whatsapp/session
+  body: none
+  auth: inherit
+}

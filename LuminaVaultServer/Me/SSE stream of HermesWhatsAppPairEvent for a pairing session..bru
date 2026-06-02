@@ -1,0 +1,15 @@
+meta {
+  name: SSE stream of HermesWhatsAppPairEvent for a pairing session.
+  type: http
+  seq: 22
+}
+
+get {
+  url: {{baseUrl}}/v1/me/hermes-gateways/whatsapp/pair/:sessionID/stream
+  body: none
+  auth: inherit
+}
+
+params:path {
+  sessionID: 
+}

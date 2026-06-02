@@ -1,0 +1,17 @@
+meta {
+  name: Classify a chat message for recurring-job intent (Lumina Jobs P3).
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{baseUrl}}/v1/jobs/detect
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "text": ""
+  }
+}
