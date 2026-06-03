@@ -1,0 +1,11 @@
+meta {
+  name: Begin the Google Calendar OAuth flow.
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{baseUrl}}/v1/calendar/connect
+  body: none
+  auth: inherit
+}

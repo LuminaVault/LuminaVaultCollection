@@ -1,0 +1,15 @@
+meta {
+  name: Upcoming cached calendar events.
+  type: http
+  seq: 4
+}
+
+get {
+  url: {{baseUrl}}/v1/calendar/events
+  body: none
+  auth: inherit
+}
+
+params:query {
+  ~limit: 
+}

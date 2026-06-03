@@ -1,0 +1,25 @@
+meta {
+  name: Ingest derived photo text (OCR + scene tags + metadata) into the semantic index.
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{baseUrl}}/v1/photos/index
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "items": [
+      {
+        "assetLocalID": "",
+        "takenAt": "",
+        "isScreenshot": false,
+        "ocrText": "",
+        "sceneTags": []
+      }
+    ]
+  }
+}

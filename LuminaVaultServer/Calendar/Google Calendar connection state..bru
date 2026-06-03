@@ -1,0 +1,11 @@
+meta {
+  name: Google Calendar connection state.
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/v1/calendar/status
+  body: none
+  auth: inherit
+}

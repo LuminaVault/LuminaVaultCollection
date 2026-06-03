@@ -1,0 +1,22 @@
+meta {
+  name: Create a calendar event.
+  type: http
+  seq: 5
+}
+
+post {
+  url: {{baseUrl}}/v1/calendar/events
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "title": "",
+    "startsAt": "",
+    "endsAt": "",
+    "location": "",
+    "notes": "",
+    "attendees": []
+  }
+}

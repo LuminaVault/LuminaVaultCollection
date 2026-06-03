@@ -1,0 +1,17 @@
+meta {
+  name: Google OAuth redirect target (public).
+  type: http
+  seq: 6
+}
+
+get {
+  url: {{baseUrl}}/v1/calendar/oauth/callback
+  body: none
+  auth: inherit
+}
+
+params:query {
+  state: 
+  ~code: 
+  ~error: 
+}

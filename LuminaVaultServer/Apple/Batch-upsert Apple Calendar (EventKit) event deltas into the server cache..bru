@@ -1,0 +1,31 @@
+meta {
+  name: Batch-upsert Apple Calendar (EventKit) event deltas into the server cache.
+  type: http
+  seq: 4
+}
+
+post {
+  url: {{baseUrl}}/v1/calendar/sync
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "events": [
+      {
+        "externalID": "",
+        "calendarID": "",
+        "title": "",
+        "notes": "",
+        "location": "",
+        "startsAt": "",
+        "endsAt": "",
+        "allDay": false,
+        "status": "",
+        "organizer": "",
+        "remoteUpdatedAt": ""
+      }
+    ]
+  }
+}
