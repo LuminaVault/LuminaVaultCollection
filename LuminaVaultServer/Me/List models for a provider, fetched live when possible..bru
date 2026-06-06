@@ -1,0 +1,11 @@
+meta {
+  name: List models for a provider, fetched live when possible.
+  type: http
+  seq: 12
+}
+
+get {
+  url: {{baseUrl}}/v1/me/providers/:provider/models
+  body: none
+  auth: inherit
+}
