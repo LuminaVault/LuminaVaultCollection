@@ -1,0 +1,17 @@
+meta {
+  name: Classify a chat message for reminder intent (HER-55).
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{baseUrl}}/v1/reminders/detect
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "text": ""
+  }
+}
