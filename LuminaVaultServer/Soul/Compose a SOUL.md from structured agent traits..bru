@@ -1,0 +1,20 @@
+meta {
+  name: Compose a SOUL.md from structured agent traits.
+  type: http
+  seq: 4
+}
+
+post {
+  url: {{baseUrl}}/v1/soul/compose
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "agent_name": "",
+    "tone": "",
+    "role": "",
+    "autonomy": ""
+  }
+}
