@@ -1,0 +1,15 @@
+meta {
+  name: What the tenant's connected Hermes exposes, per settings domain (P3).
+  type: http
+  seq: 5
+}
+
+get {
+  url: {{baseUrl}}/v1/me/hermes/capabilities
+  body: none
+  auth: inherit
+}
+
+params:query {
+  ~refresh: 
+}
