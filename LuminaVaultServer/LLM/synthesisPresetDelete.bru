@@ -1,0 +1,11 @@
+meta {
+  name: synthesisPresetDelete
+  type: http
+  seq: 17
+}
+
+delete {
+  url: {{baseUrl}}/v1/router/synthesis-presets/:presetID
+  body: none
+  auth: inherit
+}

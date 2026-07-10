@@ -1,0 +1,15 @@
+meta {
+  name: workflowsPublish
+  type: http
+  seq: 5
+}
+
+post {
+  url: {{baseUrl}}/v1/workflows/:id/publish
+  body: none
+  auth: inherit
+}
+
+params:path {
+  id: 
+}

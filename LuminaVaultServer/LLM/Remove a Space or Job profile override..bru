@@ -1,0 +1,11 @@
+meta {
+  name: Remove a Space or Job profile override.
+  type: http
+  seq: 8
+}
+
+delete {
+  url: {{baseUrl}}/v1/router/bindings/:scope/:scopeID
+  body: none
+  auth: inherit
+}

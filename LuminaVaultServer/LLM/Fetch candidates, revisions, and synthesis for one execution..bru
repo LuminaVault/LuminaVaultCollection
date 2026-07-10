@@ -1,0 +1,11 @@
+meta {
+  name: Fetch candidates, revisions, and synthesis for one execution.
+  type: http
+  seq: 12
+}
+
+get {
+  url: {{baseUrl}}/v1/router/parallel/executions/:executionID
+  body: none
+  auth: inherit
+}

@@ -1,0 +1,15 @@
+meta {
+  name: Recent unified connection diagnostic events.
+  type: http
+  seq: 31
+}
+
+get {
+  url: {{baseUrl}}/v1/me/connections/events
+  body: none
+  auth: inherit
+}
+
+params:query {
+  ~limit: 
+}

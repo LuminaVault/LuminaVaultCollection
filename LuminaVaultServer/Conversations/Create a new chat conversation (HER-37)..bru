@@ -1,7 +1,7 @@
 meta {
   name: Create a new chat conversation (HER-37).
   type: http
-  seq: 1
+  seq: 2
 }
 
 post {
@@ -13,6 +13,13 @@ post {
 body:json {
   {
     "title": "",
-    "spaceId": ""
+    "spaceId": "",
+    "pinnedMemoryIDs": [],
+    "routeOverride": {
+      "provider": "",
+      "model": "",
+      "inputPerMillionUsdMicros": 0,
+      "outputPerMillionUsdMicros": 0
+    }
   }
 }

@@ -1,0 +1,11 @@
+meta {
+  name: Delete a non-default custom profile.
+  type: http
+  seq: 4
+}
+
+delete {
+  url: {{baseUrl}}/v1/router/:id
+  body: none
+  auth: inherit
+}

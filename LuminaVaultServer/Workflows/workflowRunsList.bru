@@ -1,0 +1,15 @@
+meta {
+  name: workflowRunsList
+  type: http
+  seq: 6
+}
+
+get {
+  url: {{baseUrl}}/v1/workflows/:id/runs
+  body: none
+  auth: inherit
+}
+
+params:path {
+  id: 
+}

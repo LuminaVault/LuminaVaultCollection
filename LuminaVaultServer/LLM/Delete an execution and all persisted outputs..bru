@@ -1,0 +1,11 @@
+meta {
+  name: Delete an execution and all persisted outputs.
+  type: http
+  seq: 13
+}
+
+delete {
+  url: {{baseUrl}}/v1/router/parallel/executions/:executionID
+  body: none
+  auth: inherit
+}

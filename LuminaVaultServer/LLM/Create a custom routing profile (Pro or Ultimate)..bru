@@ -1,0 +1,64 @@
+meta {
+  name: Create a custom routing profile (Pro or Ultimate).
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{baseUrl}}/v1/router
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "name": "",
+    "mode": "",
+    "objective": {
+      "quality": 0,
+      "cost": 0,
+      "latency": 0
+    },
+    "budget": {
+      "softLimitUsdMicros": 0,
+      "hardLimitUsdMicros": 0
+    },
+    "allowedProviders": [],
+    "blockedProviders": [],
+    "defaultAction": {
+      "kind": "",
+      "routes": [
+        {
+          "provider": "",
+          "model": "",
+          "inputPerMillionUsdMicros": 0,
+          "outputPerMillionUsdMicros": 0
+        }
+      ],
+      "synthesisRoute": {},
+      "minimumSuccessfulResults": 0,
+      "retryPolicy": "",
+      "parallelStrategy": "",
+      "participants": [
+        {
+          "id": "",
+          "role": "",
+          "instructions": "",
+          "route": {}
+        }
+      ]
+    },
+    "rules": [
+      {
+        "id": "",
+        "name": "",
+        "enabled": false,
+        "priority": 0,
+        "taskTypes": [],
+        "surfaces": [],
+        "action": {}
+      }
+    ],
+    "expectedRevision": 0
+  }
+}

@@ -1,0 +1,20 @@
+meta {
+  name: Upsert cross-device chat behavior preferences.
+  type: http
+  seq: 28
+}
+
+put {
+  url: {{baseUrl}}/v1/me/chat-preferences
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "preferences": {
+      "autoExpandThinking": false,
+      "sendOnReturn": false
+    }
+  }
+}

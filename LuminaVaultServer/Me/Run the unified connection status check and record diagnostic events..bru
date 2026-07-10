@@ -1,0 +1,11 @@
+meta {
+  name: Run the unified connection status check and record diagnostic events.
+  type: http
+  seq: 30
+}
+
+post {
+  url: {{baseUrl}}/v1/me/connections/test-all
+  body: none
+  auth: inherit
+}

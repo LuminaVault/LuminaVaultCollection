@@ -1,0 +1,47 @@
+meta {
+  name: workflowsUpdateDraft
+  type: http
+  seq: 4
+}
+
+put {
+  url: {{baseUrl}}/v1/workflows/:id/draft
+  body: json
+  auth: inherit
+}
+
+params:path {
+  id: 
+}
+
+body:json {
+  {
+    "name": "",
+    "descriptionText": "",
+    "enabled": false,
+    "expectedRevision": 0,
+    "definition": {
+      "trigger": "",
+      "triggerConfiguration": {},
+      "nodes": [
+        {
+          "id": "",
+          "kind": "",
+          "name": "",
+          "x": 0,
+          "y": 0,
+          "configuration": {}
+        }
+      ],
+      "edges": [
+        {
+          "id": "",
+          "sourceNodeID": "",
+          "sourcePort": "",
+          "targetNodeID": "",
+          "targetPort": ""
+        }
+      ]
+    }
+  }
+}

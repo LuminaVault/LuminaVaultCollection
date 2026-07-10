@@ -1,0 +1,35 @@
+meta {
+  name: Run an Ultimate-tier multi-model execution and stream progress.
+  type: http
+  seq: 10
+}
+
+post {
+  url: {{baseUrl}}/v1/router/parallel/executions/stream
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "prompt": "",
+    "strategy": "",
+    "participants": [
+      {
+        "id": "",
+        "role": "",
+        "instructions": "",
+        "route": {
+          "provider": "",
+          "model": "",
+          "inputPerMillionUsdMicros": 0,
+          "outputPerMillionUsdMicros": 0
+        }
+      }
+    ],
+    "synthesisRoute": {},
+    "synthesisPrompt": "",
+    "synthesisPresetID": "",
+    "spaceID": ""
+  }
+}

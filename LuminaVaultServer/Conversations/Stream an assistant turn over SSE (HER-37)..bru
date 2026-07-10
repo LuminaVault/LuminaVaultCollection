@@ -1,7 +1,7 @@
 meta {
   name: Stream an assistant turn over SSE (HER-37).
   type: http
-  seq: 5
+  seq: 6
 }
 
 post {
@@ -12,6 +12,10 @@ post {
 
 body:json {
   {
-    "content": ""
+    "content": "",
+    "multiModel": {
+      "enabled": false,
+      "strategy": ""
+    }
   }
 }

@@ -1,0 +1,17 @@
+meta {
+  name: Assign a profile to a Space or Job.
+  type: http
+  seq: 7
+}
+
+put {
+  url: {{baseUrl}}/v1/router/bindings/:scope/:scopeID
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "profileID": ""
+  }
+}

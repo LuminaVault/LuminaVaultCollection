@@ -1,0 +1,15 @@
+meta {
+  name: workflowsGet
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{baseUrl}}/v1/workflows/:id
+  body: none
+  auth: inherit
+}
+
+params:path {
+  id: 
+}

@@ -1,0 +1,11 @@
+meta {
+  name: List the caller's recent multi-model executions.
+  type: http
+  seq: 11
+}
+
+get {
+  url: {{baseUrl}}/v1/router/parallel/executions
+  body: none
+  auth: inherit
+}

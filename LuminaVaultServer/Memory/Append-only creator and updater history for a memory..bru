@@ -1,0 +1,11 @@
+meta {
+  name: Append-only creator and updater history for a memory.
+  type: http
+  seq: 8
+}
+
+get {
+  url: {{baseUrl}}/v1/memory/:id/provenance
+  body: none
+  auth: inherit
+}

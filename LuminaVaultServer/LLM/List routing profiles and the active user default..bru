@@ -1,0 +1,11 @@
+meta {
+  name: List routing profiles and the active user default.
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/v1/router
+  body: none
+  auth: inherit
+}

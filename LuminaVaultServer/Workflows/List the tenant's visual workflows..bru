@@ -1,0 +1,11 @@
+meta {
+  name: List the tenant's visual workflows.
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/v1/workflows
+  body: none
+  auth: inherit
+}

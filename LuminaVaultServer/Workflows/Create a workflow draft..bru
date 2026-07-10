@@ -1,0 +1,41 @@
+meta {
+  name: Create a workflow draft.
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{baseUrl}}/v1/workflows
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "name": "",
+    "descriptionText": "",
+    "definition": {
+      "trigger": "",
+      "triggerConfiguration": {},
+      "nodes": [
+        {
+          "id": "",
+          "kind": "",
+          "name": "",
+          "x": 0,
+          "y": 0,
+          "configuration": {}
+        }
+      ],
+      "edges": [
+        {
+          "id": "",
+          "sourceNodeID": "",
+          "sourcePort": "",
+          "targetNodeID": "",
+          "targetPort": ""
+        }
+      ]
+    }
+  }
+}

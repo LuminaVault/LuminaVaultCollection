@@ -1,0 +1,22 @@
+meta {
+  name: workflowApprovalDecide
+  type: http
+  seq: 10
+}
+
+post {
+  url: {{baseUrl}}/v1/workflows/approvals/:approvalID/decision
+  body: json
+  auth: inherit
+}
+
+params:path {
+  approvalID: 
+}
+
+body:json {
+  {
+    "approved": false,
+    "note": ""
+  }
+}
