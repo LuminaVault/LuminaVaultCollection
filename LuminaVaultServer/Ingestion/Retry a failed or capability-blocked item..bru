@@ -1,0 +1,16 @@
+meta {
+  name: Retry a failed or capability-blocked item.
+  type: http
+  seq: 6
+}
+
+post {
+  url: {{baseUrl}}/v1/ingestions/:batchID/items/:itemID/retry
+  body: none
+  auth: inherit
+}
+
+params:path {
+  batchID: 
+  itemID: 
+}

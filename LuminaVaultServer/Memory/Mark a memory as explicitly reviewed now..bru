@@ -1,0 +1,11 @@
+meta {
+  name: Mark a memory as explicitly reviewed now.
+  type: http
+  seq: 9
+}
+
+post {
+  url: {{baseUrl}}/v1/memory/:id/review
+  body: none
+  auth: inherit
+}

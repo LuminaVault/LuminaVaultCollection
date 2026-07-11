@@ -1,0 +1,19 @@
+meta {
+  name: Run an evidence-backed reasoning query.
+  type: http
+  seq: 13
+}
+
+post {
+  url: {{baseUrl}}/v1/knowledge/reason
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "query": "",
+    "maxDepth": 0,
+    "limit": 0
+  }
+}

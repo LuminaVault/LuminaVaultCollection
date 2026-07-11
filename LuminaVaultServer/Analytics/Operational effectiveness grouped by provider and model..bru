@@ -1,0 +1,16 @@
+meta {
+  name: Operational effectiveness grouped by provider and model.
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{baseUrl}}/v1/analytics/models
+  body: none
+  auth: inherit
+}
+
+params:query {
+  ~range: 
+  ~scope: 
+}

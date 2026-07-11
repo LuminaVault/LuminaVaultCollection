@@ -1,0 +1,20 @@
+meta {
+  name: Replace the cross-device local/cloud routing profile.
+  type: http
+  seq: 30
+}
+
+put {
+  url: {{baseUrl}}/v1/me/preferences/hybrid-execution
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "profile": "",
+    "localFallbackEnabled": false,
+    "cloudFallbackEnabled": false,
+    "syncLocalConversations": false
+  }
+}

@@ -1,0 +1,27 @@
+meta {
+  name: Create a multimodal ingestion batch.
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{baseUrl}}/v1/ingestions
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "spaceID": "",
+    "items": [
+      {
+        "kind": "",
+        "fileName": "",
+        "contentType": "",
+        "sizeBytes": 0,
+        "sha256": "",
+        "url": ""
+      }
+    ]
+  }
+}

@@ -1,0 +1,11 @@
+meta {
+  name: List recent multimodal ingestion batches.
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{baseUrl}}/v1/ingestions
+  body: none
+  auth: inherit
+}

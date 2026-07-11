@@ -1,0 +1,15 @@
+meta {
+  name: Analytics for the selected shared vault.
+  type: http
+  seq: 4
+}
+
+get {
+  url: {{baseUrl}}/v1/analytics/team
+  body: none
+  auth: inherit
+}
+
+params:query {
+  ~range: 
+}

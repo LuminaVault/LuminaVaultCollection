@@ -1,0 +1,19 @@
+meta {
+  name: Explain the strongest bounded paths between two knowledge nodes.
+  type: http
+  seq: 15
+}
+
+post {
+  url: {{baseUrl}}/v1/knowledge/connections/explain
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "fromNodeID": "",
+    "toNodeID": "",
+    "maxDepth": 0
+  }
+}

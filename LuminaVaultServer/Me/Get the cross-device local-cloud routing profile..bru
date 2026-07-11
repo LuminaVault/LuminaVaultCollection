@@ -1,0 +1,11 @@
+meta {
+  name: Get the cross-device local/cloud routing profile.
+  type: http
+  seq: 29
+}
+
+get {
+  url: {{baseUrl}}/v1/me/preferences/hybrid-execution
+  body: none
+  auth: inherit
+}

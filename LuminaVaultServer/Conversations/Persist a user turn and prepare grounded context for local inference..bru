@@ -1,0 +1,17 @@
+meta {
+  name: Persist a user turn and prepare grounded context for local inference.
+  type: http
+  seq: 7
+}
+
+post {
+  url: {{baseUrl}}/v1/conversations/:id/messages/prepare
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "content": ""
+  }
+}

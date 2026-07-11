@@ -1,0 +1,17 @@
+meta {
+  name: Upload one idempotent chunk (maximum 8 MiB).
+  type: http
+  seq: 4
+}
+
+put {
+  url: {{baseUrl}}/v1/ingestions/:batchID/items/:itemID/chunks/:index
+  body: none
+  auth: inherit
+}
+
+params:path {
+  batchID: 
+  itemID: 
+  index: 
+}

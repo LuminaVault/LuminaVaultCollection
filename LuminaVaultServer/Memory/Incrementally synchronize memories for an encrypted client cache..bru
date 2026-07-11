@@ -1,0 +1,16 @@
+meta {
+  name: Incrementally synchronize memories for an encrypted client cache.
+  type: http
+  seq: 18
+}
+
+get {
+  url: {{baseUrl}}/v1/memory/local-sync
+  body: none
+  auth: inherit
+}
+
+params:query {
+  ~cursor: 
+  ~limit: 
+}

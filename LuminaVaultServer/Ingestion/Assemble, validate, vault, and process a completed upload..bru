@@ -1,0 +1,16 @@
+meta {
+  name: Assemble, validate, vault, and process a completed upload.
+  type: http
+  seq: 5
+}
+
+post {
+  url: {{baseUrl}}/v1/ingestions/:batchID/items/:itemID/complete
+  body: none
+  auth: inherit
+}
+
+params:path {
+  batchID: 
+  itemID: 
+}

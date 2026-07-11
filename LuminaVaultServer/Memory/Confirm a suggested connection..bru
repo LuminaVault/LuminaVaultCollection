@@ -1,0 +1,21 @@
+meta {
+  name: Confirm a suggested connection.
+  type: http
+  seq: 16
+}
+
+post {
+  url: {{baseUrl}}/v1/knowledge/edges/:id/confirm
+  body: json
+  auth: inherit
+}
+
+params:path {
+  id: 
+}
+
+body:json {
+  {
+    "note": ""
+  }
+}

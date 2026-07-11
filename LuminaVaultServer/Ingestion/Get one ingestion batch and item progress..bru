@@ -1,0 +1,15 @@
+meta {
+  name: Get one ingestion batch and item progress.
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{baseUrl}}/v1/ingestions/:batchID
+  body: none
+  auth: inherit
+}
+
+params:path {
+  batchID: 
+}

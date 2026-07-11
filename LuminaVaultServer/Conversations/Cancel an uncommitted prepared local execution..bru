@@ -1,0 +1,11 @@
+meta {
+  name: Cancel an uncommitted prepared local execution.
+  type: http
+  seq: 9
+}
+
+delete {
+  url: {{baseUrl}}/v1/conversations/:id/local-executions/:executionID
+  body: none
+  auth: inherit
+}

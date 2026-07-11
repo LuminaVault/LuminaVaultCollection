@@ -1,0 +1,18 @@
+meta {
+  name: Dismiss or snooze a recommendation for the current user and vault.
+  type: http
+  seq: 6
+}
+
+patch {
+  url: {{baseUrl}}/v1/analytics/recommendations
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "recommendationId": "",
+    "disposition": ""
+  }
+}

@@ -1,0 +1,26 @@
+meta {
+  name: Idempotently commit a locally generated assistant turn.
+  type: http
+  seq: 8
+}
+
+post {
+  url: {{baseUrl}}/v1/conversations/:id/messages/commit
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "executionID": "",
+    "content": "",
+    "location": "",
+    "provider": "",
+    "model": "",
+    "usage": {
+      "inputTokens": 0,
+      "outputTokens": 0,
+      "latencyMs": 0
+    }
+  }
+}

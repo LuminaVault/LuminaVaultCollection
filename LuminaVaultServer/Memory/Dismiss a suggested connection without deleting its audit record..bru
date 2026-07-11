@@ -1,0 +1,21 @@
+meta {
+  name: Dismiss a suggested connection without deleting its audit record.
+  type: http
+  seq: 17
+}
+
+post {
+  url: {{baseUrl}}/v1/knowledge/edges/:id/dismiss
+  body: json
+  auth: inherit
+}
+
+params:path {
+  id: 
+}
+
+body:json {
+  {
+    "note": ""
+  }
+}
