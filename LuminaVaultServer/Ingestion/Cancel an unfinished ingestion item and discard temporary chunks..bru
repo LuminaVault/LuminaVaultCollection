@@ -1,0 +1,16 @@
+meta {
+  name: Cancel an unfinished ingestion item and discard temporary chunks.
+  type: http
+  seq: 7
+}
+
+delete {
+  url: {{baseUrl}}/v1/ingestions/:batchID/items/:itemID
+  body: none
+  auth: inherit
+}
+
+params:path {
+  batchID: 
+  itemID: 
+}
