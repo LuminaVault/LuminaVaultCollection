@@ -1,0 +1,15 @@
+meta {
+  name: marketplaceReviews
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{baseUrl}}/v1/marketplace/plugins/:slug/reviews
+  body: none
+  auth: inherit
+}
+
+params:path {
+  slug: 
+}

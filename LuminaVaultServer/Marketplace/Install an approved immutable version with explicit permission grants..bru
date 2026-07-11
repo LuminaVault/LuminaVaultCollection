@@ -1,0 +1,23 @@
+meta {
+  name: Install an approved immutable version with explicit permission grants.
+  type: http
+  seq: 5
+}
+
+post {
+  url: {{baseUrl}}/v1/marketplace/plugins/:slug/install
+  body: json
+  auth: inherit
+}
+
+params:path {
+  slug: 
+}
+
+body:json {
+  {
+    "versionId": "",
+    "grantedPermissions": [],
+    "config": {}
+  }
+}

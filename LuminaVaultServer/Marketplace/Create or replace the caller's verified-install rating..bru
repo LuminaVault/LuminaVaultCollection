@@ -1,0 +1,22 @@
+meta {
+  name: Create or replace the caller's verified-install rating.
+  type: http
+  seq: 4
+}
+
+put {
+  url: {{baseUrl}}/v1/marketplace/plugins/:slug/rating
+  body: json
+  auth: inherit
+}
+
+params:path {
+  slug: 
+}
+
+body:json {
+  {
+    "rating": 0,
+    "body": ""
+  }
+}

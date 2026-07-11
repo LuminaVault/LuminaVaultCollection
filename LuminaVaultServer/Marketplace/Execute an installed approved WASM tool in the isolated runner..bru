@@ -1,0 +1,22 @@
+meta {
+  name: Execute an installed approved WASM tool in the isolated runner.
+  type: http
+  seq: 6
+}
+
+post {
+  url: {{baseUrl}}/v1/marketplace/plugins/:slug/tools/:toolName/run
+  body: json
+  auth: inherit
+}
+
+params:path {
+  slug: 
+  toolName: 
+}
+
+body:json {
+  {
+    "input": {}
+  }
+}

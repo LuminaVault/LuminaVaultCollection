@@ -1,0 +1,16 @@
+meta {
+  name: marketplacePublisherSubmitVersion
+  type: http
+  seq: 12
+}
+
+post {
+  url: {{baseUrl}}/v1/marketplace/publisher/plugins/:slug/versions/:versionID/submit
+  body: none
+  auth: inherit
+}
+
+params:path {
+  slug: 
+  versionID: 
+}

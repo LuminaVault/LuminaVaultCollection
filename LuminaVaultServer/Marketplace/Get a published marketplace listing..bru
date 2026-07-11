@@ -1,0 +1,15 @@
+meta {
+  name: Get a published marketplace listing.
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{baseUrl}}/v1/marketplace/plugins/:slug
+  body: none
+  auth: inherit
+}
+
+params:path {
+  slug: 
+}

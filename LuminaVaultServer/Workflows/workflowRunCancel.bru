@@ -1,0 +1,15 @@
+meta {
+  name: workflowRunCancel
+  type: http
+  seq: 9
+}
+
+post {
+  url: {{baseUrl}}/v1/workflows/runs/:runID/cancel
+  body: none
+  auth: inherit
+}
+
+params:path {
+  runID: 
+}

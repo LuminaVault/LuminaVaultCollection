@@ -1,17 +1,17 @@
 meta {
-  name: workflowApprovalDecide
+  name: marketplaceAdminPublisherDecision
   type: http
-  seq: 11
+  seq: 16
 }
 
 post {
-  url: {{baseUrl}}/v1/workflows/approvals/:approvalID/decision
+  url: {{baseUrl}}/v1/marketplace/admin/publishers/:userID/decision
   body: json
   auth: inherit
 }
 
 params:path {
-  approvalID: 
+  userID: 
 }
 
 body:json {

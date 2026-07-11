@@ -1,0 +1,37 @@
+meta {
+  name: marketplacePublisherCreateVersion
+  type: http
+  seq: 10
+}
+
+post {
+  url: {{baseUrl}}/v1/marketplace/publisher/plugins/:slug/versions
+  body: json
+  auth: inherit
+}
+
+params:path {
+  slug: 
+}
+
+body:json {
+  {
+    "version": "",
+    "runtimeKind": "",
+    "permissions": [],
+    "networkHosts": [],
+    "configFields": [
+      {
+        "key": "",
+        "label": "",
+        "placeholder": "",
+        "kind": "",
+        "isRequired": false
+      }
+    ],
+    "changelog": "",
+    "artifactKey": "",
+    "artifactSHA256": "",
+    "manifestJSON": ""
+  }
+}

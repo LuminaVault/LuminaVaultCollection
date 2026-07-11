@@ -1,0 +1,22 @@
+meta {
+  name: Upload a WASM module into the immutable content-addressed artifact store.
+  type: http
+  seq: 11
+}
+
+post {
+  url: {{baseUrl}}/v1/marketplace/publisher/plugins/:slug/artifacts
+  body: json
+  auth: inherit
+}
+
+params:path {
+  slug: 
+}
+
+body:json {
+  {
+    "fileName": "",
+    "bytesBase64": ""
+  }
+}

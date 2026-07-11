@@ -1,0 +1,23 @@
+meta {
+  name: marketplacePublisherCreatePlugin
+  type: http
+  seq: 9
+}
+
+post {
+  url: {{baseUrl}}/v1/marketplace/publisher/plugins
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "slug": "",
+    "name": "",
+    "summary": "",
+    "description": "",
+    "category": "",
+    "iconURL": "",
+    "screenshots": []
+  }
+}

@@ -1,0 +1,20 @@
+meta {
+  name: marketplacePublisherApply
+  type: http
+  seq: 7
+}
+
+post {
+  url: {{baseUrl}}/v1/marketplace/publisher/apply
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "handle": "",
+    "displayName": "",
+    "bio": "",
+    "websiteURL": ""
+  }
+}

@@ -1,0 +1,19 @@
+meta {
+  name: Browse published marketplace plugins.
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/v1/marketplace/plugins
+  body: none
+  auth: inherit
+}
+
+params:query {
+  ~query: 
+  ~category: 
+  ~featured: 
+  ~cursor: 
+  ~limit: 
+}
