@@ -1,17 +1,17 @@
 meta {
   name: marketplaceAdminPublisherDecision
   type: http
-  seq: 16
+  seq: 17
 }
 
 post {
-  url: {{baseUrl}}/v1/marketplace/admin/publishers/:userID/decision
+  url: {{baseUrl}}/v1/marketplace/admin/publishers/:publisherID/decision
   body: json
   auth: inherit
 }
 
 params:path {
-  userID: 
+  publisherID: 
 }
 
 body:json {

@@ -1,0 +1,15 @@
+meta {
+  name: workflowWebhookRotate
+  type: http
+  seq: 6
+}
+
+post {
+  url: {{baseUrl}}/v1/workflows/:id/webhook/rotate
+  body: none
+  auth: inherit
+}
+
+params:path {
+  id: 
+}

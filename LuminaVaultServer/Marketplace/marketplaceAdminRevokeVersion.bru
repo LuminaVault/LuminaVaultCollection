@@ -1,0 +1,21 @@
+meta {
+  name: marketplaceAdminRevokeVersion
+  type: http
+  seq: 18
+}
+
+post {
+  url: {{baseUrl}}/v1/marketplace/admin/versions/:versionID/revoke
+  body: json
+  auth: inherit
+}
+
+params:path {
+  versionID: 
+}
+
+body:json {
+  {
+    "reason": ""
+  }
+}

@@ -1,0 +1,21 @@
+meta {
+  name: workflowWebhookIngest
+  type: http
+  seq: 7
+}
+
+post {
+  url: {{baseUrl}}/v1/workflow-hooks/:hookID
+  body: none
+  auth: inherit
+}
+
+params:path {
+  hookID: 
+}
+
+headers {
+  X-Lumina-Timestamp: 
+  X-Lumina-Signature: 
+  Idempotency-Key: 
+}
