@@ -1,0 +1,23 @@
+meta {
+  name: Stream durable ingestion progress and terminal events.
+  type: http
+  seq: 4
+}
+
+get {
+  url: {{baseUrl}}/v1/ingestions/:batchID/events
+  body: none
+  auth: inherit
+}
+
+params:query {
+  ~after: 
+}
+
+params:path {
+  batchID: 
+}
+
+headers {
+  ~Last-Event-ID: 
+}
