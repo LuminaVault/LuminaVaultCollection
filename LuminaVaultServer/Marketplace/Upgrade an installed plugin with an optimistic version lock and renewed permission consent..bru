@@ -1,0 +1,24 @@
+meta {
+  name: Upgrade an installed plugin with an optimistic version lock and renewed permission consent.
+  type: http
+  seq: 6
+}
+
+post {
+  url: {{baseUrl}}/v1/marketplace/plugins/:slug/upgrade
+  body: json
+  auth: inherit
+}
+
+params:path {
+  slug: 
+}
+
+body:json {
+  {
+    "fromVersionId": "",
+    "toVersionId": "",
+    "grantedPermissions": [],
+    "config": {}
+  }
+}
