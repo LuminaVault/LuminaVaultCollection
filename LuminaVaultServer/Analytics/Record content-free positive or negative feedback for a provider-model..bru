@@ -1,0 +1,20 @@
+meta {
+  name: Record content-free positive or negative feedback for a provider/model.
+  type: http
+  seq: 6
+}
+
+post {
+  url: {{baseUrl}}/v1/analytics/model-feedback
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "provider": "",
+    "model": "",
+    "rating": "",
+    "idempotencyKey": ""
+  }
+}

@@ -1,0 +1,17 @@
+meta {
+  name: teamVaultsCreate
+  type: http
+  seq: 4
+}
+
+post {
+  url: {{baseUrl}}/v1/teams/:teamID/vaults
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "name": ""
+  }
+}

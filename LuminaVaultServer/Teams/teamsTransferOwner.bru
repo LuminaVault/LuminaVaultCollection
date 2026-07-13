@@ -1,0 +1,17 @@
+meta {
+  name: teamsTransferOwner
+  type: http
+  seq: 9
+}
+
+put {
+  url: {{baseUrl}}/v1/teams/:teamID/owner
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "userID": ""
+  }
+}

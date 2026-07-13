@@ -1,0 +1,15 @@
+meta {
+  name: teamInvitationsAccept
+  type: http
+  seq: 19
+}
+
+post {
+  url: {{baseUrl}}/v1/team-invitations/:token/accept
+  body: none
+  auth: inherit
+}
+
+params:path {
+  token:
+}

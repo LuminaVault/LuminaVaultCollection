@@ -1,0 +1,11 @@
+meta {
+  name: vaultMembersList
+  type: http
+  seq: 14
+}
+
+get {
+  url: {{baseUrl}}/v1/vaults/:vaultID/members
+  body: none
+  auth: inherit
+}
