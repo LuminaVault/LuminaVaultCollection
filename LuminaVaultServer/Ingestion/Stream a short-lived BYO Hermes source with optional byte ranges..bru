@@ -1,0 +1,15 @@
+meta {
+  name: Stream a short-lived BYO Hermes source with optional byte ranges.
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{baseUrl}}/v1/ingestion-sources/:token
+  body: none
+  auth: inherit
+}
+
+headers {
+  ~Range: 
+}
