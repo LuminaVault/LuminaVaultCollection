@@ -1,0 +1,11 @@
+meta {
+  name: vaultActivityList
+  type: http
+  seq: 17
+}
+
+get {
+  url: {{baseUrl}}/v1/vaults/:vaultID/activity
+  body: none
+  auth: inherit
+}

@@ -1,0 +1,18 @@
+meta {
+  name: vaultMembersUpdate
+  type: http
+  seq: 15
+}
+
+put {
+  url: {{baseUrl}}/v1/vaults/:vaultID/members/:userID
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "role": "",
+    "canUseAI": false
+  }
+}

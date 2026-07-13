@@ -1,0 +1,11 @@
+meta {
+  name: teamsLeave
+  type: http
+  seq: 12
+}
+
+post {
+  url: {{baseUrl}}/v1/teams/:teamID/leave
+  body: none
+  auth: inherit
+}

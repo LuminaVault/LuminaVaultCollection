@@ -1,0 +1,11 @@
+meta {
+  name: teamVaultsList
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{baseUrl}}/v1/teams/:teamID/vaults
+  body: none
+  auth: inherit
+}

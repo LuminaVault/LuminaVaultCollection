@@ -1,0 +1,11 @@
+meta {
+  name: teamsArchive
+  type: http
+  seq: 10
+}
+
+post {
+  url: {{baseUrl}}/v1/teams/:teamID/archive
+  body: none
+  auth: inherit
+}

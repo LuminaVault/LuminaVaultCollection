@@ -1,0 +1,19 @@
+meta {
+  name: Invoke an allow-listed read-only tool for an active local execution.
+  type: http
+  seq: 10
+}
+
+post {
+  url: {{baseUrl}}/v1/conversations/:id/local-executions/:executionID/tools
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "name": "",
+    "query": "",
+    "limit": 0
+  }
+}
