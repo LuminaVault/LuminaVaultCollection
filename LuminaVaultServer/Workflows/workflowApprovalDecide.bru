@@ -1,7 +1,7 @@
 meta {
   name: workflowApprovalDecide
   type: http
-  seq: 13
+  seq: 25
 }
 
 post {
@@ -17,6 +17,7 @@ params:path {
 body:json {
   {
     "approved": false,
-    "note": ""
+    "note": "",
+    "memoryIDs": []
   }
 }

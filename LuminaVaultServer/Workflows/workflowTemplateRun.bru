@@ -1,17 +1,17 @@
 meta {
-  name: workflowRunCreate
+  name: workflowTemplateRun
   type: http
-  seq: 11
+  seq: 23
 }
 
 post {
-  url: {{baseUrl}}/v1/workflows/:id/runs
+  url: {{baseUrl}}/v1/workflow-templates/:templateID/runs
   body: json
   auth: inherit
 }
 
 params:path {
-  id:
+  templateID:
 }
 
 body:json {

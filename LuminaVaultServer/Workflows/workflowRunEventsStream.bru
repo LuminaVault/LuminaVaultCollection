@@ -1,0 +1,23 @@
+meta {
+  name: workflowRunEventsStream
+  type: http
+  seq: 15
+}
+
+get {
+  url: {{baseUrl}}/v1/workflows/runs/:runID/events/stream
+  body: none
+  auth: inherit
+}
+
+params:query {
+  ~after:
+}
+
+params:path {
+  runID:
+}
+
+headers {
+  ~Last-Event-ID:
+}
