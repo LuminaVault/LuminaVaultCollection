@@ -1,0 +1,38 @@
+meta {
+  name: workflowValidate
+  type: http
+  seq: 6
+}
+
+post {
+  url: {{baseUrl}}/v1/workflows/validate
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "schemaVersion": 0,
+    "trigger": "",
+    "triggerConfiguration": {},
+    "nodes": [
+      {
+        "id": "",
+        "kind": "",
+        "name": "",
+        "x": 0,
+        "y": 0,
+        "configuration": {}
+      }
+    ],
+    "edges": [
+      {
+        "id": "",
+        "sourceNodeID": "",
+        "sourcePort": "",
+        "targetNodeID": "",
+        "targetPort": ""
+      }
+    ]
+  }
+}

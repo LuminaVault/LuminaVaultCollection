@@ -1,0 +1,16 @@
+meta {
+  name: workflowVersionRestore
+  type: http
+  seq: 20
+}
+
+post {
+  url: {{baseUrl}}/v1/workflows/:id/versions/:version/restore
+  body: none
+  auth: inherit
+}
+
+params:path {
+  id:
+  version:
+}

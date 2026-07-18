@@ -1,11 +1,11 @@
 meta {
-  name: workflowRunCancel
+  name: workflowRunRetry
   type: http
-  seq: 16
+  seq: 17
 }
 
 post {
-  url: {{baseUrl}}/v1/workflows/runs/:runID/cancel
+  url: {{baseUrl}}/v1/workflows/runs/:runID/retry
   body: none
   auth: inherit
 }

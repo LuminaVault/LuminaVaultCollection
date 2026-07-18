@@ -1,0 +1,21 @@
+meta {
+  name: workflowTemplateInstantiate
+  type: http
+  seq: 22
+}
+
+post {
+  url: {{baseUrl}}/v1/workflow-templates/:templateID/instantiate
+  body: json
+  auth: inherit
+}
+
+params:path {
+  templateID:
+}
+
+body:json {
+  {
+    "name": ""
+  }
+}
