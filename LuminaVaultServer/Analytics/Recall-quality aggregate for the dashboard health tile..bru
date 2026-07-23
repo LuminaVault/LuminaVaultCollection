@@ -1,0 +1,11 @@
+meta {
+  name: Recall-quality aggregate for the dashboard health tile.
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/v1/analytics/retrieval-health
+  body: none
+  auth: inherit
+}

@@ -1,0 +1,11 @@
+meta {
+  name: List curator-managed skills and jobs, including pinned state.
+  type: http
+  seq: 7
+}
+
+get {
+  url: {{baseUrl}}/v1/me/improvement/resources
+  body: none
+  auth: inherit
+}

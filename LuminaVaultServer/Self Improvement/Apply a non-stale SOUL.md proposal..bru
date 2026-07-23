@@ -1,0 +1,15 @@
+meta {
+  name: Apply a non-stale SOUL.md proposal.
+  type: http
+  seq: 11
+}
+
+post {
+  url: {{baseUrl}}/v1/me/improvement/changes/:id/approve
+  body: none
+  auth: inherit
+}
+
+params:path {
+  id:
+}

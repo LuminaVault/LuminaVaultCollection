@@ -1,0 +1,22 @@
+meta {
+  name: Pin or unpin a skill or job. Pinning a job also protects its backing skill.
+  type: http
+  seq: 8
+}
+
+patch {
+  url: {{baseUrl}}/v1/me/improvement/resources/:kind/:name
+  body: json
+  auth: inherit
+}
+
+params:path {
+  kind:
+  name:
+}
+
+body:json {
+  {
+    "pinned": false
+  }
+}

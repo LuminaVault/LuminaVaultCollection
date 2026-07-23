@@ -1,0 +1,17 @@
+meta {
+  name: Queue a conservative SOUL.md review. Changes always require approval.
+  type: http
+  seq: 9
+}
+
+post {
+  url: {{baseUrl}}/v1/me/improvement/soul/reviews
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "trigger": ""
+  }
+}

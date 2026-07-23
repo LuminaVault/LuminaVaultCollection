@@ -1,0 +1,17 @@
+meta {
+  name: Queue a live or dry-run curator pass.
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{baseUrl}}/v1/me/improvement/curator/runs
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "dryRun": false
+  }
+}

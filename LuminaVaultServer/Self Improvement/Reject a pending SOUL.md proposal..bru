@@ -1,0 +1,15 @@
+meta {
+  name: Reject a pending SOUL.md proposal.
+  type: http
+  seq: 12
+}
+
+post {
+  url: {{baseUrl}}/v1/me/improvement/changes/:id/reject
+  body: none
+  auth: inherit
+}
+
+params:path {
+  id:
+}

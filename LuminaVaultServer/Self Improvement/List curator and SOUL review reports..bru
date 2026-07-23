@@ -1,0 +1,15 @@
+meta {
+  name: List curator and SOUL review reports.
+  type: http
+  seq: 4
+}
+
+get {
+  url: {{baseUrl}}/v1/me/improvement/runs
+  body: none
+  auth: inherit
+}
+
+params:query {
+  ~limit:
+}

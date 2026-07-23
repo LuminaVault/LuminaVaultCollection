@@ -1,0 +1,15 @@
+meta {
+  name: Unified recent-activity feed for the Home dashboard.
+  type: http
+  seq: 5
+}
+
+get {
+  url: {{baseUrl}}/v1/dashboard/activity
+  body: none
+  auth: inherit
+}
+
+params:query {
+  ~limit:
+}

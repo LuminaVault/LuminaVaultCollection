@@ -1,0 +1,30 @@
+meta {
+  name: Replace tenant self-improvement settings.
+  type: http
+  seq: 2
+}
+
+put {
+  url: {{baseUrl}}/v1/me/improvement
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "settings": {
+      "enabled": false,
+      "curatorEnabled": false,
+      "intervalHours": 0,
+      "minimumIdleHours": 0,
+      "consolidate": false,
+      "pruneBuiltins": false,
+      "backupKeep": 0,
+      "soulReviewEnabled": false,
+      "reviewComplexSessions": false,
+      "soulReviewWindowDays": 0,
+      "soulReviewCooldownHours": 0,
+      "modelMode": ""
+    }
+  }
+}

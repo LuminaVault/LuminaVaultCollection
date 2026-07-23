@@ -1,0 +1,15 @@
+meta {
+  name: Restore the guarded backup for a completed curator run.
+  type: http
+  seq: 6
+}
+
+post {
+  url: {{baseUrl}}/v1/me/improvement/runs/:id/rollback
+  body: none
+  auth: inherit
+}
+
+params:path {
+  id:
+}

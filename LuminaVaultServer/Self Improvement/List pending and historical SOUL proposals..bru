@@ -1,0 +1,11 @@
+meta {
+  name: List pending and historical SOUL proposals.
+  type: http
+  seq: 10
+}
+
+get {
+  url: {{baseUrl}}/v1/me/improvement/changes
+  body: none
+  auth: inherit
+}
