@@ -1,0 +1,15 @@
+meta {
+  name: Health checks over the vault and its index
+  type: http
+  seq: 10
+}
+
+get {
+  url: {{baseUrl}}/v1/vault/lint
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}

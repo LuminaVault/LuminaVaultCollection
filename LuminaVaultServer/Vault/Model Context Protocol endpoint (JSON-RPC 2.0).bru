@@ -1,0 +1,24 @@
+meta {
+  name: Model Context Protocol endpoint (JSON-RPC 2.0)
+  type: http
+  seq: 9
+}
+
+post {
+  url: {{baseUrl}}/v1/mcp
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+    "jsonrpc": "",
+    "id": "",
+    "method": "",
+    "params": {}
+  }
+}

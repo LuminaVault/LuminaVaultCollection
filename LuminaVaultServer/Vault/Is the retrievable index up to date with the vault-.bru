@@ -1,0 +1,15 @@
+meta {
+  name: Is the retrievable index up to date with the vault?
+  type: http
+  seq: 8
+}
+
+get {
+  url: {{baseUrl}}/v1/vault/index
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}

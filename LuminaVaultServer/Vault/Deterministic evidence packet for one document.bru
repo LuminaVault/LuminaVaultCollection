@@ -1,0 +1,23 @@
+meta {
+  name: Deterministic evidence packet for one document
+  type: http
+  seq: 11
+}
+
+get {
+  url: {{baseUrl}}/v1/vault/context/:vaultFileID
+  body: none
+  auth: bearer
+}
+
+params:query {
+  ~siblingLimit:
+}
+
+params:path {
+  vaultFileID:
+}
+
+auth:bearer {
+  token: {{token}}
+}
