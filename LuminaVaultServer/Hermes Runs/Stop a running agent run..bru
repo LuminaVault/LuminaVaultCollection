@@ -1,0 +1,11 @@
+meta {
+  name: Stop a running agent run.
+  type: http
+  seq: 6
+}
+
+post {
+  url: {{baseUrl}}/v1/hermes/runs/:id/stop
+  body: none
+  auth: inherit
+}

@@ -1,0 +1,15 @@
+meta {
+  name: Pause a mirrored cron job on the tenant's Hermes.
+  type: http
+  seq: 14
+}
+
+post {
+  url: {{baseUrl}}/v1/hermes/mirror/jobs/:id/pause
+  body: none
+  auth: inherit
+}
+
+params:path {
+  id:
+}

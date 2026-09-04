@@ -1,0 +1,20 @@
+meta {
+  name: Start an agent run on the tenant's Hermes.
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{baseUrl}}/v1/hermes/runs
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "prompt": "",
+    "sessionID": "",
+    "model": "",
+    "conversationID": ""
+  }
+}

@@ -1,0 +1,11 @@
+meta {
+  name: Mirror status for the tenant's Hermes (counts, last sync, vault state, dashboard probe).
+  type: http
+  seq: 6
+}
+
+get {
+  url: {{baseUrl}}/v1/hermes/mirror/status
+  body: none
+  auth: inherit
+}

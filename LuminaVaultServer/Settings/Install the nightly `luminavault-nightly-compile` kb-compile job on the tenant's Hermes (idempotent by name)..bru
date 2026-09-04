@@ -1,0 +1,11 @@
+meta {
+  name: Install the nightly `luminavault-nightly-compile` kb-compile job on the tenant's Hermes (idempotent by name).
+  type: http
+  seq: 18
+}
+
+post {
+  url: {{baseUrl}}/v1/hermes/mirror/jobs/install-compile
+  body: none
+  auth: inherit
+}

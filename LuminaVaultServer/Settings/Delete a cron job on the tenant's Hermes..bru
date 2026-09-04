@@ -1,0 +1,15 @@
+meta {
+  name: Delete a cron job on the tenant's Hermes.
+  type: http
+  seq: 13
+}
+
+delete {
+  url: {{baseUrl}}/v1/hermes/mirror/jobs/:id
+  body: none
+  auth: inherit
+}
+
+params:path {
+  id:
+}

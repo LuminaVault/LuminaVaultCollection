@@ -1,0 +1,11 @@
+meta {
+  name: Cron jobs on the tenant's Hermes — live when reachable, else the last snapshot.
+  type: http
+  seq: 10
+}
+
+get {
+  url: {{baseUrl}}/v1/hermes/mirror/jobs
+  body: none
+  auth: inherit
+}

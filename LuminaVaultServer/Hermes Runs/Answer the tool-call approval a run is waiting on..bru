@@ -1,0 +1,17 @@
+meta {
+  name: Answer the tool-call approval a run is waiting on.
+  type: http
+  seq: 5
+}
+
+post {
+  url: {{baseUrl}}/v1/hermes/runs/:id/approval
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "choice": ""
+  }
+}

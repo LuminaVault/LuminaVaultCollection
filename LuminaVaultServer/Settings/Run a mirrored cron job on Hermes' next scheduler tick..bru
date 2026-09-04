@@ -1,0 +1,15 @@
+meta {
+  name: Run a mirrored cron job on Hermes' next scheduler tick.
+  type: http
+  seq: 16
+}
+
+post {
+  url: {{baseUrl}}/v1/hermes/mirror/jobs/:id/trigger
+  body: none
+  auth: inherit
+}
+
+params:path {
+  id:
+}

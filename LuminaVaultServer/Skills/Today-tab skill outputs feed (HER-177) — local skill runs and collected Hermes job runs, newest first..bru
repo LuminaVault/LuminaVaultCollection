@@ -1,5 +1,5 @@
 meta {
-  name: Today-tab skill outputs feed (HER-177). Empty until skill dispatch lands (HER-169).
+  name: Today-tab skill outputs feed (HER-177) — local skill runs and collected Hermes job runs, newest first.
   type: http
   seq: 6
 }
@@ -12,5 +12,6 @@ get {
 
 params:query {
   ~since:
+  ~before:
   ~limit:
 }

@@ -1,0 +1,11 @@
+meta {
+  name: Skills mirrored from the tenant's Hermes (last sync).
+  type: http
+  seq: 8
+}
+
+get {
+  url: {{baseUrl}}/v1/hermes/mirror/skills
+  body: none
+  auth: inherit
+}
