@@ -1,0 +1,11 @@
+meta {
+  name: Static per-provider facts for rendering a BYO key form.
+  type: http
+  seq: 9
+}
+
+get {
+  url: {{baseUrl}}/v1/me/providers/catalog
+  body: none
+  auth: inherit
+}
