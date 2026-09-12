@@ -1,0 +1,73 @@
+meta {
+  name: Text-to-speech in OpenAI's wire format. Not yet implemented
+  type: http
+  seq: 21
+  tags: [
+    LLM
+  ]
+}
+
+post {
+  url: {{baseUrl}}/v1/audio/speech
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "model": "",
+    "input": "",
+    "voice": "",
+    "response_format": "mp3",
+    "speed": 0
+  }
+}
+
+docs {
+  Mounted but returns 501. Tenant containers are configured to send synthesis here on purpose: Hermes treats any unrecognised TTS provider name as its free, unmetered Edge TTS fallback, so pointing at a route that refuses cleanly is what makes "spoken replies are off" actually true.
+}
+
+example {
+  name: 501 Response
+  description: Spoken replies are not enabled.
+
+  request: {
+    url: {{baseUrl}}/v1/audio/speech
+    method: POST
+    mode: json
+    body:json: {
+      {
+        "model": "",
+        "input": "",
+        "voice": "",
+        "response_format": "mp3",
+        "speed": 0
+      }
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 501
+      text: Not Implemented
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "error": {
+            "message": "",
+            "type": "",
+            "code": "",
+            "param": ""
+          }
+        }
+      '''
+    }
+  }
+}

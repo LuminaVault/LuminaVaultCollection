@@ -1,0 +1,56 @@
+meta {
+  name: Google Calendar connection state
+  type: http
+  seq: 1
+  tags: [
+    Calendar
+  ]
+}
+
+get {
+  url: {{baseUrl}}/v1/calendar/status
+  body: none
+  auth: inherit
+}
+
+docs {
+  Reports whether the authed tenant has a connected Google Calendar,
+  the account email, and the last successful sync time. `needsReauth`
+  is true when the stored refresh token was rejected (revoked / expired)
+  — the client should prompt a reconnect.
+
+}
+
+example {
+  name: 200 Response
+  description: Connection status.
+
+  request: {
+    url: {{baseUrl}}/v1/calendar/status
+    method: GET
+    mode: none
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "connected": false,
+          "needsReauth": false,
+          "accountEmail": "",
+          "lastSyncedAt": ""
+        }
+      '''
+    }
+  }
+}

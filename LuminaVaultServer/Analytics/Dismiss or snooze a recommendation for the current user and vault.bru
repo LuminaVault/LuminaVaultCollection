@@ -1,0 +1,58 @@
+meta {
+  name: Dismiss or snooze a recommendation for the current user and vault
+  type: http
+  seq: 8
+  tags: [
+    Analytics
+  ]
+}
+
+patch {
+  url: {{baseUrl}}/v1/analytics/recommendations
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "recommendationId": "",
+    "disposition": "dismiss"
+  }
+}
+
+example {
+  name: 200 Response
+  description: Recommendation state updated.
+
+  request: {
+    url: {{baseUrl}}/v1/analytics/recommendations
+    method: PATCH
+    mode: json
+    body:json: {
+      {
+        "recommendationId": "",
+        "disposition": "dismiss"
+      }
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "accepted": false
+        }
+      '''
+    }
+  }
+}

@@ -1,0 +1,60 @@
+meta {
+  name: Drop a gateway's stored config
+  type: http
+  seq: 17
+  tags: [
+    Me
+  ]
+}
+
+delete {
+  url: {{baseUrl}}/v1/me/hermes-gateways/:id
+  body: none
+  auth: inherit
+}
+
+params:path {
+  id: telegram
+  id: discord
+  id: slack
+  id: whatsapp
+  id: email
+  id: matrix
+  id: ntfy
+  id: mattermost
+}
+
+example {
+  name: 204 Response
+  description: Row deleted (idempotent — 204 even if absent).
+
+  request: {
+    url: {{baseUrl}}/v1/me/hermes-gateways/:id
+    method: DELETE
+    mode: none
+    params:path: {
+      id: telegram
+      ~id: discord
+      ~id: slack
+      ~id: whatsapp
+      ~id: email
+      ~id: matrix
+      ~id: ntfy
+      ~id: mattermost
+    }
+  }
+
+  response: {
+    status: {
+      code: 204
+      text: No Content
+    }
+
+    body: {
+      type: text
+      content: '''
+
+      '''
+    }
+  }
+}

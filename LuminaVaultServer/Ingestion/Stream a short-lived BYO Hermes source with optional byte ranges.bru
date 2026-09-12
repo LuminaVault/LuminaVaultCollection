@@ -1,0 +1,165 @@
+meta {
+  name: Stream a short-lived BYO Hermes source with optional byte ranges
+  type: http
+  seq: 3
+  tags: [
+    Ingestion
+  ]
+}
+
+get {
+  url: {{baseUrl}}/v1/ingestion-sources/:token
+  body: none
+  auth: inherit
+}
+
+params:path {
+  token:
+}
+
+headers {
+  Range: bytes=0-1048575
+}
+
+example {
+  name: 200 Response
+  description: Complete source stream.
+
+  request: {
+    url: {{baseUrl}}/v1/ingestion-sources/:token
+    method: GET
+    mode: none
+    params:path: {
+      token:
+    }
+
+    headers: {
+      Range: bytes=0-1048575
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/octet-stream
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: text
+      content: '''
+
+      '''
+    }
+  }
+}
+
+example {
+  name: 206 Response
+  description: Requested byte range.
+
+  request: {
+    url: {{baseUrl}}/v1/ingestion-sources/:token
+    method: GET
+    mode: none
+    params:path: {
+      token:
+    }
+
+    headers: {
+      Range: bytes=0-1048575
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/octet-stream
+    }
+
+    status: {
+      code: 206
+      text: Partial Content
+    }
+
+    body: {
+      type: text
+      content: '''
+
+      '''
+    }
+  }
+}
+
+example {
+  name: 404 Response
+  description: Resource not found.
+
+  request: {
+    url: {{baseUrl}}/v1/ingestion-sources/:token
+    method: GET
+    mode: none
+    params:path: {
+      token:
+    }
+
+    headers: {
+      Range: bytes=0-1048575
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 404
+      text: Not Found
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "error": "",
+          "message": ""
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: 416 Response
+  description: Requested range is outside the source.
+
+  request: {
+    url: {{baseUrl}}/v1/ingestion-sources/:token
+    method: GET
+    mode: none
+    params:path: {
+      token:
+    }
+
+    headers: {
+      Range: bytes=0-1048575
+    }
+  }
+
+  response: {
+    status: {
+      code: 416
+      text: Range Not Satisfiable
+    }
+
+    body: {
+      type: text
+      content: '''
+
+      '''
+    }
+  }
+}

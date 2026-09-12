@@ -1,0 +1,169 @@
+meta {
+  name: Create a card in the specified column
+  type: http
+  seq: 11
+  tags: [
+    Kanban
+  ]
+}
+
+post {
+  url: {{baseUrl}}/v1/boards/:boardID/cards
+  body: json
+  auth: inherit
+}
+
+params:path {
+  boardID:
+}
+
+body:json {
+  {
+    "columnID": "",
+    "title": "",
+    "body": "",
+    "priority": "",
+    "dueAt": ""
+  }
+}
+
+example {
+  name: 200 Response
+  description: The created card.
+
+  request: {
+    url: {{baseUrl}}/v1/boards/:boardID/cards
+    method: POST
+    mode: json
+    params:path: {
+      boardID:
+    }
+
+    body:json: {
+      {
+        "columnID": "",
+        "title": "",
+        "body": "",
+        "priority": "",
+        "dueAt": ""
+      }
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "id": "",
+          "columnID": "",
+          "title": "",
+          "body": "",
+          "priority": "",
+          "dueAt": "",
+          "rank": "",
+          "updatedAt": ""
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: 401 Response
+  description: Missing / invalid credential.
+
+  request: {
+    url: {{baseUrl}}/v1/boards/:boardID/cards
+    method: POST
+    mode: json
+    params:path: {
+      boardID:
+    }
+
+    body:json: {
+      {
+        "columnID": "",
+        "title": "",
+        "body": "",
+        "priority": "",
+        "dueAt": ""
+      }
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 401
+      text: Unauthorized
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "error": "",
+          "message": ""
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: 404 Response
+  description: Resource not found.
+
+  request: {
+    url: {{baseUrl}}/v1/boards/:boardID/cards
+    method: POST
+    mode: json
+    params:path: {
+      boardID:
+    }
+
+    body:json: {
+      {
+        "columnID": "",
+        "title": "",
+        "body": "",
+        "priority": "",
+        "dueAt": ""
+      }
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 404
+      text: Not Found
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "error": "",
+          "message": ""
+        }
+      '''
+    }
+  }
+}

@@ -1,0 +1,64 @@
+meta {
+  name: Versioned model/task catalog and caller entitlements
+  type: http
+  seq: 5
+  tags: [
+    LLM
+  ]
+}
+
+get {
+  url: {{baseUrl}}/v1/router/catalog
+  body: none
+  auth: inherit
+}
+
+example {
+  name: 200 Response
+  description: Router catalog.
+
+  request: {
+    url: {{baseUrl}}/v1/router/catalog
+    method: GET
+    mode: none
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "models": [
+            {
+              "provider": "xai",
+              "model": "",
+              "displayName": "",
+              "taskQuality": {},
+              "inputPerMillionUsdMicros": 0,
+              "outputPerMillionUsdMicros": 0,
+              "defaultLatencyMs": 0,
+              "capabilities": []
+            }
+          ],
+          "taskTypes": [
+            "general"
+          ],
+          "surfaces": [
+            "chat"
+          ],
+          "customProfilesAllowed": false,
+          "ensemblesAllowed": false
+        }
+      '''
+    }
+  }
+}

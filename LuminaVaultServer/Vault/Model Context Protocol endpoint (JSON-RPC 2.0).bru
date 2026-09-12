@@ -2,6 +2,9 @@ meta {
   name: Model Context Protocol endpoint (JSON-RPC 2.0)
   type: http
   seq: 9
+  tags: [
+    Vault
+  ]
 }
 
 post {
@@ -16,9 +19,194 @@ auth:bearer {
 
 body:json {
   {
-    "jsonrpc": "",
+    "jsonrpc": "2.0",
     "id": "",
     "method": "",
     "params": {}
+  }
+}
+
+docs {
+  Lets an MCP client — Claude Code, Cursor, or any other — ground on this
+  user's vault.
+
+  Transport is Streamable HTTP: a JSON-RPC 2.0 request per POST.
+  Supported methods are `initialize`, `ping`, `tools/list`, `tools/call`,
+  and the `notifications/*` acknowledgements. Notifications return 202
+  with no body.
+
+  Eight tools: `status`, `search`, `browse`, `read`, `recent`, `links`,
+  `context`, `index`. All are read-only except `index`, which writes
+  derived state (chunks and links) and never modifies the user's
+  markdown. Call `tools/list` for the current schemas — they are the
+  authority, and they are strict, so unknown arguments are rejected
+  rather than ignored.
+
+  Tenancy: unlike a loopback single-user MCP server, every call resolves
+  its vault from the caller's JWT (and `X-Vault-ID` for shared vaults).
+  A tool argument can never select a different tenant.
+
+  Tool-level failures — a path that does not exist, for example — come
+  back as a normal result with `isError: true` so the agent can retry,
+  not as a JSON-RPC error. JSON-RPC errors are reserved for protocol
+  problems: malformed envelope, unknown method, out-of-range argument.
+
+}
+
+example {
+  name: 200 Response
+  description: JSON-RPC response envelope.
+
+  request: {
+    url: {{baseUrl}}/v1/mcp
+    method: POST
+    mode: json
+    body:json: {
+      {
+        "jsonrpc": "2.0",
+        "id": "",
+        "method": "",
+        "params": {}
+      }
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "jsonrpc": "2.0",
+          "id": "",
+          "result": {},
+          "error": {
+            "code": 0,
+            "message": ""
+          }
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: 202 Response
+  description: Notification accepted; no body.
+
+  request: {
+    url: {{baseUrl}}/v1/mcp
+    method: POST
+    mode: json
+    body:json: {
+      {
+        "jsonrpc": "2.0",
+        "id": "",
+        "method": "",
+        "params": {}
+      }
+    }
+  }
+
+  response: {
+    status: {
+      code: 202
+      text: Accepted
+    }
+
+    body: {
+      type: text
+      content: '''
+
+      '''
+    }
+  }
+}
+
+example {
+  name: 401 Response
+  description: Missing / invalid credential.
+
+  request: {
+    url: {{baseUrl}}/v1/mcp
+    method: POST
+    mode: json
+    body:json: {
+      {
+        "jsonrpc": "2.0",
+        "id": "",
+        "method": "",
+        "params": {}
+      }
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 401
+      text: Unauthorized
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "error": "",
+          "message": ""
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: 429 Response
+  description: Rate-limit exceeded; honour `Retry-After`.
+
+  request: {
+    url: {{baseUrl}}/v1/mcp
+    method: POST
+    mode: json
+    body:json: {
+      {
+        "jsonrpc": "2.0",
+        "id": "",
+        "method": "",
+        "params": {}
+      }
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 429
+      text: Too Many Requests
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "error": "",
+          "message": ""
+        }
+      '''
+    }
   }
 }

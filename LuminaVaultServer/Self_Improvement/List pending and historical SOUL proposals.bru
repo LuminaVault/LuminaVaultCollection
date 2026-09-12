@@ -1,0 +1,61 @@
+meta {
+  name: List pending and historical SOUL proposals
+  type: http
+  seq: 10
+  tags: [
+    Self_Improvement
+  ]
+}
+
+get {
+  url: {{baseUrl}}/v1/me/improvement/changes
+  body: none
+  auth: inherit
+}
+
+example {
+  name: 200 Response
+  description: Change proposals.
+
+  request: {
+    url: {{baseUrl}}/v1/me/improvement/changes
+    method: GET
+    mode: none
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "changes": [
+            {
+              "id": "",
+              "kind": "curator",
+              "state": "pending",
+              "trigger": "manual",
+              "title": "",
+              "summary": "",
+              "patch": "",
+              "baseSHA256": "",
+              "reportMarkdown": "",
+              "failureReason": "",
+              "createdAt": "",
+              "decidedAt": "",
+              "appliedAt": ""
+            }
+          ]
+        }
+      '''
+    }
+  }
+}

@@ -1,0 +1,58 @@
+meta {
+  name: Run health correlation for a single tenant
+  type: http
+  seq: 6
+  tags: [
+    Admin
+  ]
+}
+
+post {
+  url: {{baseUrl}}/v1/admin/health/correlate/:userID
+  body: none
+  auth: bearer
+}
+
+params:path {
+  userID:
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+example {
+  name: 200 Response
+  description: Correlation summary.
+
+  request: {
+    url: {{baseUrl}}/v1/admin/health/correlate/:userID
+    method: POST
+    mode: none
+    params:path: {
+      userID:
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "tenantsProcessed": 0,
+          "correlationsFound": 0,
+          "durationMs": 0
+        }
+      '''
+    }
+  }
+}

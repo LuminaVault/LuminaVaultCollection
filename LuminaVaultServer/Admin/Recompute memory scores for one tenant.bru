@@ -1,0 +1,57 @@
+meta {
+  name: Recompute memory scores for one tenant
+  type: http
+  seq: 8
+  tags: [
+    Admin
+  ]
+}
+
+post {
+  url: {{baseUrl}}/v1/admin/memory/recompute/:userID
+  body: none
+  auth: bearer
+}
+
+params:path {
+  userID:
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+example {
+  name: 200 Response
+  description: Recompute summary.
+
+  request: {
+    url: {{baseUrl}}/v1/admin/memory/recompute/:userID
+    method: POST
+    mode: none
+    params:path: {
+      userID:
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "memoriesScored": 0,
+          "durationMs": 0
+        }
+      '''
+    }
+  }
+}

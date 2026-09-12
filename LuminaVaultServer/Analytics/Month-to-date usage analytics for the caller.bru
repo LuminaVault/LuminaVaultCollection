@@ -1,0 +1,75 @@
+meta {
+  name: Month-to-date usage analytics for the caller
+  type: http
+  seq: 2
+  tags: [
+    Analytics
+  ]
+}
+
+get {
+  url: {{baseUrl}}/v1/analytics/usage-summary
+  body: none
+  auth: inherit
+}
+
+docs {
+  LLM token totals (in/out) and embedding tokens for the current
+  calendar month, plus session count and a coarse blended cost estimate
+  in cents. Powers the Home "Insights" card.
+
+}
+
+example {
+  name: 200 Response
+  description: Usage summary for the current period.
+
+  request: {
+    url: {{baseUrl}}/v1/analytics/usage-summary
+    method: GET
+    mode: none
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "llmTokensIn": 0,
+          "llmTokensOut": 0,
+          "embeddingTokens": 0,
+          "sessionsCount": 0,
+          "estimatedCostCents": 0,
+          "voice": {
+            "calls": 0,
+            "failedCalls": 0,
+            "audioMinutes": 0,
+            "realCostCents": 0,
+            "imputedCostCents": 0,
+            "byChannel": [
+              {
+                "channel": "telegram",
+                "calls": 0,
+                "failedCalls": 0,
+                "audioMinutes": 0,
+                "realCostCents": 0,
+                "imputedCostCents": 0
+              }
+            ]
+          },
+          "periodStart": "",
+          "periodEnd": ""
+        }
+      '''
+    }
+  }
+}

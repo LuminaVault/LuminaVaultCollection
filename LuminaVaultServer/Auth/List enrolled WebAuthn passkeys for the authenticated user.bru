@@ -1,0 +1,77 @@
+meta {
+  name: List enrolled WebAuthn passkeys for the authenticated user
+  type: http
+  seq: 23
+  tags: [
+    Auth
+  ]
+}
+
+get {
+  url: {{baseUrl}}/v1/auth/webauthn/credentials
+  body: none
+  auth: inherit
+}
+
+example {
+  name: 200 Response
+  description: Credential summaries.
+
+  request: {
+    url: {{baseUrl}}/v1/auth/webauthn/credentials
+    method: GET
+    mode: none
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "credentials": [
+            {
+              "id": "",
+              "createdAt": "",
+              "lastUsedAt": "",
+              "nickname": ""
+            }
+          ]
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: 401 Response
+  description: Not authenticated.
+
+  request: {
+    url: {{baseUrl}}/v1/auth/webauthn/credentials
+    method: GET
+    mode: none
+  }
+
+  response: {
+    status: {
+      code: 401
+      text: Unauthorized
+    }
+
+    body: {
+      type: text
+      content: '''
+
+      '''
+    }
+  }
+}

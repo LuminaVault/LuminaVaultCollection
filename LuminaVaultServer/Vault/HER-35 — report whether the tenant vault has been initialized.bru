@@ -1,0 +1,47 @@
+meta {
+  name: HER-35 — report whether the tenant vault has been initialized
+  type: http
+  seq: 13
+  tags: [
+    Vault
+  ]
+}
+
+get {
+  url: {{baseUrl}}/v1/vault/status
+  body: none
+  auth: inherit
+}
+
+example {
+  name: 200 Response
+  description: Vault status.
+
+  request: {
+    url: {{baseUrl}}/v1/vault/status
+    method: GET
+    mode: none
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "initialized": false,
+          "createdAt": "",
+          "defaultSpaceSlugs": []
+        }
+      '''
+    }
+  }
+}

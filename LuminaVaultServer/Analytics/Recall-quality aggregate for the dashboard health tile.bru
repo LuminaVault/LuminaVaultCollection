@@ -1,0 +1,55 @@
+meta {
+  name: Recall-quality aggregate for the dashboard health tile
+  type: http
+  seq: 1
+  tags: [
+    Analytics
+  ]
+}
+
+get {
+  url: {{baseUrl}}/v1/analytics/retrieval-health
+  body: none
+  auth: inherit
+}
+
+docs {
+  7-day aggregate over retrieval telemetry events plus the latest weekly
+  leak report. Per-tenant.
+
+}
+
+example {
+  name: 200 Response
+  description: Retrieval health snapshot.
+
+  request: {
+    url: {{baseUrl}}/v1/analytics/retrieval-health
+    method: GET
+    mode: none
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "hitRate": 0,
+          "meanTopDistance": 0,
+          "eventsCount": 0,
+          "leakCount": 0,
+          "trend": "improving"
+        }
+      '''
+    }
+  }
+}

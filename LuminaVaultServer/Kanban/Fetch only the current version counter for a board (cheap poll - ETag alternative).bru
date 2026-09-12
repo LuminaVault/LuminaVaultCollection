@@ -1,0 +1,122 @@
+meta {
+  name: Fetch only the current version counter for a board (cheap poll / ETag alternative)
+  type: http
+  seq: 6
+  tags: [
+    Kanban
+  ]
+}
+
+get {
+  url: {{baseUrl}}/v1/boards/:boardID/version
+  body: none
+  auth: inherit
+}
+
+params:path {
+  boardID:
+}
+
+example {
+  name: 200 Response
+  description: Current board version.
+
+  request: {
+    url: {{baseUrl}}/v1/boards/:boardID/version
+    method: GET
+    mode: none
+    params:path: {
+      boardID:
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "version": 0
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: 401 Response
+  description: Missing / invalid credential.
+
+  request: {
+    url: {{baseUrl}}/v1/boards/:boardID/version
+    method: GET
+    mode: none
+    params:path: {
+      boardID:
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 401
+      text: Unauthorized
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "error": "",
+          "message": ""
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: 404 Response
+  description: Resource not found.
+
+  request: {
+    url: {{baseUrl}}/v1/boards/:boardID/version
+    method: GET
+    mode: none
+    params:path: {
+      boardID:
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 404
+      text: Not Found
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "error": "",
+          "message": ""
+        }
+      '''
+    }
+  }
+}

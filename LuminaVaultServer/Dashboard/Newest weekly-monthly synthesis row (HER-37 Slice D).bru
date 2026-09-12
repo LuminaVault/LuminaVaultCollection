@@ -1,0 +1,85 @@
+meta {
+  name: Newest weekly/monthly synthesis row (HER-37 Slice D)
+  type: http
+  seq: 8
+  tags: [
+    Dashboard
+  ]
+}
+
+get {
+  url: {{baseUrl}}/v1/insights/synthesis/latest
+  body: none
+  auth: inherit
+}
+
+docs {
+  Returns the most recent `thisWeek` or `thisMonth` row for the
+  tenant, regardless of dismissal. iOS hides the synthesis card
+  when this returns 404.
+
+}
+
+example {
+  name: 200 Response
+  description: Latest synthesis insight.
+
+  request: {
+    url: {{baseUrl}}/v1/insights/synthesis/latest
+    method: GET
+    mode: none
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "id": "",
+          "headline": "",
+          "summary": "",
+          "section": "this_week",
+          "createdAt": "",
+          "sourceMemoryIDs": [],
+          "dismissed": false,
+          "periodStart": "",
+          "periodEnd": ""
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: 404 Response
+  description: No synthesis available yet.
+
+  request: {
+    url: {{baseUrl}}/v1/insights/synthesis/latest
+    method: GET
+    mode: none
+  }
+
+  response: {
+    status: {
+      code: 404
+      text: Not Found
+    }
+
+    body: {
+      type: text
+      content: '''
+
+      '''
+    }
+  }
+}

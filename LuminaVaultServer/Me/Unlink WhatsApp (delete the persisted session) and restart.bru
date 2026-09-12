@@ -1,0 +1,101 @@
+meta {
+  name: Unlink WhatsApp (delete the persisted session) and restart
+  type: http
+  seq: 25
+  tags: [
+    Me
+  ]
+}
+
+delete {
+  url: {{baseUrl}}/v1/me/hermes-gateways/whatsapp/session
+  body: none
+  auth: inherit
+}
+
+docs {
+  Deletes the tenant's persisted WhatsApp session from the container
+  volume and recreates the container so Hermes drops the connection.
+  Returns the refreshed gateway entry (status back to `not_configured`).
+
+}
+
+example {
+  name: 200 Response
+  description: Updated WhatsApp gateway entry.
+
+  request: {
+    url: {{baseUrl}}/v1/me/hermes-gateways/whatsapp/session
+    method: DELETE
+    mode: none
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "id": "telegram",
+          "displayName": "",
+          "iconSlug": "",
+          "description": "",
+          "requiredFields": [
+            {
+              "key": "",
+              "label": "",
+              "placeholder": "",
+              "kind": "text",
+              "isRequired": false
+            }
+          ],
+          "status": "not_configured",
+          "hasConfig": false,
+          "verifiedAt": "",
+          "lastFailureCode": "",
+          "pairingKind": ""
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: 404 Response
+  description: `whatsapp_pairing_unavailable` — per-tenant containers are disabled.
+
+  request: {
+    url: {{baseUrl}}/v1/me/hermes-gateways/whatsapp/session
+    method: DELETE
+    mode: none
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 404
+      text: Not Found
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "error": "",
+          "message": ""
+        }
+      '''
+    }
+  }
+}

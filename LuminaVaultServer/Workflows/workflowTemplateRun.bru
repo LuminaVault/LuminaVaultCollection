@@ -2,6 +2,9 @@ meta {
   name: workflowTemplateRun
   type: http
   seq: 23
+  tags: [
+    Workflows
+  ]
 }
 
 post {
@@ -18,5 +21,76 @@ body:json {
   {
     "input": {},
     "conversationID": ""
+  }
+}
+
+example {
+  name: 200 Response
+  description: Template instantiated, published, and queued.
+
+  request: {
+    url: {{baseUrl}}/v1/workflow-templates/:templateID/runs
+    method: POST
+    mode: json
+    params:path: {
+      templateID:
+    }
+
+    body:json: {
+      {
+        "input": {},
+        "conversationID": ""
+      }
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "id": "",
+          "workflowID": "",
+          "workflowName": "",
+          "version": 0,
+          "status": "queued",
+          "trigger": "manual",
+          "startedAt": "",
+          "endedAt": "",
+          "createdAt": "",
+          "error": "",
+          "pauseReason": "runSpendLimit",
+          "managedSpendUsdMicros": 0,
+          "managedSpendLimitUsdMicros": 0,
+          "nodeRuns": [
+            {
+              "id": "",
+              "nodeID": "",
+              "nodeName": "",
+              "status": "pending",
+              "attempt": 0,
+              "startedAt": "",
+              "endedAt": "",
+              "outputPreview": "",
+              "error": "",
+              "provider": "",
+              "model": "",
+              "tokensIn": 0,
+              "tokensOut": 0,
+              "managedCostUsdMicros": 0
+            }
+          ]
+        }
+      '''
+    }
   }
 }

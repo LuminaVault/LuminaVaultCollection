@@ -1,0 +1,135 @@
+meta {
+  name: Stop a running agent run
+  type: http
+  seq: 6
+  tags: [
+    Hermes_Runs
+  ]
+}
+
+post {
+  url: {{baseUrl}}/v1/hermes/runs/:id/stop
+  body: none
+  auth: inherit
+}
+
+params:path {
+  id:
+}
+
+docs {
+  Hermes answers `stopping`; the terminal `run.cancelled` arrives on the
+  watcher, so the returned run may still read `running`. When Hermes has
+  already forgotten the run, LuminaVault marks it `stopped` itself.
+
+}
+
+example {
+  name: 200 Response
+  description: Stop requested (or the run was already terminal).
+
+  request: {
+    url: {{baseUrl}}/v1/hermes/runs/:id/stop
+    method: POST
+    mode: none
+    params:path: {
+      id:
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "id": "",
+          "hermesRunID": "",
+          "status": "queued",
+          "prompt": "",
+          "sessionID": "",
+          "model": "",
+          "conversationID": "",
+          "startedAt": "",
+          "finishedAt": "",
+          "lastEvent": "",
+          "lastSeq": 0,
+          "pendingApproval": "",
+          "summary": "",
+          "error": ""
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: 404 Response
+  description: Resource not found.
+
+  request: {
+    url: {{baseUrl}}/v1/hermes/runs/:id/stop
+    method: POST
+    mode: none
+    params:path: {
+      id:
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 404
+      text: Not Found
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "error": "",
+          "message": ""
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: 502 Response
+  description: Hermes gateway error (`hermes_runs_upstream_error`).
+
+  request: {
+    url: {{baseUrl}}/v1/hermes/runs/:id/stop
+    method: POST
+    mode: none
+    params:path: {
+      id:
+    }
+  }
+
+  response: {
+    status: {
+      code: 502
+      text: Bad Gateway
+    }
+
+    body: {
+      type: text
+      content: '''
+
+      '''
+    }
+  }
+}

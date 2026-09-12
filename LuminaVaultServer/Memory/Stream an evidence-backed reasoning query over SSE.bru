@@ -1,0 +1,58 @@
+meta {
+  name: Stream an evidence-backed reasoning query over SSE
+  type: http
+  seq: 14
+  tags: [
+    Memory
+  ]
+}
+
+post {
+  url: {{baseUrl}}/v1/knowledge/reason/stream
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "query": "",
+    "maxDepth": 0,
+    "limit": 0
+  }
+}
+
+example {
+  name: 200 Response
+  description: SSE stream of ReasoningStreamEventDTO objects.
+
+  request: {
+    url: {{baseUrl}}/v1/knowledge/reason/stream
+    method: POST
+    mode: json
+    body:json: {
+      {
+        "query": "",
+        "maxDepth": 0,
+        "limit": 0
+      }
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: text/event-stream
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: text
+      content: '''
+
+      '''
+    }
+  }
+}

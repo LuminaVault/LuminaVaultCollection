@@ -1,0 +1,99 @@
+meta {
+  name: Recent unified connection diagnostic events
+  type: http
+  seq: 34
+  tags: [
+    Me
+  ]
+}
+
+get {
+  url: {{baseUrl}}/v1/me/connections/events
+  body: none
+  auth: inherit
+}
+
+params:query {
+  limit: 30
+}
+
+example {
+  name: 200 Response
+  description: Recent diagnostic events, newest first.
+
+  request: {
+    url: {{baseUrl}}/v1/me/connections/events
+    method: GET
+    mode: none
+    params:query: {
+      limit: 30
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "events": [
+            {
+              "id": "",
+              "occurredAt": "",
+              "kind": "llm_provider",
+              "connectionID": "",
+              "connectionTitle": "",
+              "severity": "info",
+              "message": "",
+              "code": ""
+            }
+          ],
+          "nextCursor": ""
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: 401 Response
+  description: Missing / invalid credential.
+
+  request: {
+    url: {{baseUrl}}/v1/me/connections/events
+    method: GET
+    mode: none
+    params:query: {
+      limit: 30
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 401
+      text: Unauthorized
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "error": "",
+          "message": ""
+        }
+      '''
+    }
+  }
+}

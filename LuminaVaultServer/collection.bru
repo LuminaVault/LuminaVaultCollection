@@ -9,3 +9,12 @@ auth {
 auth:bearer {
   token: {{token}}
 }
+
+docs {
+  The LuminaVault second-brain backend. Hummingbird + Postgres + pgvector.
+  Every authenticated route requires `Authorization: Bearer <jwt>` unless
+  explicitly marked otherwise. Admin routes require `Authorization: Bearer
+  <admin-token>` (the `admin.token` env var). The RevenueCat webhook
+  requires `Authorization: Bearer <revenuecat-webhook-secret>`.
+
+}

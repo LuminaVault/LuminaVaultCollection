@@ -1,0 +1,61 @@
+meta {
+  name: List the tenant's visual workflows
+  type: http
+  seq: 1
+  tags: [
+    Workflows
+  ]
+}
+
+get {
+  url: {{baseUrl}}/v1/workflows
+  body: none
+  auth: inherit
+}
+
+example {
+  name: 200 Response
+  description: Workflow summaries.
+
+  request: {
+    url: {{baseUrl}}/v1/workflows
+    method: GET
+    mode: none
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "workflows": [
+            {
+              "id": "",
+              "name": "",
+              "descriptionText": "",
+              "enabled": false,
+              "trigger": "manual",
+              "draftRevision": 0,
+              "publishedVersion": 0,
+              "lastRunStatus": "queued",
+              "lastRunAt": "",
+              "pendingApprovalCount": 0,
+              "isLegacyJob": false,
+              "createdAt": "",
+              "updatedAt": ""
+            }
+          ]
+        }
+      '''
+    }
+  }
+}

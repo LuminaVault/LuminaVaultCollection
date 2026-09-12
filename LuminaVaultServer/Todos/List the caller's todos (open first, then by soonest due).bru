@@ -1,0 +1,61 @@
+meta {
+  name: List the caller's todos (open first, then by soonest due)
+  type: http
+  seq: 1
+  tags: [
+    Todos
+  ]
+}
+
+get {
+  url: {{baseUrl}}/v1/todos
+  body: none
+  auth: inherit
+}
+
+docs {
+  A todo is a vault note whose `metadata.isTodo` is true; this API and
+  the note browser are two views of the same store.
+
+}
+
+example {
+  name: 200 Response
+  description: Todo list.
+
+  request: {
+    url: {{baseUrl}}/v1/todos
+    method: GET
+    mode: none
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "todos": [
+            {
+              "id": "",
+              "title": "",
+              "done": false,
+              "dueAt": "",
+              "projectID": "",
+              "createdAt": ""
+            }
+          ],
+          "nextCursor": ""
+        }
+      '''
+    }
+  }
+}

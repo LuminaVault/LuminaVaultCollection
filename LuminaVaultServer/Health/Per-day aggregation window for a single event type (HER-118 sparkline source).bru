@@ -1,0 +1,73 @@
+meta {
+  name: Per-day aggregation window for a single event type (HER-118 sparkline source)
+  type: http
+  seq: 3
+  tags: [
+    Health
+  ]
+}
+
+get {
+  url: {{baseUrl}}/v1/health/daily
+  body: none
+  auth: inherit
+}
+
+params:query {
+  @description('Lowercased event type identifier.')
+  type:
+  days: 7
+}
+
+docs {
+  Returns a fixed-length chronological window of daily aggregates for the
+  given `type`. Sum aggregation for accumulating metrics (`steps`,
+  `active_energy`, `mindful_minutes`, `sleep_session`); average for
+  instantaneous metrics (`hr_bpm`, `hrv_ms`, `weight_kg`, `blood_oxygen`,
+  etc.). Gap-days are returned with `value: 0, sampleCount: 0` so the
+  client can render sparklines without local bucketing or gap-fill logic.
+
+}
+
+example {
+  name: 200 Response
+  description: Daily aggregation window.
+
+  request: {
+    url: {{baseUrl}}/v1/health/daily
+    method: GET
+    mode: none
+    params:query: {
+      type:
+      days: 7
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "type": "",
+          "days": [
+            {
+              "date": "",
+              "type": "",
+              "value": 0,
+              "sampleCount": 0
+            }
+          ]
+        }
+      '''
+    }
+  }
+}

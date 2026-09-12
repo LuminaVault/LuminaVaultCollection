@@ -1,0 +1,188 @@
+meta {
+  name: Create a cron job on the tenant's Hermes
+  type: http
+  seq: 12
+  tags: [
+    Settings
+  ]
+}
+
+post {
+  url: {{baseUrl}}/v1/hermes/mirror/jobs
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "name": "",
+    "schedule": "",
+    "prompt": "",
+    "deliver": "",
+    "skills": [],
+    "model": "",
+    "provider": "",
+    "baseURL": "",
+    "script": "",
+    "contextFrom": [],
+    "enabledToolsets": [],
+    "workdir": "",
+    "noAgent": false
+  }
+}
+
+docs {
+  The full Hermes `CronJobCreate` body. `schedule` accepts a cron
+  expression, an interval (`every 2h`) or a one-shot time; `deliver`
+  follows Hermes' grammar (`origin`, `local`, `all`,
+  `platform[:chat_id[:thread]]`, comma-separated). The job is created on
+  Hermes first and mirrored from the response, so a rejected create
+  leaves the mirror untouched.
+
+}
+
+example {
+  name: 200 Response
+  description: The job as Hermes stores it.
+
+  request: {
+    url: {{baseUrl}}/v1/hermes/mirror/jobs
+    method: POST
+    mode: json
+    body:json: {
+      {
+        "name": "",
+        "schedule": "",
+        "prompt": "",
+        "deliver": "",
+        "skills": [],
+        "model": "",
+        "provider": "",
+        "baseURL": "",
+        "script": "",
+        "contextFrom": [],
+        "enabledToolsets": [],
+        "workdir": "",
+        "noAgent": false
+      }
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "hermesJobID": "",
+          "name": "",
+          "schedule": "",
+          "prompt": "",
+          "paused": false,
+          "lastRunAt": "",
+          "nextRunAt": "",
+          "updatedAt": ""
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: 400 Response
+  description: `hermes_job_name_required` or `hermes_job_schedule_required`.
+
+  request: {
+    url: {{baseUrl}}/v1/hermes/mirror/jobs
+    method: POST
+    mode: json
+    body:json: {
+      {
+        "name": "",
+        "schedule": "",
+        "prompt": "",
+        "deliver": "",
+        "skills": [],
+        "model": "",
+        "provider": "",
+        "baseURL": "",
+        "script": "",
+        "contextFrom": [],
+        "enabledToolsets": [],
+        "workdir": "",
+        "noAgent": false
+      }
+    }
+  }
+
+  response: {
+    status: {
+      code: 400
+      text: Bad Request
+    }
+
+    body: {
+      type: text
+      content: '''
+
+      '''
+    }
+  }
+}
+
+example {
+  name: 502 Response
+  description: Hermes refused or was unreachable (stable code in `message`).
+
+  request: {
+    url: {{baseUrl}}/v1/hermes/mirror/jobs
+    method: POST
+    mode: json
+    body:json: {
+      {
+        "name": "",
+        "schedule": "",
+        "prompt": "",
+        "deliver": "",
+        "skills": [],
+        "model": "",
+        "provider": "",
+        "baseURL": "",
+        "script": "",
+        "contextFrom": [],
+        "enabledToolsets": [],
+        "workdir": "",
+        "noAgent": false
+      }
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 502
+      text: Bad Gateway
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "error": "",
+          "message": ""
+        }
+      '''
+    }
+  }
+}

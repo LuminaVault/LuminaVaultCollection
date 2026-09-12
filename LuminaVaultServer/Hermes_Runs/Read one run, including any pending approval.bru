@@ -1,0 +1,100 @@
+meta {
+  name: Read one run, including any pending approval
+  type: http
+  seq: 3
+  tags: [
+    Hermes_Runs
+  ]
+}
+
+get {
+  url: {{baseUrl}}/v1/hermes/runs/:id
+  body: none
+  auth: inherit
+}
+
+params:path {
+  id:
+}
+
+example {
+  name: 200 Response
+  description: The run.
+
+  request: {
+    url: {{baseUrl}}/v1/hermes/runs/:id
+    method: GET
+    mode: none
+    params:path: {
+      id:
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "id": "",
+          "hermesRunID": "",
+          "status": "queued",
+          "prompt": "",
+          "sessionID": "",
+          "model": "",
+          "conversationID": "",
+          "startedAt": "",
+          "finishedAt": "",
+          "lastEvent": "",
+          "lastSeq": 0,
+          "pendingApproval": "",
+          "summary": "",
+          "error": ""
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: 404 Response
+  description: Resource not found.
+
+  request: {
+    url: {{baseUrl}}/v1/hermes/runs/:id
+    method: GET
+    mode: none
+    params:path: {
+      id:
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 404
+      text: Not Found
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "error": "",
+          "message": ""
+        }
+      '''
+    }
+  }
+}

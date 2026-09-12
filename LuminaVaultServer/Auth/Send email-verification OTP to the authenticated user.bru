@@ -1,0 +1,39 @@
+meta {
+  name: Send email-verification OTP to the authenticated user
+  type: http
+  seq: 10
+  tags: [
+    Auth
+  ]
+}
+
+post {
+  url: {{baseUrl}}/v1/auth/email/send-verify
+  body: none
+  auth: inherit
+}
+
+example {
+  name: 204 Response
+  description: Verification OTP sent.
+
+  request: {
+    url: {{baseUrl}}/v1/auth/email/send-verify
+    method: POST
+    mode: none
+  }
+
+  response: {
+    status: {
+      code: 204
+      text: No Content
+    }
+
+    body: {
+      type: text
+      content: '''
+
+      '''
+    }
+  }
+}

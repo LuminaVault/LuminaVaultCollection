@@ -1,0 +1,157 @@
+meta {
+  name: Manually trigger a skill run
+  type: http
+  seq: 8
+  tags: [
+    Skills
+  ]
+}
+
+post {
+  url: {{baseUrl}}/v1/skills/:name/run
+  body: json
+  auth: inherit
+}
+
+params:path {
+  name:
+}
+
+body:json {
+  {
+    "input": "",
+    "arguments": {},
+    "save": false
+  }
+}
+
+example {
+  name: 200 Response
+  description: Skill dispatched.
+
+  request: {
+    url: {{baseUrl}}/v1/skills/:name/run
+    method: POST
+    mode: json
+    params:path: {
+      name:
+    }
+
+    body:json: {
+      {
+        "input": "",
+        "arguments": {},
+        "save": false
+      }
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "id": "",
+          "skillName": "",
+          "status": "pending",
+          "markdown": "",
+          "savedPath": "",
+          "modelUsed": "",
+          "mtokIn": "",
+          "mtokOut": "",
+          "startedAt": "",
+          "endedAt": ""
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: 402 Response
+  description: Tier entitlement or daily-cap exhaustion.
+
+  request: {
+    url: {{baseUrl}}/v1/skills/:name/run
+    method: POST
+    mode: json
+    params:path: {
+      name:
+    }
+
+    body:json: {
+      {
+        "input": "",
+        "arguments": {},
+        "save": false
+      }
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 402
+      text: Payment Required
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "paywall": false,
+          "paywallId": "default",
+          "requiredTier": "pro"
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: 404 Response
+  description: Unknown skill.
+
+  request: {
+    url: {{baseUrl}}/v1/skills/:name/run
+    method: POST
+    mode: json
+    params:path: {
+      name:
+    }
+
+    body:json: {
+      {
+        "input": "",
+        "arguments": {},
+        "save": false
+      }
+    }
+  }
+
+  response: {
+    status: {
+      code: 404
+      text: Not Found
+    }
+
+    body: {
+      type: text
+      content: '''
+
+      '''
+    }
+  }
+}

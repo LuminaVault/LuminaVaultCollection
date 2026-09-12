@@ -1,0 +1,58 @@
+meta {
+  name: Player-profile HUD counters for the Home dashboard
+  type: http
+  seq: 3
+  tags: [
+    Dashboard
+  ]
+}
+
+get {
+  url: {{baseUrl}}/v1/dashboard/profile
+  body: none
+  auth: inherit
+}
+
+docs {
+  Returns the "player profile" numbers the iOS Home dashboard renders:
+  enabled skills, total skill runs (jobs), conversations (sessions),
+  unlocked achievements (badges), and a derived power level + XP.
+  Per-tenant scoped.
+
+}
+
+example {
+  name: 200 Response
+  description: Dashboard profile snapshot.
+
+  request: {
+    url: {{baseUrl}}/v1/dashboard/profile
+    method: GET
+    mode: none
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "skillsCount": 0,
+          "jobsCount": 0,
+          "sessionsCount": 0,
+          "badgesEarned": 0,
+          "powerLevel": 0,
+          "powerXP": 0
+        }
+      '''
+    }
+  }
+}

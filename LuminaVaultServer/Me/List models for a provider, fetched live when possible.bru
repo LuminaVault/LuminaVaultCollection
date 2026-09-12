@@ -1,0 +1,130 @@
+meta {
+  name: List models for a provider, fetched live when possible
+  type: http
+  seq: 13
+  tags: [
+    Me
+  ]
+}
+
+get {
+  url: {{baseUrl}}/v1/me/providers/:provider/models
+  body: none
+  auth: inherit
+}
+
+params:path {
+  provider: xai
+  provider: anthropic
+  provider: openai
+  provider: ollama
+  provider: openRouter
+  provider: nvidia
+  provider: gemini
+  provider: nous
+  provider: custom
+}
+
+docs {
+  For OpenAI-compatible providers (xai, nvidia, openai, openRouter,
+  nous) the server fetches the upstream `/v1/models` using the user's
+  stored credential and returns the live list (`fetchedLive: true`) —
+  keeping the client picker current with rotating model lists such as
+  Nous free models. On any failure, or for providers without a
+  standard `/v1/models` (anthropic, gemini, ollama), it returns the
+  offline curated catalog with `fetchedLive: false`. Always 200.
+
+}
+
+example {
+  name: 200 Response
+  description: Model list (live or fallback).
+
+  request: {
+    url: {{baseUrl}}/v1/me/providers/:provider/models
+    method: GET
+    mode: none
+    params:path: {
+      provider: xai
+      ~provider: anthropic
+      ~provider: openai
+      ~provider: ollama
+      ~provider: openRouter
+      ~provider: nvidia
+      ~provider: gemini
+      ~provider: nous
+      ~provider: custom
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "provider": "xai",
+          "models": [
+            {
+              "id": "",
+              "displayName": "",
+              "contextWindow": 0
+            }
+          ],
+          "fetchedLive": false
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: 404 Response
+  description: `unsupported_provider` — unknown path param.
+
+  request: {
+    url: {{baseUrl}}/v1/me/providers/:provider/models
+    method: GET
+    mode: none
+    params:path: {
+      provider: xai
+      ~provider: anthropic
+      ~provider: openai
+      ~provider: ollama
+      ~provider: openRouter
+      ~provider: nvidia
+      ~provider: gemini
+      ~provider: nous
+      ~provider: custom
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 404
+      text: Not Found
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "error": "",
+          "message": ""
+        }
+      '''
+    }
+  }
+}

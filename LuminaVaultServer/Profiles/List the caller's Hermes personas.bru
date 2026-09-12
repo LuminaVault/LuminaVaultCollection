@@ -1,0 +1,65 @@
+meta {
+  name: List the caller's Hermes personas
+  type: http
+  seq: 1
+  tags: [
+    Profiles
+  ]
+}
+
+get {
+  url: {{baseUrl}}/v1/profiles
+  body: none
+  auth: inherit
+}
+
+docs {
+  Returns every persona owned by the authed tenant plus the slug
+  of the row currently flagged as default (`activeSlug`). The
+  default persona is the one used when a chat request omits
+  `X-Hermes-Profile`.
+
+}
+
+example {
+  name: 200 Response
+  description: Persona list + active slug.
+
+  request: {
+    url: {{baseUrl}}/v1/profiles
+    method: GET
+    mode: none
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "items": [
+            {
+              "id": "",
+              "slug": "",
+              "label": "",
+              "systemPrompt": "",
+              "isDefault": false,
+              "skillsEnabled": [],
+              "createdAt": "",
+              "updatedAt": ""
+            }
+          ],
+          "activeSlug": ""
+        }
+      '''
+    }
+  }
+}

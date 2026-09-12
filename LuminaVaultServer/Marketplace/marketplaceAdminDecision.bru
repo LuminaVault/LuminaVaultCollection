@@ -2,6 +2,9 @@ meta {
   name: marketplaceAdminDecision
   type: http
   seq: 17
+  tags: [
+    Marketplace
+  ]
 }
 
 post {
@@ -18,5 +21,53 @@ body:json {
   {
     "approved": false,
     "note": ""
+  }
+}
+
+example {
+  name: 200 Response
+  description: Reviewed submission.
+
+  request: {
+    url: {{baseUrl}}/v1/marketplace/admin/submissions/:submissionID/decision
+    method: POST
+    mode: json
+    params:path: {
+      submissionID:
+    }
+
+    body:json: {
+      {
+        "approved": false,
+        "note": ""
+      }
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "id": "",
+          "pluginSlug": "",
+          "versionId": "",
+          "status": "draft",
+          "validationErrors": [],
+          "reviewNote": "",
+          "submittedAt": "",
+          "reviewedAt": ""
+        }
+      '''
+    }
   }
 }

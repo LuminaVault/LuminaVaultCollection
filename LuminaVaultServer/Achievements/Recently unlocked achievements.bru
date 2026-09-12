@@ -1,0 +1,55 @@
+meta {
+  name: Recently unlocked achievements
+  type: http
+  seq: 2
+  tags: [
+    Achievements
+  ]
+}
+
+get {
+  url: {{baseUrl}}/v1/achievements/recent
+  body: none
+  auth: inherit
+}
+
+example {
+  name: 200 Response
+  description: Recent unlocks.
+
+  request: {
+    url: {{baseUrl}}/v1/achievements/recent
+    method: GET
+    mode: none
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "unlocks": [
+            {
+              "key": "",
+              "title": "",
+              "description": "",
+              "tier": "",
+              "progressCount": 0,
+              "targetCount": 0,
+              "unlockedAt": ""
+            }
+          ]
+        }
+      '''
+    }
+  }
+}

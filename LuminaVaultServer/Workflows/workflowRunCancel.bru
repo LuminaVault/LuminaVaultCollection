@@ -2,6 +2,9 @@ meta {
   name: workflowRunCancel
   type: http
   seq: 16
+  tags: [
+    Workflows
+  ]
 }
 
 post {
@@ -12,4 +15,60 @@ post {
 
 params:path {
   runID:
+}
+
+example {
+  name: 204 Response
+  description: Run cancelled or already terminal.
+
+  request: {
+    url: {{baseUrl}}/v1/workflows/runs/:runID/cancel
+    method: POST
+    mode: none
+    params:path: {
+      runID:
+    }
+  }
+
+  response: {
+    status: {
+      code: 204
+      text: No Content
+    }
+
+    body: {
+      type: text
+      content: '''
+
+      '''
+    }
+  }
+}
+
+example {
+  name: 404 Response
+  description: Workflow run not found.
+
+  request: {
+    url: {{baseUrl}}/v1/workflows/runs/:runID/cancel
+    method: POST
+    mode: none
+    params:path: {
+      runID:
+    }
+  }
+
+  response: {
+    status: {
+      code: 404
+      text: Not Found
+    }
+
+    body: {
+      type: text
+      content: '''
+
+      '''
+    }
+  }
 }

@@ -1,0 +1,51 @@
+meta {
+  name: Run the health-correlation engine across all tenants
+  type: http
+  seq: 5
+  tags: [
+    Admin
+  ]
+}
+
+post {
+  url: {{baseUrl}}/v1/admin/health/correlate
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+example {
+  name: 200 Response
+  description: Correlation summary.
+
+  request: {
+    url: {{baseUrl}}/v1/admin/health/correlate
+    method: POST
+    mode: none
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "tenantsProcessed": 0,
+          "correlationsFound": 0,
+          "durationMs": 0
+        }
+      '''
+    }
+  }
+}

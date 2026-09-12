@@ -1,0 +1,65 @@
+meta {
+  name: Run Smart Import LLM categorization; returns the proposal
+  type: http
+  seq: 5
+  tags: [
+    Import
+  ]
+}
+
+post {
+  url: {{baseUrl}}/v1/import/:id/categorize
+  body: none
+  auth: inherit
+}
+
+params:path {
+  id:
+}
+
+example {
+  name: 200 Response
+  description: Updated session with proposed Spaces per item.
+
+  request: {
+    url: {{baseUrl}}/v1/import/:id/categorize
+    method: POST
+    mode: none
+    params:path: {
+      id:
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "id": "",
+          "sourceType": "",
+          "status": "",
+          "total": 0,
+          "staged": 0,
+          "items": [
+            {
+              "id": "",
+              "url": "",
+              "title": "",
+              "proposedSpace": "",
+              "status": ""
+            }
+          ]
+        }
+      '''
+    }
+  }
+}

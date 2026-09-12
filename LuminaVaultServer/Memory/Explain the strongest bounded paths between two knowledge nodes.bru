@@ -1,0 +1,110 @@
+meta {
+  name: Explain the strongest bounded paths between two knowledge nodes
+  type: http
+  seq: 15
+  tags: [
+    Memory
+  ]
+}
+
+post {
+  url: {{baseUrl}}/v1/knowledge/connections/explain
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "fromNodeID": "",
+    "toNodeID": "",
+    "maxDepth": 0
+  }
+}
+
+example {
+  name: 200 Response
+  description: Ranked paths, evidence, confidence, and caveats.
+
+  request: {
+    url: {{baseUrl}}/v1/knowledge/connections/explain
+    method: POST
+    mode: json
+    body:json: {
+      {
+        "fromNodeID": "",
+        "toNodeID": "",
+        "maxDepth": 0
+      }
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "explanation": "",
+          "paths": [
+            {
+              "id": "",
+              "nodes": [
+                {
+                  "id": "",
+                  "kind": "claim",
+                  "label": "",
+                  "summary": "",
+                  "occurredAt": "",
+                  "confidence": 0,
+                  "evidence": [
+                    {
+                      "id": "",
+                      "memoryID": "",
+                      "sourceVaultFileID": "",
+                      "quote": "",
+                      "startOffset": 0,
+                      "endOffset": 0
+                    }
+                  ]
+                }
+              ],
+              "edges": [
+                {
+                  "id": "",
+                  "from": "",
+                  "to": "",
+                  "predicate": "mentions",
+                  "state": "asserted",
+                  "confidence": 0,
+                  "rationale": "",
+                  "counterEvidence": "",
+                  "evidence": [
+                    {
+                      "id": "",
+                      "memoryID": "",
+                      "sourceVaultFileID": "",
+                      "quote": "",
+                      "startOffset": 0,
+                      "endOffset": 0
+                    }
+                  ]
+                }
+              ],
+              "confidence": 0
+            }
+          ],
+          "confidence": 0,
+          "caveats": []
+        }
+      '''
+    }
+  }
+}

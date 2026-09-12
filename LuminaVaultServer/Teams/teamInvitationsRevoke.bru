@@ -2,10 +2,47 @@ meta {
   name: teamInvitationsRevoke
   type: http
   seq: 7
+  tags: [
+    Teams
+  ]
 }
 
 delete {
   url: {{baseUrl}}/v1/teams/:teamID/invitations/:invitationID
   body: none
   auth: inherit
+}
+
+params:path {
+  teamID:
+  invitationID:
+}
+
+example {
+  name: 204 Response
+  description: Invitation revoked.
+
+  request: {
+    url: {{baseUrl}}/v1/teams/:teamID/invitations/:invitationID
+    method: DELETE
+    mode: none
+    params:path: {
+      teamID:
+      invitationID:
+    }
+  }
+
+  response: {
+    status: {
+      code: 204
+      text: No Content
+    }
+
+    body: {
+      type: text
+      content: '''
+
+      '''
+    }
+  }
 }

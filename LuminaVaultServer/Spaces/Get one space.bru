@@ -1,0 +1,61 @@
+meta {
+  name: Get one space
+  type: http
+  seq: 3
+  tags: [
+    Spaces
+  ]
+}
+
+get {
+  url: {{baseUrl}}/v1/spaces/:id
+  body: none
+  auth: inherit
+}
+
+params:path {
+  id:
+}
+
+example {
+  name: 200 Response
+  description: Space.
+
+  request: {
+    url: {{baseUrl}}/v1/spaces/:id
+    method: GET
+    mode: none
+    params:path: {
+      id:
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "id": "",
+          "name": "",
+          "slug": "",
+          "description": "",
+          "color": "",
+          "icon": "",
+          "category": "",
+          "noteCount": 0,
+          "lastCompiledAt": "",
+          "createdAt": ""
+        }
+      '''
+    }
+  }
+}

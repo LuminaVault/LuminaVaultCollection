@@ -1,0 +1,64 @@
+meta {
+  name: List skills + per-tenant state for the Skills hub (HER-247)
+  type: http
+  seq: 1
+  tags: [
+    Skills
+  ]
+}
+
+get {
+  url: {{baseUrl}}/v1/skills
+  body: none
+  auth: inherit
+}
+
+example {
+  name: 200 Response
+  description: Skill list.
+
+  request: {
+    url: {{baseUrl}}/v1/skills
+    method: GET
+    mode: none
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "skills": [
+            {
+              "id": "",
+              "source": "builtin",
+              "name": "",
+              "title": "",
+              "descriptionText": "",
+              "capability": "low",
+              "schedule": "",
+              "scheduleOverride": "",
+              "enabled": false,
+              "lastRunAt": "",
+              "lastStatus": "pending",
+              "lastError": "",
+              "dailyRunCount": 0,
+              "dailyRunCap": 0,
+              "apnsCategory": "chat",
+              "bodyExcerpt": ""
+            }
+          ]
+        }
+      '''
+    }
+  }
+}

@@ -2,10 +2,49 @@ meta {
   name: teamsList
   type: http
   seq: 1
+  tags: [
+    Teams
+  ]
 }
 
 get {
   url: {{baseUrl}}/v1/teams
   body: none
   auth: inherit
+}
+
+example {
+  name: 200 Response
+  description: Teams visible to the current user.
+
+  request: {
+    url: {{baseUrl}}/v1/teams
+    method: GET
+    mode: none
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        [
+          {
+            "id": "",
+            "name": "",
+            "role": "owner",
+            "archivedAt": ""
+          }
+        ]
+      '''
+    }
+  }
 }

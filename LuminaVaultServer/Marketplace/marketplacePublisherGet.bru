@@ -2,10 +2,50 @@ meta {
   name: marketplacePublisherGet
   type: http
   seq: 9
+  tags: [
+    Marketplace
+  ]
 }
 
 get {
   url: {{baseUrl}}/v1/marketplace/publisher
   body: none
   auth: inherit
+}
+
+example {
+  name: 200 Response
+  description: Caller publisher profile.
+
+  request: {
+    url: {{baseUrl}}/v1/marketplace/publisher
+    method: GET
+    mode: none
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "id": "",
+          "handle": "",
+          "displayName": "",
+          "bio": "",
+          "websiteURL": "",
+          "verified": false,
+          "status": "pending"
+        }
+      '''
+    }
+  }
 }

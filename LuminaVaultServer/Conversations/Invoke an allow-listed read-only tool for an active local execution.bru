@@ -1,0 +1,192 @@
+meta {
+  name: Invoke an allow-listed read-only tool for an active local execution
+  type: http
+  seq: 11
+  tags: [
+    Conversations
+  ]
+}
+
+post {
+  url: {{baseUrl}}/v1/conversations/:id/local-executions/:executionID/tools
+  body: json
+  auth: inherit
+}
+
+params:path {
+  id:
+  executionID:
+}
+
+body:json {
+  {
+    "name": "memory_search",
+    "query": "",
+    "limit": 0
+  }
+}
+
+example {
+  name: 200 Response
+  description: Read-only tool result and cited memory sources.
+
+  request: {
+    url: {{baseUrl}}/v1/conversations/:id/local-executions/:executionID/tools
+    method: POST
+    mode: json
+    params:path: {
+      id:
+      executionID:
+    }
+
+    body:json: {
+      {
+        "name": "memory_search",
+        "query": "",
+        "limit": 0
+      }
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "name": "memory_search",
+          "content": "",
+          "sources": [
+            {
+              "id": "",
+              "content": "",
+              "distance": 0,
+              "createdAt": "",
+              "snippet": "",
+              "citation": ""
+            }
+          ]
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: 404 Response
+  description: Tool broker disabled or execution not found.
+
+  request: {
+    url: {{baseUrl}}/v1/conversations/:id/local-executions/:executionID/tools
+    method: POST
+    mode: json
+    params:path: {
+      id:
+      executionID:
+    }
+
+    body:json: {
+      {
+        "name": "memory_search",
+        "query": "",
+        "limit": 0
+      }
+    }
+  }
+
+  response: {
+    status: {
+      code: 404
+      text: Not Found
+    }
+
+    body: {
+      type: text
+      content: '''
+
+      '''
+    }
+  }
+}
+
+example {
+  name: 409 Response
+  description: Execution was already committed.
+
+  request: {
+    url: {{baseUrl}}/v1/conversations/:id/local-executions/:executionID/tools
+    method: POST
+    mode: json
+    params:path: {
+      id:
+      executionID:
+    }
+
+    body:json: {
+      {
+        "name": "memory_search",
+        "query": "",
+        "limit": 0
+      }
+    }
+  }
+
+  response: {
+    status: {
+      code: 409
+      text: Conflict
+    }
+
+    body: {
+      type: text
+      content: '''
+
+      '''
+    }
+  }
+}
+
+example {
+  name: 410 Response
+  description: Execution expired.
+
+  request: {
+    url: {{baseUrl}}/v1/conversations/:id/local-executions/:executionID/tools
+    method: POST
+    mode: json
+    params:path: {
+      id:
+      executionID:
+    }
+
+    body:json: {
+      {
+        "name": "memory_search",
+        "query": "",
+        "limit": 0
+      }
+    }
+  }
+
+  response: {
+    status: {
+      code: 410
+      text: Gone
+    }
+
+    body: {
+      type: text
+      content: '''
+
+      '''
+    }
+  }
+}

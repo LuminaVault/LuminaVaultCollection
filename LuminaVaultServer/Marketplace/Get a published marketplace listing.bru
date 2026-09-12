@@ -1,0 +1,126 @@
+meta {
+  name: Get a published marketplace listing
+  type: http
+  seq: 2
+  tags: [
+    Marketplace
+  ]
+}
+
+get {
+  url: {{baseUrl}}/v1/marketplace/plugins/:slug
+  body: none
+  auth: inherit
+}
+
+params:path {
+  slug:
+}
+
+example {
+  name: 200 Response
+  description: Marketplace plugin.
+
+  request: {
+    url: {{baseUrl}}/v1/marketplace/plugins/:slug
+    method: GET
+    mode: none
+    params:path: {
+      slug:
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "slug": "",
+          "name": "",
+          "summary": "",
+          "description": "",
+          "category": "connector",
+          "iconURL": "",
+          "screenshots": [],
+          "publisher": {
+            "id": "",
+            "handle": "",
+            "displayName": "",
+            "bio": "",
+            "websiteURL": "",
+            "verified": false,
+            "status": "pending"
+          },
+          "latestVersion": {
+            "id": "",
+            "version": "",
+            "status": "draft",
+            "runtimeKind": "native",
+            "permissions": [
+              "memory.read"
+            ],
+            "networkHosts": [],
+            "changelog": "",
+            "publishedAt": "",
+            "tools": [
+              {
+                "name": "",
+                "description": ""
+              }
+            ]
+          },
+          "featured": false,
+          "ratingAverage": 0,
+          "ratingCount": 0,
+          "installCount": 0,
+          "configFields": [
+            {
+              "key": "",
+              "label": "",
+              "placeholder": "",
+              "kind": "text",
+              "isRequired": false
+            }
+          ]
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: 404 Response
+  description: Listing or approved version not found.
+
+  request: {
+    url: {{baseUrl}}/v1/marketplace/plugins/:slug
+    method: GET
+    mode: none
+    params:path: {
+      slug:
+    }
+  }
+
+  response: {
+    status: {
+      code: 404
+      text: Not Found
+    }
+
+    body: {
+      type: text
+      content: '''
+
+      '''
+    }
+  }
+}

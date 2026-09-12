@@ -1,0 +1,57 @@
+meta {
+  name: Cron jobs on the tenant's Hermes — live when reachable, else the last snapshot
+  type: http
+  seq: 11
+  tags: [
+    Settings
+  ]
+}
+
+get {
+  url: {{baseUrl}}/v1/hermes/mirror/jobs
+  body: none
+  auth: inherit
+}
+
+example {
+  name: 200 Response
+  description: Jobs with `source` = `live` or `snapshot`.
+
+  request: {
+    url: {{baseUrl}}/v1/hermes/mirror/jobs
+    method: GET
+    mode: none
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "source": "live",
+          "jobs": [
+            {
+              "hermesJobID": "",
+              "name": "",
+              "schedule": "",
+              "prompt": "",
+              "paused": false,
+              "lastRunAt": "",
+              "nextRunAt": "",
+              "updatedAt": ""
+            }
+          ]
+        }
+      '''
+    }
+  }
+}

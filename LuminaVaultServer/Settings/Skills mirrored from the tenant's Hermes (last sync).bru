@@ -1,0 +1,53 @@
+meta {
+  name: Skills mirrored from the tenant's Hermes (last sync)
+  type: http
+  seq: 9
+  tags: [
+    Settings
+  ]
+}
+
+get {
+  url: {{baseUrl}}/v1/hermes/mirror/skills
+  body: none
+  auth: inherit
+}
+
+example {
+  name: 200 Response
+  description: Mirrored skills.
+
+  request: {
+    url: {{baseUrl}}/v1/hermes/mirror/skills
+    method: GET
+    mode: none
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "skills": [
+            {
+              "name": "",
+              "description": "",
+              "enabled": false,
+              "source": "builtin",
+              "updatedAt": ""
+            }
+          ]
+        }
+      '''
+    }
+  }
+}

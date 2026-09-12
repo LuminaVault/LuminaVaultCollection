@@ -1,0 +1,175 @@
+meta {
+  name: Reorder a column relative to its siblings using fractional-index ranks
+  type: http
+  seq: 10
+  tags: [
+    Kanban
+  ]
+}
+
+post {
+  url: {{baseUrl}}/v1/boards/:boardID/columns/reorder
+  body: json
+  auth: inherit
+}
+
+params:path {
+  boardID:
+}
+
+body:json {
+  {
+    "columnID": "",
+    "beforeID": "",
+    "afterID": ""
+  }
+}
+
+example {
+  name: 200 Response
+  description: Updated board snapshot with new column order.
+
+  request: {
+    url: {{baseUrl}}/v1/boards/:boardID/columns/reorder
+    method: POST
+    mode: json
+    params:path: {
+      boardID:
+    }
+
+    body:json: {
+      {
+        "columnID": "",
+        "beforeID": "",
+        "afterID": ""
+      }
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "id": "",
+          "title": "",
+          "version": 0,
+          "columns": [
+            {
+              "id": "",
+              "title": "",
+              "rank": "",
+              "cards": [
+                {
+                  "id": "",
+                  "columnID": "",
+                  "title": "",
+                  "body": "",
+                  "priority": "",
+                  "dueAt": "",
+                  "rank": "",
+                  "updatedAt": ""
+                }
+              ]
+            }
+          ]
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: 401 Response
+  description: Missing / invalid credential.
+
+  request: {
+    url: {{baseUrl}}/v1/boards/:boardID/columns/reorder
+    method: POST
+    mode: json
+    params:path: {
+      boardID:
+    }
+
+    body:json: {
+      {
+        "columnID": "",
+        "beforeID": "",
+        "afterID": ""
+      }
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 401
+      text: Unauthorized
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "error": "",
+          "message": ""
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: 404 Response
+  description: Resource not found.
+
+  request: {
+    url: {{baseUrl}}/v1/boards/:boardID/columns/reorder
+    method: POST
+    mode: json
+    params:path: {
+      boardID:
+    }
+
+    body:json: {
+      {
+        "columnID": "",
+        "beforeID": "",
+        "afterID": ""
+      }
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 404
+      text: Not Found
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "error": "",
+          "message": ""
+        }
+      '''
+    }
+  }
+}

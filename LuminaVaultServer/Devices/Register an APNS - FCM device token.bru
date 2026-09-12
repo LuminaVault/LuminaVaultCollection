@@ -1,0 +1,60 @@
+meta {
+  name: Register an APNS / FCM device token
+  type: http
+  seq: 1
+  tags: [
+    Devices
+  ]
+}
+
+post {
+  url: {{baseUrl}}/v1/devices
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "token": "",
+    "platform": "ios"
+  }
+}
+
+example {
+  name: 200 Response
+  description: Registered.
+
+  request: {
+    url: {{baseUrl}}/v1/devices
+    method: POST
+    mode: json
+    body:json: {
+      {
+        "token": "",
+        "platform": "ios"
+      }
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "id": "",
+          "token": "",
+          "platform": ""
+        }
+      '''
+    }
+  }
+}

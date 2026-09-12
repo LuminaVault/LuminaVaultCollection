@@ -1,0 +1,168 @@
+meta {
+  name: Create a new Hermes persona
+  type: http
+  seq: 2
+  tags: [
+    Profiles
+  ]
+}
+
+post {
+  url: {{baseUrl}}/v1/profiles
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "slug": "",
+    "label": "",
+    "systemPrompt": "",
+    "templateSlug": "",
+    "skillsEnabled": []
+  }
+}
+
+docs {
+  Slug must match `^[a-z0-9][a-z0-9-]{0,31}$`. `systemPrompt` is
+  used verbatim as the persona's seed system prompt unless
+  `templateSlug` is also set, in which case the template body
+  wins (templates: `personal-assistant`, `stocks-tracker`,
+  `news-curator`, `tv-and-movies`, `tech-and-programming`).
+  First persona for a tenant is auto-flagged as default.
+
+}
+
+example {
+  name: 200 Response
+  description: Created persona.
+
+  request: {
+    url: {{baseUrl}}/v1/profiles
+    method: POST
+    mode: json
+    body:json: {
+      {
+        "slug": "",
+        "label": "",
+        "systemPrompt": "",
+        "templateSlug": "",
+        "skillsEnabled": []
+      }
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "id": "",
+          "slug": "",
+          "label": "",
+          "systemPrompt": "",
+          "isDefault": false,
+          "skillsEnabled": [],
+          "createdAt": "",
+          "updatedAt": ""
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: 400 Response
+  description: '''
+    Stable codes in `message`:
+    `invalid_slug`, `invalid_label`, `system_prompt_too_long`,
+    `template_not_found`.
+
+  '''
+
+  request: {
+    url: {{baseUrl}}/v1/profiles
+    method: POST
+    mode: json
+    body:json: {
+      {
+        "slug": "",
+        "label": "",
+        "systemPrompt": "",
+        "templateSlug": "",
+        "skillsEnabled": []
+      }
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 400
+      text: Bad Request
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "error": "",
+          "message": ""
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: 409 Response
+  description: Slug already exists for this tenant (`slug_already_exists`).
+
+  request: {
+    url: {{baseUrl}}/v1/profiles
+    method: POST
+    mode: json
+    body:json: {
+      {
+        "slug": "",
+        "label": "",
+        "systemPrompt": "",
+        "templateSlug": "",
+        "skillsEnabled": []
+      }
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 409
+      text: Conflict
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "error": "",
+          "message": ""
+        }
+      '''
+    }
+  }
+}

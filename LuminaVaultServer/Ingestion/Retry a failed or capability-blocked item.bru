@@ -1,0 +1,109 @@
+meta {
+  name: Retry a failed or capability-blocked item
+  type: http
+  seq: 9
+  tags: [
+    Ingestion
+  ]
+}
+
+post {
+  url: {{baseUrl}}/v1/ingestions/:batchID/items/:itemID/retry
+  body: none
+  auth: inherit
+}
+
+params:path {
+  batchID:
+  itemID:
+}
+
+example {
+  name: 200 Response
+  description: Updated batch.
+
+  request: {
+    url: {{baseUrl}}/v1/ingestions/:batchID/items/:itemID/retry
+    method: POST
+    mode: none
+    params:path: {
+      batchID:
+      itemID:
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "id": "",
+          "state": "",
+          "total": 0,
+          "completed": 0,
+          "failed": 0,
+          "chunkSizeBytes": 0,
+          "items": [
+            {
+              "id": "",
+              "batchID": "",
+              "kind": "file",
+              "state": "awaiting_upload",
+              "fileName": "",
+              "contentType": "",
+              "sizeBytes": 0,
+              "uploadedBytes": 0,
+              "url": "",
+              "vaultFileID": "",
+              "memoryID": "",
+              "summary": "",
+              "error": "",
+              "credibility": {
+                "score": "",
+                "confidence": 0,
+                "signals": [],
+                "rationale": "",
+                "version": ""
+              },
+              "entities": [
+                {
+                  "id": "",
+                  "name": "",
+                  "type": "",
+                  "confidence": 0
+                }
+              ],
+              "relationships": [
+                {
+                  "id": "",
+                  "subjectEntityID": "",
+                  "predicate": "",
+                  "objectEntityID": "",
+                  "confidence": 0,
+                  "evidence": ""
+                }
+              ],
+              "contentSHA256": "",
+              "pipelineVersion": "",
+              "reusedFromItemID": "",
+              "graphReadyAt": "",
+              "createdAt": "",
+              "updatedAt": ""
+            }
+          ],
+          "createdAt": "",
+          "updatedAt": ""
+        }
+      '''
+    }
+  }
+}

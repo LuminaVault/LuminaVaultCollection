@@ -2,10 +2,55 @@ meta {
   name: workflowLimits
   type: http
   seq: 7
+  tags: [
+    Workflows
+  ]
 }
 
 get {
   url: {{baseUrl}}/v1/workflows/limits
   body: none
   auth: inherit
+}
+
+example {
+  name: 200 Response
+  description: Tier capacity and managed-inference allowance.
+
+  request: {
+    url: {{baseUrl}}/v1/workflows/limits
+    method: GET
+    mode: none
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "tier": "free",
+          "canAuthor": false,
+          "activeRuns": 0,
+          "activeRunLimit": 0,
+          "minimumScheduleMinutes": 0,
+          "perRunLimitUsdMicros": 0,
+          "dailyLimitUsdMicros": 0,
+          "dailySpentUsdMicros": 0,
+          "monthlyLimitUsdMicros": 0,
+          "monthlySpentUsdMicros": 0,
+          "managedInferenceAvailable": false,
+          "freeFallbackActive": false
+        }
+      '''
+    }
+  }
 }

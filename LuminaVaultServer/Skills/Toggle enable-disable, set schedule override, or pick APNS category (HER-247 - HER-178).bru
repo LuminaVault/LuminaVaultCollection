@@ -1,0 +1,155 @@
+meta {
+  name: Toggle enable/disable, set schedule override, or pick APNS category (HER-247 / HER-178)
+  type: http
+  seq: 4
+  tags: [
+    Skills
+  ]
+}
+
+patch {
+  url: {{baseUrl}}/v1/skills/:name
+  body: json
+  auth: inherit
+}
+
+params:path {
+  name:
+}
+
+body:json {
+  {
+    "enabled": false,
+    "scheduleOverride": "",
+    "apnsCategory": "chat"
+  }
+}
+
+example {
+  name: 200 Response
+  description: Updated skill snapshot.
+
+  request: {
+    url: {{baseUrl}}/v1/skills/:name
+    method: PATCH
+    mode: json
+    params:path: {
+      name:
+    }
+
+    body:json: {
+      {
+        "enabled": false,
+        "scheduleOverride": "",
+        "apnsCategory": "chat"
+      }
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "id": "",
+          "source": "builtin",
+          "name": "",
+          "title": "",
+          "descriptionText": "",
+          "capability": "low",
+          "schedule": "",
+          "scheduleOverride": "",
+          "enabled": false,
+          "lastRunAt": "",
+          "lastStatus": "pending",
+          "lastError": "",
+          "dailyRunCount": 0,
+          "dailyRunCap": 0,
+          "apnsCategory": "chat",
+          "bodyExcerpt": ""
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: 400 Response
+  description: Invalid cron expression or category.
+
+  request: {
+    url: {{baseUrl}}/v1/skills/:name
+    method: PATCH
+    mode: json
+    params:path: {
+      name:
+    }
+
+    body:json: {
+      {
+        "enabled": false,
+        "scheduleOverride": "",
+        "apnsCategory": "chat"
+      }
+    }
+  }
+
+  response: {
+    status: {
+      code: 400
+      text: Bad Request
+    }
+
+    body: {
+      type: text
+      content: '''
+
+      '''
+    }
+  }
+}
+
+example {
+  name: 404 Response
+  description: Skill not found.
+
+  request: {
+    url: {{baseUrl}}/v1/skills/:name
+    method: PATCH
+    mode: json
+    params:path: {
+      name:
+    }
+
+    body:json: {
+      {
+        "enabled": false,
+        "scheduleOverride": "",
+        "apnsCategory": "chat"
+      }
+    }
+  }
+
+  response: {
+    status: {
+      code: 404
+      text: Not Found
+    }
+
+    body: {
+      type: text
+      content: '''
+
+      '''
+    }
+  }
+}

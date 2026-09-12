@@ -1,0 +1,354 @@
+meta {
+  name: Create a custom routing profile (Pro or Ultimate)
+  type: http
+  seq: 2
+  tags: [
+    LLM
+  ]
+}
+
+post {
+  url: {{baseUrl}}/v1/router
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "name": "",
+    "mode": "managed",
+    "objective": {
+      "quality": 0,
+      "cost": 0,
+      "latency": 0
+    },
+    "budget": {
+      "softLimitUsdMicros": 0,
+      "hardLimitUsdMicros": 0
+    },
+    "allowedProviders": [
+      "xai"
+    ],
+    "blockedProviders": [
+      "xai"
+    ],
+    "defaultAction": {
+      "kind": "sequential",
+      "routes": [
+        {
+          "provider": "xai",
+          "model": "",
+          "inputPerMillionUsdMicros": 0,
+          "outputPerMillionUsdMicros": 0
+        }
+      ],
+      "synthesisRoute": {
+        "provider": "xai",
+        "model": "",
+        "inputPerMillionUsdMicros": 0,
+        "outputPerMillionUsdMicros": 0
+      },
+      "minimumSuccessfulResults": 0,
+      "retryPolicy": "fast",
+      "parallelStrategy": "auto",
+      "participants": [
+        {
+          "id": "",
+          "role": "",
+          "instructions": "",
+          "route": {
+            "provider": "xai",
+            "model": "",
+            "inputPerMillionUsdMicros": 0,
+            "outputPerMillionUsdMicros": 0
+          }
+        }
+      ]
+    },
+    "rules": [
+      {
+        "id": "",
+        "name": "",
+        "enabled": false,
+        "priority": 0,
+        "taskTypes": [
+          "general"
+        ],
+        "surfaces": [
+          "chat"
+        ],
+        "action": {
+          "kind": "sequential",
+          "routes": [
+            {
+              "provider": "xai",
+              "model": "",
+              "inputPerMillionUsdMicros": 0,
+              "outputPerMillionUsdMicros": 0
+            }
+          ],
+          "synthesisRoute": {
+            "provider": "xai",
+            "model": "",
+            "inputPerMillionUsdMicros": 0,
+            "outputPerMillionUsdMicros": 0
+          },
+          "minimumSuccessfulResults": 0,
+          "retryPolicy": "fast",
+          "parallelStrategy": "auto",
+          "participants": [
+            {
+              "id": "",
+              "role": "",
+              "instructions": "",
+              "route": {
+                "provider": "xai",
+                "model": "",
+                "inputPerMillionUsdMicros": 0,
+                "outputPerMillionUsdMicros": 0
+              }
+            }
+          ]
+        }
+      }
+    ],
+    "routingPolicy": "locked",
+    "expectedRevision": 0
+  }
+}
+
+example {
+  name: 200 Response
+  description: Created profile.
+
+  request: {
+    url: {{baseUrl}}/v1/router
+    method: POST
+    mode: json
+    body:json: {
+      {
+        "name": "",
+        "mode": "managed",
+        "objective": {
+          "quality": 0,
+          "cost": 0,
+          "latency": 0
+        },
+        "budget": {
+          "softLimitUsdMicros": 0,
+          "hardLimitUsdMicros": 0
+        },
+        "allowedProviders": [
+          "xai"
+        ],
+        "blockedProviders": [
+          "xai"
+        ],
+        "defaultAction": {
+          "kind": "sequential",
+          "routes": [
+            {
+              "provider": "xai",
+              "model": "",
+              "inputPerMillionUsdMicros": 0,
+              "outputPerMillionUsdMicros": 0
+            }
+          ],
+          "synthesisRoute": {
+            "provider": "xai",
+            "model": "",
+            "inputPerMillionUsdMicros": 0,
+            "outputPerMillionUsdMicros": 0
+          },
+          "minimumSuccessfulResults": 0,
+          "retryPolicy": "fast",
+          "parallelStrategy": "auto",
+          "participants": [
+            {
+              "id": "",
+              "role": "",
+              "instructions": "",
+              "route": {
+                "provider": "xai",
+                "model": "",
+                "inputPerMillionUsdMicros": 0,
+                "outputPerMillionUsdMicros": 0
+              }
+            }
+          ]
+        },
+        "rules": [
+          {
+            "id": "",
+            "name": "",
+            "enabled": false,
+            "priority": 0,
+            "taskTypes": [
+              "general"
+            ],
+            "surfaces": [
+              "chat"
+            ],
+            "action": {
+              "kind": "sequential",
+              "routes": [
+                {
+                  "provider": "xai",
+                  "model": "",
+                  "inputPerMillionUsdMicros": 0,
+                  "outputPerMillionUsdMicros": 0
+                }
+              ],
+              "synthesisRoute": {
+                "provider": "xai",
+                "model": "",
+                "inputPerMillionUsdMicros": 0,
+                "outputPerMillionUsdMicros": 0
+              },
+              "minimumSuccessfulResults": 0,
+              "retryPolicy": "fast",
+              "parallelStrategy": "auto",
+              "participants": [
+                {
+                  "id": "",
+                  "role": "",
+                  "instructions": "",
+                  "route": {
+                    "provider": "xai",
+                    "model": "",
+                    "inputPerMillionUsdMicros": 0,
+                    "outputPerMillionUsdMicros": 0
+                  }
+                }
+              ]
+            }
+          }
+        ],
+        "routingPolicy": "locked",
+        "expectedRevision": 0
+      }
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "id": "",
+          "name": "",
+          "mode": "managed",
+          "isPreset": false,
+          "objective": {
+            "quality": 0,
+            "cost": 0,
+            "latency": 0
+          },
+          "budget": {
+            "softLimitUsdMicros": 0,
+            "hardLimitUsdMicros": 0
+          },
+          "allowedProviders": [
+            "xai"
+          ],
+          "blockedProviders": [
+            "xai"
+          ],
+          "defaultAction": {
+            "kind": "sequential",
+            "routes": [
+              {
+                "provider": "xai",
+                "model": "",
+                "inputPerMillionUsdMicros": 0,
+                "outputPerMillionUsdMicros": 0
+              }
+            ],
+            "synthesisRoute": {
+              "provider": "xai",
+              "model": "",
+              "inputPerMillionUsdMicros": 0,
+              "outputPerMillionUsdMicros": 0
+            },
+            "minimumSuccessfulResults": 0,
+            "retryPolicy": "fast",
+            "parallelStrategy": "auto",
+            "participants": [
+              {
+                "id": "",
+                "role": "",
+                "instructions": "",
+                "route": {
+                  "provider": "xai",
+                  "model": "",
+                  "inputPerMillionUsdMicros": 0,
+                  "outputPerMillionUsdMicros": 0
+                }
+              }
+            ]
+          },
+          "rules": [
+            {
+              "id": "",
+              "name": "",
+              "enabled": false,
+              "priority": 0,
+              "taskTypes": [
+                "general"
+              ],
+              "surfaces": [
+                "chat"
+              ],
+              "action": {
+                "kind": "sequential",
+                "routes": [
+                  {
+                    "provider": "xai",
+                    "model": "",
+                    "inputPerMillionUsdMicros": 0,
+                    "outputPerMillionUsdMicros": 0
+                  }
+                ],
+                "synthesisRoute": {
+                  "provider": "xai",
+                  "model": "",
+                  "inputPerMillionUsdMicros": 0,
+                  "outputPerMillionUsdMicros": 0
+                },
+                "minimumSuccessfulResults": 0,
+                "retryPolicy": "fast",
+                "parallelStrategy": "auto",
+                "participants": [
+                  {
+                    "id": "",
+                    "role": "",
+                    "instructions": "",
+                    "route": {
+                      "provider": "xai",
+                      "model": "",
+                      "inputPerMillionUsdMicros": 0,
+                      "outputPerMillionUsdMicros": 0
+                    }
+                  }
+                ]
+              }
+            }
+          ],
+          "routingPolicy": "locked",
+          "revision": 0,
+          "createdAt": "",
+          "updatedAt": ""
+        }
+      '''
+    }
+  }
+}

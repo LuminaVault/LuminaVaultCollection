@@ -2,10 +2,75 @@ meta {
   name: workflowTemplatesList
   type: http
   seq: 21
+  tags: [
+    Workflows
+  ]
 }
 
 get {
   url: {{baseUrl}}/v1/workflow-templates
   body: none
   auth: inherit
+}
+
+example {
+  name: 200 Response
+  description: Curated first-party templates.
+
+  request: {
+    url: {{baseUrl}}/v1/workflow-templates
+    method: GET
+    mode: none
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "templates": [
+            {
+              "id": "",
+              "name": "",
+              "descriptionText": "",
+              "category": "",
+              "definition": {
+                "schemaVersion": 0,
+                "trigger": "manual",
+                "triggerConfiguration": {},
+                "nodes": [
+                  {
+                    "id": "",
+                    "kind": "trigger",
+                    "name": "",
+                    "x": 0,
+                    "y": 0,
+                    "configuration": {}
+                  }
+                ],
+                "edges": [
+                  {
+                    "id": "",
+                    "sourceNodeID": "",
+                    "sourcePort": "",
+                    "targetNodeID": "",
+                    "targetPort": ""
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      '''
+    }
+  }
 }

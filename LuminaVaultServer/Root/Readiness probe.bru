@@ -1,0 +1,43 @@
+meta {
+  name: Readiness probe
+  type: http
+  seq: 2
+  tags: [
+    Root
+  ]
+}
+
+get {
+  url: {{baseUrl}}/health
+  body: none
+  auth: inherit
+}
+
+example {
+  name: 200 Response
+  description: ok
+
+  request: {
+    url: {{baseUrl}}/health
+    method: GET
+    mode: none
+  }
+
+  response: {
+    headers: {
+      Content-Type: text/plain
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: text
+      content: '''
+
+      '''
+    }
+  }
+}

@@ -1,0 +1,46 @@
+meta {
+  name: Deprecated. Use POST /v1/memory-compile
+  type: http
+  seq: 3
+  tags: [
+    KB
+  ]
+}
+
+post {
+  url: {{baseUrl}}/v1/kb-compile
+  body: none
+  auth: inherit
+}
+
+docs {
+  Returns 308 Permanent Redirect to `/v1/memory-compile`. Kept one
+  milestone after the rename for client-migration safety. Will be
+  removed once telemetry shows zero callers remaining.
+
+}
+
+example {
+  name: 308 Response
+  description: Permanent redirect to the canonical path.
+
+  request: {
+    url: {{baseUrl}}/v1/kb-compile
+    method: POST
+    mode: none
+  }
+
+  response: {
+    status: {
+      code: 308
+      text: Permanent Redirect
+    }
+
+    body: {
+      type: text
+      content: '''
+
+      '''
+    }
+  }
+}

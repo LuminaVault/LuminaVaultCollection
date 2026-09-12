@@ -1,0 +1,65 @@
+meta {
+  name: Get per-user primary model + fallback chain (HER-252)
+  type: http
+  seq: 26
+  tags: [
+    Me
+  ]
+}
+
+get {
+  url: {{baseUrl}}/v1/me/preferences/llm
+  body: none
+  auth: inherit
+}
+
+docs {
+  Always returns 200. If no row exists, returns a deployment-default
+  primary so clients have something sensible to render.
+
+}
+
+example {
+  name: 200 Response
+  description: Preference snapshot (real or default).
+
+  request: {
+    url: {{baseUrl}}/v1/me/preferences/llm
+    method: GET
+    mode: none
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "mode": "managed",
+          "primaryProvider": "xai",
+          "primaryModel": "",
+          "fallbackChain": [
+            {
+              "provider": "xai",
+              "model": ""
+            }
+          ],
+          "allowedProviders": [
+            "xai"
+          ],
+          "blockedProviders": [
+            "xai"
+          ]
+        }
+      '''
+    }
+  }
+}

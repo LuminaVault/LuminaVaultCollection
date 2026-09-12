@@ -2,6 +2,9 @@ meta {
   name: marketplaceReviews
   type: http
   seq: 3
+  tags: [
+    Marketplace
+  ]
 }
 
 get {
@@ -12,4 +15,48 @@ get {
 
 params:path {
   slug:
+}
+
+example {
+  name: 200 Response
+  description: Published reviews.
+
+  request: {
+    url: {{baseUrl}}/v1/marketplace/plugins/:slug/reviews
+    method: GET
+    mode: none
+    params:path: {
+      slug:
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "items": [
+            {
+              "id": "",
+              "rating": 0,
+              "body": "",
+              "authorUsername": "",
+              "verifiedInstall": false,
+              "createdAt": "",
+              "updatedAt": ""
+            }
+          ]
+        }
+      '''
+    }
+  }
 }

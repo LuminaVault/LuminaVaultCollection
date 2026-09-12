@@ -1,0 +1,81 @@
+meta {
+  name: Update a space
+  type: http
+  seq: 4
+  tags: [
+    Spaces
+  ]
+}
+
+put {
+  url: {{baseUrl}}/v1/spaces/:id
+  body: json
+  auth: inherit
+}
+
+params:path {
+  id:
+}
+
+body:json {
+  {
+    "name": "",
+    "description": "",
+    "color": "",
+    "icon": "",
+    "category": ""
+  }
+}
+
+example {
+  name: 200 Response
+  description: Updated space.
+
+  request: {
+    url: {{baseUrl}}/v1/spaces/:id
+    method: PUT
+    mode: json
+    params:path: {
+      id:
+    }
+
+    body:json: {
+      {
+        "name": "",
+        "description": "",
+        "color": "",
+        "icon": "",
+        "category": ""
+      }
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "id": "",
+          "name": "",
+          "slug": "",
+          "description": "",
+          "color": "",
+          "icon": "",
+          "category": "",
+          "noteCount": 0,
+          "lastCompiledAt": "",
+          "createdAt": ""
+        }
+      '''
+    }
+  }
+}

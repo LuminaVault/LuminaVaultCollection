@@ -1,0 +1,45 @@
+meta {
+  name: Deprecated. Use GET /v1/memory-compile/pending
+  type: http
+  seq: 4
+  tags: [
+    KB
+  ]
+}
+
+get {
+  url: {{baseUrl}}/v1/kb-compile/pending
+  body: none
+  auth: inherit
+}
+
+docs {
+  Returns 308 Permanent Redirect to `/v1/memory-compile/pending`.
+  Kept one milestone after the rename for client-migration safety.
+
+}
+
+example {
+  name: 308 Response
+  description: Permanent redirect to the canonical path.
+
+  request: {
+    url: {{baseUrl}}/v1/kb-compile/pending
+    method: GET
+    mode: none
+  }
+
+  response: {
+    status: {
+      code: 308
+      text: Permanent Redirect
+    }
+
+    body: {
+      type: text
+      content: '''
+
+      '''
+    }
+  }
+}

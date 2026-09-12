@@ -1,0 +1,114 @@
+meta {
+  name: Create a reminder
+  type: http
+  seq: 2
+  tags: [
+    Reminders
+  ]
+}
+
+post {
+  url: {{baseUrl}}/v1/reminders
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "title": "",
+    "body": "",
+    "fireAt": "",
+    "recurrenceCron": ""
+  }
+}
+
+docs {
+  `fireAt` is the first delivery time. Set `recurrenceCron` (a 5-field
+  cron expression) for a recurring reminder; omit it for one-shot.
+
+}
+
+example {
+  name: 200 Response
+  description: Created reminder.
+
+  request: {
+    url: {{baseUrl}}/v1/reminders
+    method: POST
+    mode: json
+    body:json: {
+      {
+        "title": "",
+        "body": "",
+        "fireAt": "",
+        "recurrenceCron": ""
+      }
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "id": "",
+          "title": "",
+          "body": "",
+          "fireAt": "",
+          "recurrenceCron": "",
+          "firedAt": "",
+          "createdAt": ""
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: 400 Response
+  description: Missing title or invalid recurrence cron.
+
+  request: {
+    url: {{baseUrl}}/v1/reminders
+    method: POST
+    mode: json
+    body:json: {
+      {
+        "title": "",
+        "body": "",
+        "fireAt": "",
+        "recurrenceCron": ""
+      }
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 400
+      text: Bad Request
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "error": "",
+          "message": ""
+        }
+      '''
+    }
+  }
+}

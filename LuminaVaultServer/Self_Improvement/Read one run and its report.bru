@@ -1,0 +1,99 @@
+meta {
+  name: Read one run and its report
+  type: http
+  seq: 5
+  tags: [
+    Self_Improvement
+  ]
+}
+
+get {
+  url: {{baseUrl}}/v1/me/improvement/runs/:id
+  body: none
+  auth: inherit
+}
+
+params:path {
+  id:
+}
+
+example {
+  name: 200 Response
+  description: Run detail.
+
+  request: {
+    url: {{baseUrl}}/v1/me/improvement/runs/:id
+    method: GET
+    mode: none
+    params:path: {
+      id:
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "id": "",
+          "kind": "curator",
+          "status": "queued",
+          "trigger": "manual",
+          "dryRun": false,
+          "modelUsed": "",
+          "reportMarkdown": "",
+          "actionsApplied": 0,
+          "actionsSkipped": 0,
+          "startedAt": "",
+          "endedAt": "",
+          "createdAt": "",
+          "failureReason": ""
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: 404 Response
+  description: Resource not found.
+
+  request: {
+    url: {{baseUrl}}/v1/me/improvement/runs/:id
+    method: GET
+    mode: none
+    params:path: {
+      id:
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 404
+      text: Not Found
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "error": "",
+          "message": ""
+        }
+      '''
+    }
+  }
+}

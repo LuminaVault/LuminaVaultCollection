@@ -1,0 +1,153 @@
+meta {
+  name: Derived second-brain graph for the current tenant (HER-235)
+  type: http
+  seq: 11
+  tags: [
+    Memory
+  ]
+}
+
+get {
+  url: {{baseUrl}}/v1/memory/graph
+  body: none
+  auth: inherit
+}
+
+params:query {
+  @description('Max number of nodes returned per source (memories, and wiki pages).')
+  limit: 500
+  @description('''
+    Minimum cosine similarity (1 - pgvector distance) required for a
+    semantic edge. Values in [0, 1]; 0 keeps every comparable pair.
+
+  ''')
+  similarityThreshold: 0.78
+  @description('''
+    After all edge kinds are merged, each node is pruned to its top-K
+    strongest edges (undirected); explicit links win over inferred.
+
+  ''')
+  maxEdgesPerNode: 8
+  @description('When true (default), text-like vault files are added as wiki-page nodes.')
+  includeWikiPages: true
+  @description('''
+    CSV of edge kinds to compute (wikilink,tag,space,semantic,temporal).
+    Absent or empty computes every kind.
+
+  ''')
+  kinds: wikilink,space,semantic
+  @description('CSV provider identifiers.')
+  ~providers:
+  @description('CSV model identifiers.')
+  ~models:
+  @description('CSV memory source kinds.')
+  ~sources:
+  ~createdAfter:
+  ~createdBefore:
+}
+
+docs {
+  Nodes are memories and (optionally) wiki pages — one per text-like
+  vault file. Edges are derived on read: wikilink (memory→source page
+  lineage), tag, space (shared Space), semantic (pgvector cosine), and
+  temporal (same-day proximity). No edges are persisted in v1.
+
+}
+
+example {
+  name: 200 Response
+  description: Derived graph for the current tenant.
+
+  request: {
+    url: {{baseUrl}}/v1/memory/graph
+    method: GET
+    mode: none
+    params:query: {
+      limit: 500
+      similarityThreshold: 0.78
+      maxEdgesPerNode: 8
+      includeWikiPages: true
+      kinds: wikilink,space,semantic
+      ~providers:
+      ~models:
+      ~sources:
+      ~createdAfter:
+      ~createdBefore:
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "nodes": [
+            {
+              "id": "",
+              "title": "",
+              "tags": [],
+              "createdAt": "",
+              "score": 0,
+              "kind": "",
+              "spaceID": "",
+              "activity": 0,
+              "position": "",
+              "provenance": {
+                "createdBy": {
+                  "id": "",
+                  "operation": "create",
+                  "actor": "user",
+                  "source": "manual",
+                  "model": {
+                    "provider": "",
+                    "model": ""
+                  },
+                  "sourceReference": "",
+                  "createdAt": ""
+                },
+                "lastUpdatedBy": {
+                  "id": "",
+                  "operation": "create",
+                  "actor": "user",
+                  "source": "manual",
+                  "model": {
+                    "provider": "",
+                    "model": ""
+                  },
+                  "sourceReference": "",
+                  "createdAt": ""
+                },
+                "contributors": [
+                  {
+                    "provider": "",
+                    "model": ""
+                  }
+                ]
+              }
+            }
+          ],
+          "edges": [
+            {
+              "from": "",
+              "to": "",
+              "kind": "wikilink",
+              "tag": "",
+              "similarity": 0,
+              "weight": 0
+            }
+          ],
+          "generatedAt": ""
+        }
+      '''
+    }
+  }
+}

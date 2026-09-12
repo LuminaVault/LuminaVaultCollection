@@ -1,0 +1,116 @@
+meta {
+  name: Delete a non-default persona
+  type: http
+  seq: 5
+  tags: [
+    Profiles
+  ]
+}
+
+delete {
+  url: {{baseUrl}}/v1/profiles/:slug
+  body: none
+  auth: inherit
+}
+
+params:path {
+  slug:
+}
+
+example {
+  name: 204 Response
+  description: Row deleted.
+
+  request: {
+    url: {{baseUrl}}/v1/profiles/:slug
+    method: DELETE
+    mode: none
+    params:path: {
+      slug:
+    }
+  }
+
+  response: {
+    status: {
+      code: 204
+      text: No Content
+    }
+
+    body: {
+      type: text
+      content: '''
+
+      '''
+    }
+  }
+}
+
+example {
+  name: 404 Response
+  description: Unknown persona (`profile_not_found`).
+
+  request: {
+    url: {{baseUrl}}/v1/profiles/:slug
+    method: DELETE
+    mode: none
+    params:path: {
+      slug:
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 404
+      text: Not Found
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "error": "",
+          "message": ""
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: 409 Response
+  description: Cannot delete the default persona (`cannot_delete_default`).
+
+  request: {
+    url: {{baseUrl}}/v1/profiles/:slug
+    method: DELETE
+    mode: none
+    params:path: {
+      slug:
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 409
+      text: Conflict
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "error": "",
+          "message": ""
+        }
+      '''
+    }
+  }
+}

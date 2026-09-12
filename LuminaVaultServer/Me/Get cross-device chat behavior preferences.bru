@@ -1,0 +1,80 @@
+meta {
+  name: Get cross-device chat behavior preferences
+  type: http
+  seq: 28
+  tags: [
+    Me
+  ]
+}
+
+get {
+  url: {{baseUrl}}/v1/me/chat-preferences
+  body: none
+  auth: inherit
+}
+
+example {
+  name: 200 Response
+  description: Chat preference snapshot, defaulted when no row exists.
+
+  request: {
+    url: {{baseUrl}}/v1/me/chat-preferences
+    method: GET
+    mode: none
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "preferences": {
+            "autoExpandThinking": false,
+            "sendOnReturn": false
+          }
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: 401 Response
+  description: Missing / invalid credential.
+
+  request: {
+    url: {{baseUrl}}/v1/me/chat-preferences
+    method: GET
+    mode: none
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 401
+      text: Unauthorized
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "error": "",
+          "message": ""
+        }
+      '''
+    }
+  }
+}

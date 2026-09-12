@@ -1,0 +1,46 @@
+meta {
+  name: Delete a non-default custom profile
+  type: http
+  seq: 4
+  tags: [
+    LLM
+  ]
+}
+
+delete {
+  url: {{baseUrl}}/v1/router/:id
+  body: none
+  auth: inherit
+}
+
+params:path {
+  id:
+}
+
+example {
+  name: 204 Response
+  description: Deleted.
+
+  request: {
+    url: {{baseUrl}}/v1/router/:id
+    method: DELETE
+    mode: none
+    params:path: {
+      id:
+    }
+  }
+
+  response: {
+    status: {
+      code: 204
+      text: No Content
+    }
+
+    body: {
+      type: text
+      content: '''
+
+      '''
+    }
+  }
+}

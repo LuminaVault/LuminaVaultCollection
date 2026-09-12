@@ -1,0 +1,190 @@
+meta {
+  name: Pull this job's finished runs from the tenant's Hermes now
+  type: http
+  seq: 20
+  tags: [
+    Settings
+  ]
+}
+
+post {
+  url: {{baseUrl}}/v1/hermes/mirror/jobs/:id/collect
+  body: none
+  auth: inherit
+}
+
+params:path {
+  id:
+}
+
+docs {
+  Idempotent — runs already stored (matched on Hermes' own run key) are
+  skipped, so calling this repeatedly costs one listing and no output
+  reads. Each new run's non-empty output is written to the vault as
+  `raw/jobs/<job-slug>/<yyyy-MM-dd-HHmm>.md` (provenance `hermes-job`)
+  and logged as a `hermes` skill run so it appears on the Today feed.
+  Caps: 50 runs per job per call, 256 KiB of stored output per run —
+  `truncated: true` means the listing filled the cap. Runs still in
+  flight are left for a later call. The background refresh worker runs
+  the same pass every tick; this route only shortens the wait.
+
+}
+
+example {
+  name: 200 Response
+  description: Counts for this pass and the job's new high-water mark.
+
+  request: {
+    url: {{baseUrl}}/v1/hermes/mirror/jobs/:id/collect
+    method: POST
+    mode: none
+    params:path: {
+      id:
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "hermesJobID": "",
+          "fetched": 0,
+          "inserted": 0,
+          "skipped": 0,
+          "filesWritten": 0,
+          "truncated": false,
+          "highWaterMark": ""
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: 400 Response
+  description: `hermes_job_id_required` or `hermes_mirror_invalid_path`.
+
+  request: {
+    url: {{baseUrl}}/v1/hermes/mirror/jobs/:id/collect
+    method: POST
+    mode: none
+    params:path: {
+      id:
+    }
+  }
+
+  response: {
+    status: {
+      code: 400
+      text: Bad Request
+    }
+
+    body: {
+      type: text
+      content: '''
+
+      '''
+    }
+  }
+}
+
+example {
+  name: 404 Response
+  description: The job is not mirrored for this tenant (`hermes_job_not_found`).
+
+  request: {
+    url: {{baseUrl}}/v1/hermes/mirror/jobs/:id/collect
+    method: POST
+    mode: none
+    params:path: {
+      id:
+    }
+  }
+
+  response: {
+    status: {
+      code: 404
+      text: Not Found
+    }
+
+    body: {
+      type: text
+      content: '''
+
+      '''
+    }
+  }
+}
+
+example {
+  name: 409 Response
+  description: Another mirror operation is running for this tenant (`hermes_mirror_busy`).
+
+  request: {
+    url: {{baseUrl}}/v1/hermes/mirror/jobs/:id/collect
+    method: POST
+    mode: none
+    params:path: {
+      id:
+    }
+  }
+
+  response: {
+    status: {
+      code: 409
+      text: Conflict
+    }
+
+    body: {
+      type: text
+      content: '''
+
+      '''
+    }
+  }
+}
+
+example {
+  name: 502 Response
+  description: Hermes refused or was unreachable (stable code in `message`).
+
+  request: {
+    url: {{baseUrl}}/v1/hermes/mirror/jobs/:id/collect
+    method: POST
+    mode: none
+    params:path: {
+      id:
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 502
+      text: Bad Gateway
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "error": "",
+          "message": ""
+        }
+      '''
+    }
+  }
+}

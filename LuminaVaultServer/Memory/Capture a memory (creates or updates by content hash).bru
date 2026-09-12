@@ -1,0 +1,102 @@
+meta {
+  name: Capture a memory (creates or updates by content hash)
+  type: http
+  seq: 2
+  tags: [
+    Memory
+  ]
+}
+
+post {
+  url: {{baseUrl}}/v1/memory/upsert
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "content": "",
+    "tags": [],
+    "sourceVaultFileId": ""
+  }
+}
+
+example {
+  name: 200 Response
+  description: Stored memory.
+
+  request: {
+    url: {{baseUrl}}/v1/memory/upsert
+    method: POST
+    mode: json
+    body:json: {
+      {
+        "content": "",
+        "tags": [],
+        "sourceVaultFileId": ""
+      }
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "id": "",
+          "content": "",
+          "tags": [],
+          "score": 0,
+          "accessCount": 0,
+          "queryHitCount": 0,
+          "lastAccessedAt": "",
+          "createdAt": "",
+          "updatedAt": "",
+          "sourceVaultFileId": "",
+          "reviewState": "auto",
+          "provenance": {
+            "createdBy": {
+              "id": "",
+              "operation": "create",
+              "actor": "user",
+              "source": "manual",
+              "model": {
+                "provider": "",
+                "model": ""
+              },
+              "sourceReference": "",
+              "createdAt": ""
+            },
+            "lastUpdatedBy": {
+              "id": "",
+              "operation": "create",
+              "actor": "user",
+              "source": "manual",
+              "model": {
+                "provider": "",
+                "model": ""
+              },
+              "sourceReference": "",
+              "createdAt": ""
+            },
+            "contributors": [
+              {
+                "provider": "",
+                "model": ""
+              }
+            ]
+          }
+        }
+      '''
+    }
+  }
+}

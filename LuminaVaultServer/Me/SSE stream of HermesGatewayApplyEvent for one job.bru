@@ -1,0 +1,90 @@
+meta {
+  name: SSE stream of HermesGatewayApplyEvent for one job
+  type: http
+  seq: 22
+  tags: [
+    Me
+  ]
+}
+
+get {
+  url: {{baseUrl}}/v1/me/hermes-gateways/apply/:jobID/stream
+  body: none
+  auth: inherit
+}
+
+params:path {
+  jobID:
+}
+
+docs {
+  `text/event-stream`; each `data:` line is one JSON-encoded `HermesGatewayApplyEvent` (discriminated by `type`), blank-line terminated.
+
+}
+
+example {
+  name: 200 Response
+  description: Event stream.
+
+  request: {
+    url: {{baseUrl}}/v1/me/hermes-gateways/apply/:jobID/stream
+    method: GET
+    mode: none
+    params:path: {
+      jobID:
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: text/event-stream
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: text
+      content: '''
+
+      '''
+    }
+  }
+}
+
+example {
+  name: 404 Response
+  description: Resource not found.
+
+  request: {
+    url: {{baseUrl}}/v1/me/hermes-gateways/apply/:jobID/stream
+    method: GET
+    mode: none
+    params:path: {
+      jobID:
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 404
+      text: Not Found
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "error": "",
+          "message": ""
+        }
+      '''
+    }
+  }
+}

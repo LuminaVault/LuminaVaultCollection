@@ -1,0 +1,97 @@
+meta {
+  name: Compile vault rows through the Hermes learning loop ("Sync & Learn")
+  type: http
+  seq: 1
+  tags: [
+    KB
+  ]
+}
+
+post {
+  url: {{baseUrl}}/v1/memory-compile
+  body: json
+  auth: inherit
+}
+
+headers {
+  @description('''
+    HER-39 — client-generated UUIDv4. Retrying a mutating request with the same key (within 24 h) replays the cached response instead of re-executing the handler. Reusing a key with a different request body returns 409. Tenant-scoped: the same key value across different tenants does not collide.
+
+  ''')
+  ~Idempotency-Key:
+}
+
+body:json {
+  {
+    "vaultFileIds": [],
+    "forceFullRecompile": false
+  }
+}
+
+docs {
+  Reads `vault_files` rows for the caller and runs the per-tenant Hermes
+  agent loop over them. Three input modes:
+
+    * `vaultFileIds == null` (default) — compile every row where
+      `processed_at` is null. This is the one-tap UX behind the iOS
+      "Sync & Learn" button.
+    * `vaultFileIds == [ids]` — compile exactly those rows (tenant-scoped).
+    * `forceFullRecompile == true` — compile every row for the tenant,
+      ignoring `processed_at` and any explicit IDs.
+
+  Tap-with-nothing-pending is a no-op success: `memoriesIngested: 0` and
+  no side effects. First successful compile flips
+  `OnboardingState.firstKBCompileCompleted` (wire-format field name
+  preserved for backward compat) and emits the `kb_compiled` achievement
+  event.
+
+  HER-240 / spec ticket #2 — renamed from `/v1/kb-compile`. The legacy
+  path returns 308 Permanent Redirect to this one through one milestone
+  for client-migration safety.
+
+}
+
+example {
+  name: 200 Response
+  description: Compile result.
+
+  request: {
+    url: {{baseUrl}}/v1/memory-compile
+    method: POST
+    mode: json
+    headers: {
+      ~Idempotency-Key:
+    }
+
+    body:json: {
+      {
+        "vaultFileIds": [],
+        "forceFullRecompile": false
+      }
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "memoriesIngested": 0,
+          "memoriesUpdated": 0,
+          "durationMs": 0,
+          "runId": "",
+          "pendingMemoryIds": []
+        }
+      '''
+    }
+  }
+}

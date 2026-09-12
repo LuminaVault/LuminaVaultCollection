@@ -1,0 +1,51 @@
+meta {
+  name: Stream the full per-tenant vault as a ZIP (HER-91)
+  type: http
+  seq: 6
+  tags: [
+    Vault
+  ]
+}
+
+get {
+  url: {{baseUrl}}/v1/vault/export
+  body: none
+  auth: inherit
+}
+
+params:query {
+  @description('Optional incremental cutoff.')
+  ~since:
+}
+
+example {
+  name: 200 Response
+  description: ZIP stream.
+
+  request: {
+    url: {{baseUrl}}/v1/vault/export
+    method: GET
+    mode: none
+    params:query: {
+      ~since:
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/zip
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: text
+      content: '''
+
+      '''
+    }
+  }
+}

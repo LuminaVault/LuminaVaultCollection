@@ -2,6 +2,9 @@ meta {
   name: synthesisPresetCreate
   type: http
   seq: 15
+  tags: [
+    LLM
+  ]
 }
 
 post {
@@ -14,5 +17,46 @@ body:json {
   {
     "name": "",
     "prompt": ""
+  }
+}
+
+example {
+  name: 200 Response
+  description: Created preset.
+
+  request: {
+    url: {{baseUrl}}/v1/router/synthesis-presets
+    method: POST
+    mode: json
+    body:json: {
+      {
+        "name": "",
+        "prompt": ""
+      }
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "id": "",
+          "name": "",
+          "prompt": "",
+          "createdAt": "",
+          "updatedAt": ""
+        }
+      '''
+    }
   }
 }

@@ -1,0 +1,55 @@
+meta {
+  name: Month-to-date prompt-free routing, cost, and performance analytics
+  type: http
+  seq: 9
+  tags: [
+    LLM
+  ]
+}
+
+get {
+  url: {{baseUrl}}/v1/router/dashboard
+  body: none
+  auth: inherit
+}
+
+example {
+  name: 200 Response
+  description: Router analytics.
+
+  request: {
+    url: {{baseUrl}}/v1/router/dashboard
+    method: GET
+    mode: none
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "periodStart": "",
+          "periodEnd": "",
+          "requests": 0,
+          "successfulRequests": 0,
+          "fallbackCount": 0,
+          "tokensIn": 0,
+          "tokensOut": 0,
+          "estimatedCostUsdMicros": 0,
+          "averageLatencyMs": 0,
+          "monthlySoftLimitUsdMicros": 0,
+          "monthlyHardLimitUsdMicros": 0
+        }
+      '''
+    }
+  }
+}

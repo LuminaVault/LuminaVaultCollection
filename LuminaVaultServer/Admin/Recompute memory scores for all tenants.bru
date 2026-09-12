@@ -1,0 +1,50 @@
+meta {
+  name: Recompute memory scores for all tenants
+  type: http
+  seq: 7
+  tags: [
+    Admin
+  ]
+}
+
+post {
+  url: {{baseUrl}}/v1/admin/memory/recompute
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+example {
+  name: 200 Response
+  description: Recompute summary.
+
+  request: {
+    url: {{baseUrl}}/v1/admin/memory/recompute
+    method: POST
+    mode: none
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "memoriesScored": 0,
+          "durationMs": 0
+        }
+      '''
+    }
+  }
+}

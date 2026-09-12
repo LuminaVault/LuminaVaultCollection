@@ -1,0 +1,54 @@
+meta {
+  name: Mark a memory as explicitly reviewed now
+  type: http
+  seq: 9
+  tags: [
+    Memory
+  ]
+}
+
+post {
+  url: {{baseUrl}}/v1/memory/:id/review
+  body: none
+  auth: inherit
+}
+
+params:path {
+  id:
+}
+
+example {
+  name: 200 Response
+  description: Updated review metadata.
+
+  request: {
+    url: {{baseUrl}}/v1/memory/:id/review
+    method: POST
+    mode: none
+    params:path: {
+      id:
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "memoryId": "",
+          "reviewedAt": "",
+          "reviewCount": 0
+        }
+      '''
+    }
+  }
+}

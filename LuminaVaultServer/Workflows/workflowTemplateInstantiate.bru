@@ -2,6 +2,9 @@ meta {
   name: workflowTemplateInstantiate
   type: http
   seq: 22
+  tags: [
+    Workflows
+  ]
 }
 
 post {
@@ -17,5 +20,83 @@ params:path {
 body:json {
   {
     "name": ""
+  }
+}
+
+example {
+  name: 200 Response
+  description: Workflow draft created from template.
+
+  request: {
+    url: {{baseUrl}}/v1/workflow-templates/:templateID/instantiate
+    method: POST
+    mode: json
+    params:path: {
+      templateID:
+    }
+
+    body:json: {
+      {
+        "name": ""
+      }
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "workflow": {
+            "id": "",
+            "name": "",
+            "descriptionText": "",
+            "enabled": false,
+            "trigger": "manual",
+            "draftRevision": 0,
+            "publishedVersion": 0,
+            "lastRunStatus": "queued",
+            "lastRunAt": "",
+            "pendingApprovalCount": 0,
+            "isLegacyJob": false,
+            "createdAt": "",
+            "updatedAt": ""
+          },
+          "definition": {
+            "schemaVersion": 0,
+            "trigger": "manual",
+            "triggerConfiguration": {},
+            "nodes": [
+              {
+                "id": "",
+                "kind": "trigger",
+                "name": "",
+                "x": 0,
+                "y": 0,
+                "configuration": {}
+              }
+            ],
+            "edges": [
+              {
+                "id": "",
+                "sourceNodeID": "",
+                "sourcePort": "",
+                "targetNodeID": "",
+                "targetPort": ""
+              }
+            ]
+          }
+        }
+      '''
+    }
   }
 }

@@ -2,10 +2,47 @@ meta {
   name: vaultMembersRemove
   type: http
   seq: 16
+  tags: [
+    Teams
+  ]
 }
 
 delete {
   url: {{baseUrl}}/v1/vaults/:vaultID/members/:userID
   body: none
   auth: inherit
+}
+
+params:path {
+  vaultID:
+  userID:
+}
+
+example {
+  name: 204 Response
+  description: Member removed.
+
+  request: {
+    url: {{baseUrl}}/v1/vaults/:vaultID/members/:userID
+    method: DELETE
+    mode: none
+    params:path: {
+      vaultID:
+      userID:
+    }
+  }
+
+  response: {
+    status: {
+      code: 204
+      text: No Content
+    }
+
+    body: {
+      type: text
+      content: '''
+
+      '''
+    }
+  }
 }

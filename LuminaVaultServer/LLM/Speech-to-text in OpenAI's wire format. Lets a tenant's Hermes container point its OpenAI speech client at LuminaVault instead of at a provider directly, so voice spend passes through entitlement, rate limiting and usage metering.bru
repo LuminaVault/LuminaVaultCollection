@@ -1,0 +1,261 @@
+meta {
+  name: Speech-to-text in OpenAI's wire format. Lets a tenant's Hermes container point its OpenAI speech client at LuminaVault instead of at a provider directly, so voice spend passes through entitlement, rate limiting and usage metering
+  type: http
+  seq: 20
+  tags: [
+    LLM
+  ]
+}
+
+post {
+  url: {{baseUrl}}/v1/audio/transcriptions
+  body: multipartForm
+  auth: inherit
+}
+
+headers {
+  @description('The messaging platform this audio arrived on ("telegram", "discord", …), used only to attribute usage metering. Advisory: an absent or unrecognised value is recorded as "unknown" and never rejects the request, because a voice note must not fail over attribution. The value is reduced to a bare [a-z0-9_-] token, truncated at the first character outside that set. /v1/transcribe defaults to "app" when the header is absent, since that route is the iOS microphone surface.')
+  X-Lumina-Channel: telegram
+}
+
+body:multipart-form {
+  @description("Audio bytes. The filename matters: the format is resolved from its extension before the part's Content-Type, because upstream providers dispatch on the extension.")
+  file: @file()
+  model:
+  language:
+  prompt:
+  temperature:
+  response_format: json
+}
+
+docs {
+  Errors use OpenAI's envelope ({"error":{"message",...}}) rather than the LuminaVault error shape, because the OpenAI SDK reads error.message and callers surface it to end users. Audio format is resolved from the file part's filename extension first and its Content-Type second. Accepts up to 25 MB.
+}
+
+example {
+  name: 200 Response
+  description: Transcript. Shape follows the request's response_format: {"text": ...} for json, the verbose object for verbose_json, and a text/plain body for text, srt and vtt.
+
+  request: {
+    url: {{baseUrl}}/v1/audio/transcriptions
+    method: POST
+    mode: multipartForm
+    headers: {
+      X-Lumina-Channel: telegram
+    }
+
+    body:multipart-form: {
+      file: @file()
+      model:
+      language:
+      prompt:
+      temperature:
+      response_format: json
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "text": ""
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: 200 Response
+  description: Transcript. Shape follows the request's response_format: {"text": ...} for json, the verbose object for verbose_json, and a text/plain body for text, srt and vtt.
+
+  request: {
+    url: {{baseUrl}}/v1/audio/transcriptions
+    method: POST
+    mode: multipartForm
+    headers: {
+      X-Lumina-Channel: telegram
+    }
+
+    body:multipart-form: {
+      file: @file()
+      model:
+      language:
+      prompt:
+      temperature:
+      response_format: json
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: text/plain
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: text
+      content: '''
+
+      '''
+    }
+  }
+}
+
+example {
+  name: 400 Response
+  description: Malformed multipart body, missing file part, or unsupported format.
+
+  request: {
+    url: {{baseUrl}}/v1/audio/transcriptions
+    method: POST
+    mode: multipartForm
+    headers: {
+      X-Lumina-Channel: telegram
+    }
+
+    body:multipart-form: {
+      file: @file()
+      model:
+      language:
+      prompt:
+      temperature:
+      response_format: json
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 400
+      text: Bad Request
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "error": {
+            "message": "",
+            "type": "",
+            "code": "",
+            "param": ""
+          }
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: 413 Response
+  description: Audio file exceeded the 25 MB cap.
+
+  request: {
+    url: {{baseUrl}}/v1/audio/transcriptions
+    method: POST
+    mode: multipartForm
+    headers: {
+      X-Lumina-Channel: telegram
+    }
+
+    body:multipart-form: {
+      file: @file()
+      model:
+      language:
+      prompt:
+      temperature:
+      response_format: json
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 413
+      text: Payload Too Large
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "error": {
+            "message": "",
+            "type": "",
+            "code": "",
+            "param": ""
+          }
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: 429 Response
+  description: Voice rate limit or daily allowance exhausted.
+
+  request: {
+    url: {{baseUrl}}/v1/audio/transcriptions
+    method: POST
+    mode: multipartForm
+    headers: {
+      X-Lumina-Channel: telegram
+    }
+
+    body:multipart-form: {
+      file: @file()
+      model:
+      language:
+      prompt:
+      temperature:
+      response_format: json
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 429
+      text: Too Many Requests
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "error": {
+            "message": "",
+            "type": "",
+            "code": "",
+            "param": ""
+          }
+        }
+      '''
+    }
+  }
+}

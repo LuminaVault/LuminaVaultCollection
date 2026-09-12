@@ -1,0 +1,101 @@
+meta {
+  name: Apply a non-stale SOUL.md proposal
+  type: http
+  seq: 11
+  tags: [
+    Self_Improvement
+  ]
+}
+
+post {
+  url: {{baseUrl}}/v1/me/improvement/changes/:id/approve
+  body: none
+  auth: inherit
+}
+
+params:path {
+  id:
+}
+
+example {
+  name: 200 Response
+  description: Applied proposal.
+
+  request: {
+    url: {{baseUrl}}/v1/me/improvement/changes/:id/approve
+    method: POST
+    mode: none
+    params:path: {
+      id:
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "change": {
+            "id": "",
+            "kind": "curator",
+            "state": "pending",
+            "trigger": "manual",
+            "title": "",
+            "summary": "",
+            "patch": "",
+            "baseSHA256": "",
+            "reportMarkdown": "",
+            "failureReason": "",
+            "createdAt": "",
+            "decidedAt": "",
+            "appliedAt": ""
+          }
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: 409 Response
+  description: Resource conflict (e.g. duplicate registration).
+
+  request: {
+    url: {{baseUrl}}/v1/me/improvement/changes/:id/approve
+    method: POST
+    mode: none
+    params:path: {
+      id:
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 409
+      text: Conflict
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "error": "",
+          "message": ""
+        }
+      '''
+    }
+  }
+}

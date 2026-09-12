@@ -1,0 +1,66 @@
+meta {
+  name: Unified recent-activity feed for the Home dashboard
+  type: http
+  seq: 5
+  tags: [
+    Dashboard
+  ]
+}
+
+get {
+  url: {{baseUrl}}/v1/dashboard/activity
+  body: none
+  auth: inherit
+}
+
+params:query {
+  limit: 20
+}
+
+docs {
+  Union of recent conversations, memories, achievement unlocks, and
+  skill runs, newest first. Per-tenant, capped (default 20).
+
+}
+
+example {
+  name: 200 Response
+  description: Recent activity items, newest first.
+
+  request: {
+    url: {{baseUrl}}/v1/dashboard/activity
+    method: GET
+    mode: none
+    params:query: {
+      limit: 20
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "items": [
+            {
+              "id": "",
+              "kind": "conversation",
+              "title": "",
+              "subtitle": "",
+              "occurredAt": ""
+            }
+          ]
+        }
+      '''
+    }
+  }
+}

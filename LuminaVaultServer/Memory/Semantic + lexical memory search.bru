@@ -1,0 +1,109 @@
+meta {
+  name: Semantic + lexical memory search
+  type: http
+  seq: 3
+  tags: [
+    Memory
+  ]
+}
+
+post {
+  url: {{baseUrl}}/v1/memory/search
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "query": "",
+    "limit": 0,
+    "filters": {}
+  }
+}
+
+example {
+  name: 200 Response
+  description: Ranked results.
+
+  request: {
+    url: {{baseUrl}}/v1/memory/search
+    method: POST
+    mode: json
+    body:json: {
+      {
+        "query": "",
+        "limit": 0,
+        "filters": {}
+      }
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "results": [
+            {
+              "memory": {
+                "id": "",
+                "content": "",
+                "tags": [],
+                "score": 0,
+                "accessCount": 0,
+                "queryHitCount": 0,
+                "lastAccessedAt": "",
+                "createdAt": "",
+                "updatedAt": "",
+                "sourceVaultFileId": "",
+                "reviewState": "auto",
+                "provenance": {
+                  "createdBy": {
+                    "id": "",
+                    "operation": "create",
+                    "actor": "user",
+                    "source": "manual",
+                    "model": {
+                      "provider": "",
+                      "model": ""
+                    },
+                    "sourceReference": "",
+                    "createdAt": ""
+                  },
+                  "lastUpdatedBy": {
+                    "id": "",
+                    "operation": "create",
+                    "actor": "user",
+                    "source": "manual",
+                    "model": {
+                      "provider": "",
+                      "model": ""
+                    },
+                    "sourceReference": "",
+                    "createdAt": ""
+                  },
+                  "contributors": [
+                    {
+                      "provider": "",
+                      "model": ""
+                    }
+                  ]
+                }
+              },
+              "score": 0
+            }
+          ]
+        }
+      '''
+    }
+  }
+}

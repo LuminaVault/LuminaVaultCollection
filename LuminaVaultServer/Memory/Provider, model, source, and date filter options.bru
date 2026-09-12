@@ -1,0 +1,64 @@
+meta {
+  name: Provider, model, source, and date filter options
+  type: http
+  seq: 10
+  tags: [
+    Memory
+  ]
+}
+
+get {
+  url: {{baseUrl}}/v1/memory/facets
+  body: none
+  auth: inherit
+}
+
+example {
+  name: 200 Response
+  description: Available memory facets for the current tenant.
+
+  request: {
+    url: {{baseUrl}}/v1/memory/facets
+    method: GET
+    mode: none
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "providers": [
+            {
+              "value": "",
+              "count": 0
+            }
+          ],
+          "models": [
+            {
+              "value": "",
+              "count": 0
+            }
+          ],
+          "sources": [
+            {
+              "value": "",
+              "count": 0
+            }
+          ],
+          "oldestAt": "",
+          "newestAt": ""
+        }
+      '''
+    }
+  }
+}

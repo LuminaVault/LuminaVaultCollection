@@ -1,0 +1,115 @@
+meta {
+  name: Import past Hermes sessions as markdown transcripts and compile them into memory
+  type: http
+  seq: 23
+  tags: [
+    Settings
+  ]
+}
+
+post {
+  url: {{baseUrl}}/v1/hermes/mirror/vault/import-sessions
+  body: none
+  auth: inherit
+}
+
+docs {
+  Newest-first; empty sessions are skipped; each transcript lands under
+  the "Hermes Sessions" space as `sessions/<date>-<id>.md`. Caps 2000
+  sessions / 1 MiB each / 100 per call — `truncated: true` means call
+  again from `cursor`. A high-water mark keeps later runs incremental.
+
+}
+
+example {
+  name: 200 Response
+  description: Sessions imported this run and whether a compile was triggered.
+
+  request: {
+    url: {{baseUrl}}/v1/hermes/mirror/vault/import-sessions
+    method: POST
+    mode: none
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "sessionsImported": 0,
+          "sessionsSkipped": 0,
+          "filesWritten": 0,
+          "truncated": false,
+          "cursor": "",
+          "compileTriggered": false
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: 409 Response
+  description: An import for this tenant is already running (`hermes_mirror_busy`).
+
+  request: {
+    url: {{baseUrl}}/v1/hermes/mirror/vault/import-sessions
+    method: POST
+    mode: none
+  }
+
+  response: {
+    status: {
+      code: 409
+      text: Conflict
+    }
+
+    body: {
+      type: text
+      content: '''
+
+      '''
+    }
+  }
+}
+
+example {
+  name: 502 Response
+  description: Hermes refused or was unreachable (stable code in `message`).
+
+  request: {
+    url: {{baseUrl}}/v1/hermes/mirror/vault/import-sessions
+    method: POST
+    mode: none
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 502
+      text: Bad Gateway
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "error": "",
+          "message": ""
+        }
+      '''
+    }
+  }
+}

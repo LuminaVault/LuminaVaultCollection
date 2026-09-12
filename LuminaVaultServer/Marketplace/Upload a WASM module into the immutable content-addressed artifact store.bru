@@ -1,0 +1,69 @@
+meta {
+  name: Upload a WASM module into the immutable content-addressed artifact store
+  type: http
+  seq: 12
+  tags: [
+    Marketplace
+  ]
+}
+
+post {
+  url: {{baseUrl}}/v1/marketplace/publisher/plugins/:slug/artifacts
+  body: json
+  auth: inherit
+}
+
+params:path {
+  slug:
+}
+
+body:json {
+  {
+    "fileName": "",
+    "bytesBase64": ""
+  }
+}
+
+example {
+  name: 200 Response
+  description: Stored artifact reference.
+
+  request: {
+    url: {{baseUrl}}/v1/marketplace/publisher/plugins/:slug/artifacts
+    method: POST
+    mode: json
+    params:path: {
+      slug:
+    }
+
+    body:json: {
+      {
+        "fileName": "",
+        "bytesBase64": ""
+      }
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "artifactKey": "",
+          "sha256": "",
+          "sizeBytes": 0,
+          "signature": ""
+        }
+      '''
+    }
+  }
+}

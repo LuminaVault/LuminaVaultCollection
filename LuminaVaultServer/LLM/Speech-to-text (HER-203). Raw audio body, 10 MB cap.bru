@@ -1,0 +1,124 @@
+meta {
+  name: Speech-to-text (HER-203). Raw audio body, 10 MB cap
+  type: http
+  seq: 19
+  tags: [
+    LLM
+  ]
+}
+
+post {
+  url: {{baseUrl}}/v1/transcribe
+  body: none
+  auth: inherit
+}
+
+headers {
+  @description('The messaging platform this audio arrived on ("telegram", "discord", …), used only to attribute usage metering. Advisory: an absent or unrecognised value is recorded as "unknown" and never rejects the request, because a voice note must not fail over attribution. The value is reduced to a bare [a-z0-9_-] token, truncated at the first character outside that set. /v1/transcribe defaults to "app" when the header is absent, since that route is the iOS microphone surface.')
+  X-Lumina-Channel: telegram
+}
+
+docs {
+  Backed by the cluster's own transcription service by default (whisper.horus.svc.cluster.local), which is free per request and keeps audio inside the cluster. The provider is an OpenAI-compatible base URL, so moving to a hosted endpoint is configuration, not code.
+}
+
+example {
+  name: 200 Response
+  description: Transcription result.
+
+  request: {
+    url: {{baseUrl}}/v1/transcribe
+    method: POST
+    mode: none
+    headers: {
+      X-Lumina-Channel: telegram
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "id": "",
+          "text": "",
+          "language": "",
+          "confidence": 0,
+          "duration_seconds": 0,
+          "segments": [
+            {
+              "start": 0,
+              "end": 0,
+              "text": ""
+            }
+          ]
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: 413 Response
+  description: Audio body exceeded the 10 MB cap.
+
+  request: {
+    url: {{baseUrl}}/v1/transcribe
+    method: POST
+    mode: none
+    headers: {
+      X-Lumina-Channel: telegram
+    }
+  }
+
+  response: {
+    status: {
+      code: 413
+      text: Payload Too Large
+    }
+
+    body: {
+      type: text
+      content: '''
+
+      '''
+    }
+  }
+}
+
+example {
+  name: 415 Response
+  description: Content-Type was not an accepted audio format.
+
+  request: {
+    url: {{baseUrl}}/v1/transcribe
+    method: POST
+    mode: none
+    headers: {
+      X-Lumina-Channel: telegram
+    }
+  }
+
+  response: {
+    status: {
+      code: 415
+      text: Unsupported Media Type
+    }
+
+    body: {
+      type: text
+      content: '''
+
+      '''
+    }
+  }
+}

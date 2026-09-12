@@ -1,0 +1,65 @@
+meta {
+  name: Replace the cross-device local/cloud routing profile
+  type: http
+  seq: 31
+  tags: [
+    Me
+  ]
+}
+
+put {
+  url: {{baseUrl}}/v1/me/preferences/hybrid-execution
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "profile": "private",
+    "localFallbackEnabled": false,
+    "cloudFallbackEnabled": false,
+    "syncLocalConversations": false
+  }
+}
+
+example {
+  name: 200 Response
+  description: Updated hybrid execution preferences.
+
+  request: {
+    url: {{baseUrl}}/v1/me/preferences/hybrid-execution
+    method: PUT
+    mode: json
+    body:json: {
+      {
+        "profile": "private",
+        "localFallbackEnabled": false,
+        "cloudFallbackEnabled": false,
+        "syncLocalConversations": false
+      }
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "profile": "private",
+          "localFallbackEnabled": false,
+          "cloudFallbackEnabled": false,
+          "syncLocalConversations": false
+        }
+      '''
+    }
+  }
+}

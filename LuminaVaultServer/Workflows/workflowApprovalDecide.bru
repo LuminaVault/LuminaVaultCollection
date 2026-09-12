@@ -2,6 +2,9 @@ meta {
   name: workflowApprovalDecide
   type: http
   seq: 25
+  tags: [
+    Workflows
+  ]
 }
 
 post {
@@ -19,5 +22,41 @@ body:json {
     "approved": false,
     "note": "",
     "memoryIDs": []
+  }
+}
+
+example {
+  name: 204 Response
+  description: Decision accepted.
+
+  request: {
+    url: {{baseUrl}}/v1/workflows/approvals/:approvalID/decision
+    method: POST
+    mode: json
+    params:path: {
+      approvalID:
+    }
+
+    body:json: {
+      {
+        "approved": false,
+        "note": "",
+        "memoryIDs": []
+      }
+    }
+  }
+
+  response: {
+    status: {
+      code: 204
+      text: No Content
+    }
+
+    body: {
+      type: text
+      content: '''
+
+      '''
+    }
   }
 }

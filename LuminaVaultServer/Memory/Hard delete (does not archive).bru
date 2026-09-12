@@ -1,0 +1,46 @@
+meta {
+  name: Hard delete (does not archive)
+  type: http
+  seq: 6
+  tags: [
+    Memory
+  ]
+}
+
+delete {
+  url: {{baseUrl}}/v1/memory/:id
+  body: none
+  auth: inherit
+}
+
+params:path {
+  id:
+}
+
+example {
+  name: 204 Response
+  description: Deleted.
+
+  request: {
+    url: {{baseUrl}}/v1/memory/:id
+    method: DELETE
+    mode: none
+    params:path: {
+      id:
+    }
+  }
+
+  response: {
+    status: {
+      code: 204
+      text: No Content
+    }
+
+    body: {
+      type: text
+      content: '''
+
+      '''
+    }
+  }
+}

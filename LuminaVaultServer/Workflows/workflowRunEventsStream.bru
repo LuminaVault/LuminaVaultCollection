@@ -2,6 +2,9 @@ meta {
   name: workflowRunEventsStream
   type: http
   seq: 15
+  tags: [
+    Workflows
+  ]
 }
 
 get {
@@ -11,7 +14,7 @@ get {
 }
 
 params:query {
-  ~after:
+  after: 0
 }
 
 params:path {
@@ -20,4 +23,44 @@ params:path {
 
 headers {
   ~Last-Event-ID:
+}
+
+example {
+  name: 200 Response
+  description: Replay followed by live Server-Sent Events.
+
+  request: {
+    url: {{baseUrl}}/v1/workflows/runs/:runID/events/stream
+    method: GET
+    mode: none
+    params:query: {
+      after: 0
+    }
+
+    params:path: {
+      runID:
+    }
+
+    headers: {
+      ~Last-Event-ID:
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: text/event-stream
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: text
+      content: '''
+
+      '''
+    }
+  }
 }

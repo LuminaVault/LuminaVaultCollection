@@ -1,0 +1,75 @@
+meta {
+  name: Update an install's config and/or enable-disable it
+  type: http
+  seq: 7
+  tags: [
+    Plugins
+  ]
+}
+
+patch {
+  url: {{baseUrl}}/v1/plugins/installs/:id
+  body: json
+  auth: inherit
+}
+
+params:path {
+  id:
+}
+
+body:json {
+  {
+    "config": {},
+    "status": "enabled"
+  }
+}
+
+example {
+  name: 200 Response
+  description: Updated install.
+
+  request: {
+    url: {{baseUrl}}/v1/plugins/installs/:id
+    method: PATCH
+    mode: json
+    params:path: {
+      id:
+    }
+
+    body:json: {
+      {
+        "config": {},
+        "status": "enabled"
+      }
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "id": "",
+          "pluginSlug": "",
+          "status": "enabled",
+          "hasConfig": false,
+          "createdAt": "",
+          "lastSyncAt": "",
+          "marketplaceVersionId": "",
+          "grantedPermissions": [
+            "memory.read"
+          ]
+        }
+      '''
+    }
+  }
+}

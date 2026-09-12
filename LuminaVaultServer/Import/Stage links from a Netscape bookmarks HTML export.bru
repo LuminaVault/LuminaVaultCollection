@@ -1,0 +1,55 @@
+meta {
+  name: Stage links from a Netscape bookmarks HTML export
+  type: http
+  seq: 2
+  tags: [
+    Import
+  ]
+}
+
+post {
+  url: {{baseUrl}}/v1/import/bookmarks
+  body: text
+  auth: inherit
+}
+
+docs {
+  Raw bookmarks HTML body (Safari / Chrome "Export Bookmarks"). Parses
+  out http(s) links and stages them like POST /v1/import.
+
+}
+
+example {
+  name: 200 Response
+  description: Import session created.
+
+  request: {
+    url: {{baseUrl}}/v1/import/bookmarks
+    method: POST
+    mode: text
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "sessionId": "",
+          "status": "",
+          "total": 0,
+          "staged": 0,
+          "skipped": 0
+        }
+      '''
+    }
+  }
+}

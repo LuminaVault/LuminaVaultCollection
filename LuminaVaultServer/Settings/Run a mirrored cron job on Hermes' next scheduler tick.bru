@@ -1,0 +1,94 @@
+meta {
+  name: Run a mirrored cron job on Hermes' next scheduler tick
+  type: http
+  seq: 17
+  tags: [
+    Settings
+  ]
+}
+
+post {
+  url: {{baseUrl}}/v1/hermes/mirror/jobs/:id/trigger
+  body: none
+  auth: inherit
+}
+
+params:path {
+  id:
+}
+
+docs {
+  Returns as soon as Hermes has scheduled the run; it does not wait for
+  output. The run is collected the usual way — poll
+  `/v1/hermes/mirror/jobs/{id}/runs`, or let the refresh worker collect it.
+
+}
+
+example {
+  name: 200 Response
+  description: The job as Hermes stores it afterwards.
+
+  request: {
+    url: {{baseUrl}}/v1/hermes/mirror/jobs/:id/trigger
+    method: POST
+    mode: none
+    params:path: {
+      id:
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "hermesJobID": "",
+          "name": "",
+          "schedule": "",
+          "prompt": "",
+          "paused": false,
+          "lastRunAt": "",
+          "nextRunAt": "",
+          "updatedAt": ""
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: 404 Response
+  description: The job is not mirrored for this tenant (`hermes_job_not_found`).
+
+  request: {
+    url: {{baseUrl}}/v1/hermes/mirror/jobs/:id/trigger
+    method: POST
+    mode: none
+    params:path: {
+      id:
+    }
+  }
+
+  response: {
+    status: {
+      code: 404
+      text: Not Found
+    }
+
+    body: {
+      type: text
+      content: '''
+
+      '''
+    }
+  }
+}

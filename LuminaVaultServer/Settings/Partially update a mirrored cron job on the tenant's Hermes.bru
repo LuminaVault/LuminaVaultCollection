@@ -1,0 +1,253 @@
+meta {
+  name: Partially update a mirrored cron job on the tenant's Hermes
+  type: http
+  seq: 13
+  tags: [
+    Settings
+  ]
+}
+
+put {
+  url: {{baseUrl}}/v1/hermes/mirror/jobs/:id
+  body: json
+  auth: inherit
+}
+
+params:path {
+  id:
+}
+
+body:json {
+  {
+    "name": "",
+    "schedule": "",
+    "prompt": "",
+    "deliver": "",
+    "skills": [],
+    "model": "",
+    "provider": "",
+    "baseURL": "",
+    "script": "",
+    "contextFrom": [],
+    "enabledToolsets": [],
+    "workdir": "",
+    "noAgent": false,
+    "enabled": false
+  }
+}
+
+docs {
+  Only the fields present in the body are sent to Hermes as `updates`;
+  an empty body is refused (`hermes_job_update_empty`) rather than sent
+  on as a no-op write. `enabled: false` pauses without clearing the
+  schedule — prefer the `pause` / `resume` routes for that.
+
+}
+
+example {
+  name: 200 Response
+  description: The job as Hermes stores it afterwards.
+
+  request: {
+    url: {{baseUrl}}/v1/hermes/mirror/jobs/:id
+    method: PUT
+    mode: json
+    params:path: {
+      id:
+    }
+
+    body:json: {
+      {
+        "name": "",
+        "schedule": "",
+        "prompt": "",
+        "deliver": "",
+        "skills": [],
+        "model": "",
+        "provider": "",
+        "baseURL": "",
+        "script": "",
+        "contextFrom": [],
+        "enabledToolsets": [],
+        "workdir": "",
+        "noAgent": false,
+        "enabled": false
+      }
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "hermesJobID": "",
+          "name": "",
+          "schedule": "",
+          "prompt": "",
+          "paused": false,
+          "lastRunAt": "",
+          "nextRunAt": "",
+          "updatedAt": ""
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: 400 Response
+  description: `hermes_mirror_invalid_path` or `hermes_job_update_empty`.
+
+  request: {
+    url: {{baseUrl}}/v1/hermes/mirror/jobs/:id
+    method: PUT
+    mode: json
+    params:path: {
+      id:
+    }
+
+    body:json: {
+      {
+        "name": "",
+        "schedule": "",
+        "prompt": "",
+        "deliver": "",
+        "skills": [],
+        "model": "",
+        "provider": "",
+        "baseURL": "",
+        "script": "",
+        "contextFrom": [],
+        "enabledToolsets": [],
+        "workdir": "",
+        "noAgent": false,
+        "enabled": false
+      }
+    }
+  }
+
+  response: {
+    status: {
+      code: 400
+      text: Bad Request
+    }
+
+    body: {
+      type: text
+      content: '''
+
+      '''
+    }
+  }
+}
+
+example {
+  name: 404 Response
+  description: The job is not mirrored for this tenant (`hermes_job_not_found`).
+
+  request: {
+    url: {{baseUrl}}/v1/hermes/mirror/jobs/:id
+    method: PUT
+    mode: json
+    params:path: {
+      id:
+    }
+
+    body:json: {
+      {
+        "name": "",
+        "schedule": "",
+        "prompt": "",
+        "deliver": "",
+        "skills": [],
+        "model": "",
+        "provider": "",
+        "baseURL": "",
+        "script": "",
+        "contextFrom": [],
+        "enabledToolsets": [],
+        "workdir": "",
+        "noAgent": false,
+        "enabled": false
+      }
+    }
+  }
+
+  response: {
+    status: {
+      code: 404
+      text: Not Found
+    }
+
+    body: {
+      type: text
+      content: '''
+
+      '''
+    }
+  }
+}
+
+example {
+  name: 502 Response
+  description: Hermes refused or was unreachable (stable code in `message`).
+
+  request: {
+    url: {{baseUrl}}/v1/hermes/mirror/jobs/:id
+    method: PUT
+    mode: json
+    params:path: {
+      id:
+    }
+
+    body:json: {
+      {
+        "name": "",
+        "schedule": "",
+        "prompt": "",
+        "deliver": "",
+        "skills": [],
+        "model": "",
+        "provider": "",
+        "baseURL": "",
+        "script": "",
+        "contextFrom": [],
+        "enabledToolsets": [],
+        "workdir": "",
+        "noAgent": false,
+        "enabled": false
+      }
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 502
+      text: Bad Gateway
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "error": "",
+          "message": ""
+        }
+      '''
+    }
+  }
+}

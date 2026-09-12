@@ -2,6 +2,9 @@ meta {
   name: workflowVersionsList
   type: http
   seq: 19
+  tags: [
+    Workflows
+  ]
 }
 
 get {
@@ -12,4 +15,69 @@ get {
 
 params:path {
   id:
+}
+
+example {
+  name: 200 Response
+  description: Immutable published versions.
+
+  request: {
+    url: {{baseUrl}}/v1/workflows/:id/versions
+    method: GET
+    mode: none
+    params:path: {
+      id:
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "versions": [
+            {
+              "id": "",
+              "workflowID": "",
+              "version": 0,
+              "definition": {
+                "schemaVersion": 0,
+                "trigger": "manual",
+                "triggerConfiguration": {},
+                "nodes": [
+                  {
+                    "id": "",
+                    "kind": "trigger",
+                    "name": "",
+                    "x": 0,
+                    "y": 0,
+                    "configuration": {}
+                  }
+                ],
+                "edges": [
+                  {
+                    "id": "",
+                    "sourceNodeID": "",
+                    "sourcePort": "",
+                    "targetNodeID": "",
+                    "targetPort": ""
+                  }
+                ]
+              },
+              "createdAt": ""
+            }
+          ]
+        }
+      '''
+    }
+  }
 }

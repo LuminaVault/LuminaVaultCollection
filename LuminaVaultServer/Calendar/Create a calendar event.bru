@@ -1,0 +1,167 @@
+meta {
+  name: Create a calendar event
+  type: http
+  seq: 5
+  tags: [
+    Calendar
+  ]
+}
+
+post {
+  url: {{baseUrl}}/v1/calendar/events
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "title": "",
+    "startsAt": "",
+    "endsAt": "",
+    "location": "",
+    "notes": "",
+    "attendees": []
+  }
+}
+
+docs {
+  Creates an event on the user's Google calendar (the app's explicit
+  "Add to Calendar" action), caches it, and returns it.
+
+}
+
+example {
+  name: 200 Response
+  description: Created event.
+
+  request: {
+    url: {{baseUrl}}/v1/calendar/events
+    method: POST
+    mode: json
+    body:json: {
+      {
+        "title": "",
+        "startsAt": "",
+        "endsAt": "",
+        "location": "",
+        "notes": "",
+        "attendees": []
+      }
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "id": "",
+          "source": "",
+          "externalID": "",
+          "title": "",
+          "notes": "",
+          "location": "",
+          "startsAt": "",
+          "endsAt": "",
+          "allDay": false,
+          "status": "",
+          "organizer": "",
+          "htmlLink": ""
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: 400 Response
+  description: Missing title or end not after start.
+
+  request: {
+    url: {{baseUrl}}/v1/calendar/events
+    method: POST
+    mode: json
+    body:json: {
+      {
+        "title": "",
+        "startsAt": "",
+        "endsAt": "",
+        "location": "",
+        "notes": "",
+        "attendees": []
+      }
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 400
+      text: Bad Request
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "error": "",
+          "message": ""
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: 409 Response
+  description: Google Calendar not connected.
+
+  request: {
+    url: {{baseUrl}}/v1/calendar/events
+    method: POST
+    mode: json
+    body:json: {
+      {
+        "title": "",
+        "startsAt": "",
+        "endsAt": "",
+        "location": "",
+        "notes": "",
+        "attendees": []
+      }
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 409
+      text: Conflict
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "error": "",
+          "message": ""
+        }
+      '''
+    }
+  }
+}

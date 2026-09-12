@@ -1,0 +1,64 @@
+meta {
+  name: App posts a device-RPC command's result (Apple Integration P0b)
+  type: http
+  seq: 2
+  tags: [
+    Devices
+  ]
+}
+
+post {
+  url: {{baseUrl}}/v1/devices/command/:id/result
+  body: json
+  auth: inherit
+}
+
+params:path {
+  id:
+}
+
+body:json {
+  {
+    "id": "",
+    "ok": false,
+    "payload": {},
+    "error": ""
+  }
+}
+
+example {
+  name: 200 Response
+  description: Result accepted.
+
+  request: {
+    url: {{baseUrl}}/v1/devices/command/:id/result
+    method: POST
+    mode: json
+    params:path: {
+      id:
+    }
+
+    body:json: {
+      {
+        "id": "",
+        "ok": false,
+        "payload": {},
+        "error": ""
+      }
+    }
+  }
+
+  response: {
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: text
+      content: '''
+
+      '''
+    }
+  }
+}

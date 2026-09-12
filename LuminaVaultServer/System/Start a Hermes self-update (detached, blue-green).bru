@@ -1,0 +1,135 @@
+meta {
+  name: Start a Hermes self-update (detached, blue-green)
+  type: http
+  seq: 2
+  tags: [
+    System
+  ]
+}
+
+post {
+  url: {{baseUrl}}/v1/system/hermes/update
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+    "targetTag": ""
+  }
+}
+
+example {
+  name: 200 Response
+  description: Job accepted.
+
+  request: {
+    url: {{baseUrl}}/v1/system/hermes/update
+    method: POST
+    mode: json
+    body:json: {
+      {
+        "targetTag": ""
+      }
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "jobID": "",
+          "state": "running"
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: 401 Response
+  description: Missing / invalid credential.
+
+  request: {
+    url: {{baseUrl}}/v1/system/hermes/update
+    method: POST
+    mode: json
+    body:json: {
+      {
+        "targetTag": ""
+      }
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 401
+      text: Unauthorized
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "error": "",
+          "message": ""
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: 409 Response
+  description: An update is already in progress.
+
+  request: {
+    url: {{baseUrl}}/v1/system/hermes/update
+    method: POST
+    mode: json
+    body:json: {
+      {
+        "targetTag": ""
+      }
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 409
+      text: Conflict
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "error": "",
+          "message": ""
+        }
+      '''
+    }
+  }
+}

@@ -1,0 +1,81 @@
+meta {
+  name: Confirm a suggested connection
+  type: http
+  seq: 16
+  tags: [
+    Memory
+  ]
+}
+
+post {
+  url: {{baseUrl}}/v1/knowledge/edges/:id/confirm
+  body: json
+  auth: inherit
+}
+
+params:path {
+  id:
+}
+
+body:json {
+  {
+    "note": ""
+  }
+}
+
+example {
+  name: 200 Response
+  description: Confirmed edge.
+
+  request: {
+    url: {{baseUrl}}/v1/knowledge/edges/:id/confirm
+    method: POST
+    mode: json
+    params:path: {
+      id:
+    }
+
+    body:json: {
+      {
+        "note": ""
+      }
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "id": "",
+          "from": "",
+          "to": "",
+          "predicate": "mentions",
+          "state": "asserted",
+          "confidence": 0,
+          "rationale": "",
+          "counterEvidence": "",
+          "evidence": [
+            {
+              "id": "",
+              "memoryID": "",
+              "sourceVaultFileID": "",
+              "quote": "",
+              "startOffset": 0,
+              "endOffset": 0
+            }
+          ]
+        }
+      '''
+    }
+  }
+}

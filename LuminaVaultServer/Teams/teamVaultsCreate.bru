@@ -2,6 +2,9 @@ meta {
   name: teamVaultsCreate
   type: http
   seq: 4
+  tags: [
+    Teams
+  ]
 }
 
 post {
@@ -10,8 +13,58 @@ post {
   auth: inherit
 }
 
+params:path {
+  teamID:
+}
+
 body:json {
   {
     "name": ""
+  }
+}
+
+example {
+  name: 200 Response
+  description: Created vault
+
+  request: {
+    url: {{baseUrl}}/v1/teams/:teamID/vaults
+    method: POST
+    mode: json
+    params:path: {
+      teamID:
+    }
+
+    body:json: {
+      {
+        "name": ""
+      }
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "id": "",
+          "teamID": "",
+          "name": "",
+          "isPersonal": false,
+          "role": "viewer",
+          "canUseAI": false,
+          "archivedAt": ""
+        }
+      '''
+    }
   }
 }

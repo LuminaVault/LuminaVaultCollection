@@ -1,0 +1,46 @@
+meta {
+  name: Delete a space
+  type: http
+  seq: 5
+  tags: [
+    Spaces
+  ]
+}
+
+delete {
+  url: {{baseUrl}}/v1/spaces/:id
+  body: none
+  auth: inherit
+}
+
+params:path {
+  id:
+}
+
+example {
+  name: 204 Response
+  description: Deleted.
+
+  request: {
+    url: {{baseUrl}}/v1/spaces/:id
+    method: DELETE
+    mode: none
+    params:path: {
+      id:
+    }
+  }
+
+  response: {
+    status: {
+      code: 204
+      text: No Content
+    }
+
+    body: {
+      type: text
+      content: '''
+
+      '''
+    }
+  }
+}

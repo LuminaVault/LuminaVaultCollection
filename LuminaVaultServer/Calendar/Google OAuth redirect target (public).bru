@@ -1,0 +1,58 @@
+meta {
+  name: Google OAuth redirect target (public)
+  type: http
+  seq: 6
+  tags: [
+    Calendar
+  ]
+}
+
+get {
+  url: {{baseUrl}}/v1/calendar/oauth/callback
+  body: none
+  auth: inherit
+}
+
+params:query {
+  state:
+  ~code:
+  ~error:
+}
+
+docs {
+  Hit by the user's browser when Google redirects after consent. The
+  server exchanges the `code`, stores tokens, kicks an initial sync, and
+  303-redirects to the app via `luminavault://oauth/google-calendar`.
+  Unauthenticated — correlation + CSRF protection come from `state`.
+
+}
+
+example {
+  name: 303 Response
+  description: Redirect back to the app via the luminavault:// scheme.
+
+  request: {
+    url: {{baseUrl}}/v1/calendar/oauth/callback
+    method: GET
+    mode: none
+    params:query: {
+      state:
+      ~code:
+      ~error:
+    }
+  }
+
+  response: {
+    status: {
+      code: 303
+      text: See Other
+    }
+
+    body: {
+      type: text
+      content: '''
+
+      '''
+    }
+  }
+}

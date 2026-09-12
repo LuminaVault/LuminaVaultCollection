@@ -1,0 +1,58 @@
+meta {
+  name: Prune memories for one tenant
+  type: http
+  seq: 10
+  tags: [
+    Admin
+  ]
+}
+
+post {
+  url: {{baseUrl}}/v1/admin/memory/prune/:userID
+  body: none
+  auth: bearer
+}
+
+params:path {
+  userID:
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+example {
+  name: 200 Response
+  description: Prune summary.
+
+  request: {
+    url: {{baseUrl}}/v1/admin/memory/prune/:userID
+    method: POST
+    mode: none
+    params:path: {
+      userID:
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "memoriesPruned": 0,
+          "memoriesArchived": 0,
+          "durationMs": 0
+        }
+      '''
+    }
+  }
+}

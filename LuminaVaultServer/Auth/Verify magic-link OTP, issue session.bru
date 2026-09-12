@@ -1,0 +1,64 @@
+meta {
+  name: Verify magic-link OTP, issue session
+  type: http
+  seq: 18
+  tags: [
+    Auth
+  ]
+}
+
+post {
+  url: {{baseUrl}}/v1/auth/email/verify
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "email": "",
+    "code": ""
+  }
+}
+
+example {
+  name: 200 Response
+  description: Session issued.
+
+  request: {
+    url: {{baseUrl}}/v1/auth/email/verify
+    method: POST
+    mode: json
+    body:json: {
+      {
+        "email": "",
+        "code": ""
+      }
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "accessToken": "",
+          "refreshToken": "",
+          "expiresIn": 0,
+          "userId": "",
+          "username": "",
+          "email": "",
+          "vaultInitialized": false
+        }
+      '''
+    }
+  }
+}

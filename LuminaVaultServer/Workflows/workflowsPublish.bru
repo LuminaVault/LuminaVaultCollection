@@ -2,6 +2,9 @@ meta {
   name: workflowsPublish
   type: http
   seq: 5
+  tags: [
+    Workflows
+  ]
 }
 
 post {
@@ -12,4 +15,76 @@ post {
 
 params:path {
   id:
+}
+
+example {
+  name: 200 Response
+  description: Published immutable version.
+
+  request: {
+    url: {{baseUrl}}/v1/workflows/:id/publish
+    method: POST
+    mode: none
+    params:path: {
+      id:
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "workflow": {
+            "id": "",
+            "name": "",
+            "descriptionText": "",
+            "enabled": false,
+            "trigger": "manual",
+            "draftRevision": 0,
+            "publishedVersion": 0,
+            "lastRunStatus": "queued",
+            "lastRunAt": "",
+            "pendingApprovalCount": 0,
+            "isLegacyJob": false,
+            "createdAt": "",
+            "updatedAt": ""
+          },
+          "definition": {
+            "schemaVersion": 0,
+            "trigger": "manual",
+            "triggerConfiguration": {},
+            "nodes": [
+              {
+                "id": "",
+                "kind": "trigger",
+                "name": "",
+                "x": 0,
+                "y": 0,
+                "configuration": {}
+              }
+            ],
+            "edges": [
+              {
+                "id": "",
+                "sourceNodeID": "",
+                "sourcePort": "",
+                "targetNodeID": "",
+                "targetPort": ""
+              }
+            ]
+          }
+        }
+      '''
+    }
+  }
 }

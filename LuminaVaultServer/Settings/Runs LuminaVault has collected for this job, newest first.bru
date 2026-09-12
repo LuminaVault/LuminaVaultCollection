@@ -1,0 +1,121 @@
+meta {
+  name: Runs LuminaVault has collected for this job, newest first
+  type: http
+  seq: 18
+  tags: [
+    Settings
+  ]
+}
+
+get {
+  url: {{baseUrl}}/v1/hermes/mirror/jobs/:id/runs
+  body: none
+  auth: inherit
+}
+
+params:query {
+  limit: 50
+}
+
+params:path {
+  id:
+}
+
+docs {
+  Reads stored `hermes_job_runs` rows only, so it answers while the
+  tenant's Hermes is offline. `vaultFilePath` is the file the run's
+  output was filed as; `collectedAt` is when the collector last pulled
+  this job. Use `POST /v1/hermes/mirror/jobs/{id}/collect` to refresh
+  before reading.
+
+}
+
+example {
+  name: 200 Response
+  description: Collected runs, newest first.
+
+  request: {
+    url: {{baseUrl}}/v1/hermes/mirror/jobs/:id/runs
+    method: GET
+    mode: none
+    params:query: {
+      limit: 50
+    }
+
+    params:path: {
+      id:
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "hermesJobID": "",
+          "runs": [
+            {
+              "id": "",
+              "hermesJobID": "",
+              "runKey": "",
+              "status": "running",
+              "startedAt": "",
+              "finishedAt": "",
+              "output": "",
+              "error": "",
+              "tokens": {
+                "input": 0,
+                "output": 0
+              },
+              "vaultFilePath": "",
+              "skillRunLogID": "",
+              "collectedAt": ""
+            }
+          ],
+          "collectedAt": ""
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: 400 Response
+  description: `hermes_mirror_invalid_path`.
+
+  request: {
+    url: {{baseUrl}}/v1/hermes/mirror/jobs/:id/runs
+    method: GET
+    mode: none
+    params:query: {
+      limit: 50
+    }
+
+    params:path: {
+      id:
+    }
+  }
+
+  response: {
+    status: {
+      code: 400
+      text: Bad Request
+    }
+
+    body: {
+      type: text
+      content: '''
+
+      '''
+    }
+  }
+}

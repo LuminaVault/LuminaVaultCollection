@@ -1,0 +1,80 @@
+meta {
+  name: Soft-dismiss an insight (HER-37 Slice D)
+  type: http
+  seq: 9
+  tags: [
+    Dashboard
+  ]
+}
+
+post {
+  url: {{baseUrl}}/v1/insights/:id/dismiss
+  body: none
+  auth: inherit
+}
+
+params:path {
+  id:
+}
+
+docs {
+  Sets `dismissed_at`. The row stays in the table for audit but
+  stops appearing in the `list` endpoint.
+
+}
+
+example {
+  name: 204 Response
+  description: Insight dismissed.
+
+  request: {
+    url: {{baseUrl}}/v1/insights/:id/dismiss
+    method: POST
+    mode: none
+    params:path: {
+      id:
+    }
+  }
+
+  response: {
+    status: {
+      code: 204
+      text: No Content
+    }
+
+    body: {
+      type: text
+      content: '''
+
+      '''
+    }
+  }
+}
+
+example {
+  name: 404 Response
+  description: Insight not found.
+
+  request: {
+    url: {{baseUrl}}/v1/insights/:id/dismiss
+    method: POST
+    mode: none
+    params:path: {
+      id:
+    }
+  }
+
+  response: {
+    status: {
+      code: 404
+      text: Not Found
+    }
+
+    body: {
+      type: text
+      content: '''
+
+      '''
+    }
+  }
+}

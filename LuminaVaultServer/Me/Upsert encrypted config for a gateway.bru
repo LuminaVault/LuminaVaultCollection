@@ -1,0 +1,155 @@
+meta {
+  name: Upsert encrypted config for a gateway
+  type: http
+  seq: 16
+  tags: [
+    Me
+  ]
+}
+
+put {
+  url: {{baseUrl}}/v1/me/hermes-gateways/:id
+  body: json
+  auth: inherit
+}
+
+params:path {
+  id: telegram
+  id: discord
+  id: slack
+  id: whatsapp
+  id: email
+  id: matrix
+  id: ntfy
+  id: mattermost
+}
+
+body:json {
+  {
+    "config": {}
+  }
+}
+
+docs {
+  Validates every required field for the chosen gateway. On
+  success the row is created or updated and `status` becomes
+  `configured`. `verifiedAt` and `lastFailure*` are reset so a
+  new /test call is required to confirm reachability.
+
+}
+
+example {
+  name: 200 Response
+  description: Updated catalog entry.
+
+  request: {
+    url: {{baseUrl}}/v1/me/hermes-gateways/:id
+    method: PUT
+    mode: json
+    params:path: {
+      id: telegram
+      ~id: discord
+      ~id: slack
+      ~id: whatsapp
+      ~id: email
+      ~id: matrix
+      ~id: ntfy
+      ~id: mattermost
+    }
+
+    body:json: {
+      {
+        "config": {}
+      }
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "id": "telegram",
+          "displayName": "",
+          "iconSlug": "",
+          "description": "",
+          "requiredFields": [
+            {
+              "key": "",
+              "label": "",
+              "placeholder": "",
+              "kind": "text",
+              "isRequired": false
+            }
+          ],
+          "status": "not_configured",
+          "hasConfig": false,
+          "verifiedAt": "",
+          "lastFailureCode": "",
+          "pairingKind": ""
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: 400 Response
+  description: '''
+    Stable code in `message`:
+    `missing_field:<key>` (required field empty).
+
+  '''
+
+  request: {
+    url: {{baseUrl}}/v1/me/hermes-gateways/:id
+    method: PUT
+    mode: json
+    params:path: {
+      id: telegram
+      ~id: discord
+      ~id: slack
+      ~id: whatsapp
+      ~id: email
+      ~id: matrix
+      ~id: ntfy
+      ~id: mattermost
+    }
+
+    body:json: {
+      {
+        "config": {}
+      }
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 400
+      text: Bad Request
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "error": "",
+          "message": ""
+        }
+      '''
+    }
+  }
+}

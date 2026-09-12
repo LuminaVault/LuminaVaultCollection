@@ -1,0 +1,39 @@
+meta {
+  name: Drop the override; revert to managed default
+  type: http
+  seq: 3
+  tags: [
+    Settings
+  ]
+}
+
+delete {
+  url: {{baseUrl}}/v1/settings/hermes
+  body: none
+  auth: inherit
+}
+
+example {
+  name: 204 Response
+  description: Row deleted.
+
+  request: {
+    url: {{baseUrl}}/v1/settings/hermes
+    method: DELETE
+    mode: none
+  }
+
+  response: {
+    status: {
+      code: 204
+      text: No Content
+    }
+
+    body: {
+      type: text
+      content: '''
+
+      '''
+    }
+  }
+}

@@ -1,0 +1,175 @@
+meta {
+  name: Stream an assistant turn over SSE (HER-37)
+  type: http
+  seq: 7
+  tags: [
+    Conversations
+  ]
+}
+
+post {
+  url: {{baseUrl}}/v1/conversations/:id/messages/stream
+  body: json
+  auth: inherit
+}
+
+params:path {
+  id:
+}
+
+body:json {
+  {
+    "content": "",
+    "multiModel": {
+      "enabled": false,
+      "strategy": "auto"
+    }
+  }
+}
+
+docs {
+  Persists the user's message immediately, then streams the
+  assistant reply as `QueryStreamEvent`s (`source` → `token`s →
+  `follow_ups` → `done`). The assistant turn is persisted exactly
+  once on `done`; mid-flight failures emit `error` and abort
+  persistence.
+
+}
+
+example {
+  name: 200 Response
+  description: Server-Sent Events stream of `QueryStreamEvent`.
+
+  request: {
+    url: {{baseUrl}}/v1/conversations/:id/messages/stream
+    method: POST
+    mode: json
+    params:path: {
+      id:
+    }
+
+    body:json: {
+      {
+        "content": "",
+        "multiModel": {
+          "enabled": false,
+          "strategy": "auto"
+        }
+      }
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: text/event-stream
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: text
+      content: '''
+        {
+          "type": "source",
+          "payload": ""
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: 403 Response
+  description: '''
+    BYOK mode with no provider keys — same envelope as `POST /v1/llm/chat`
+    (`byok_keys_required`). May also appear as an SSE `error` event mid-stream.
+
+  '''
+
+  request: {
+    url: {{baseUrl}}/v1/conversations/:id/messages/stream
+    method: POST
+    mode: json
+    params:path: {
+      id:
+    }
+
+    body:json: {
+      {
+        "content": "",
+        "multiModel": {
+          "enabled": false,
+          "strategy": "auto"
+        }
+      }
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 403
+      text: Forbidden
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "error": {
+            "code": "",
+            "message": "",
+            "cta": [
+              "add_key"
+            ],
+            "retryAfterSeconds": 0
+          }
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: 404 Response
+  description: Conversation not found.
+
+  request: {
+    url: {{baseUrl}}/v1/conversations/:id/messages/stream
+    method: POST
+    mode: json
+    params:path: {
+      id:
+    }
+
+    body:json: {
+      {
+        "content": "",
+        "multiModel": {
+          "enabled": false,
+          "strategy": "auto"
+        }
+      }
+    }
+  }
+
+  response: {
+    status: {
+      code: 404
+      text: Not Found
+    }
+
+    body: {
+      type: text
+      content: '''
+
+      '''
+    }
+  }
+}

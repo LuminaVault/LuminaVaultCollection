@@ -1,0 +1,49 @@
+meta {
+  name: Per-tenant APNS category opt-out (HER-179)
+  type: http
+  seq: 6
+  tags: [
+    Me
+  ]
+}
+
+get {
+  url: {{baseUrl}}/v1/me/apns-categories
+  body: none
+  auth: inherit
+}
+
+example {
+  name: 200 Response
+  description: Current preferences.
+
+  request: {
+    url: {{baseUrl}}/v1/me/apns-categories
+    method: GET
+    mode: none
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "chatEnabled": false,
+          "nudgeEnabled": false,
+          "digestEnabled": false,
+          "approvalEnabled": false,
+          "runCompletedEnabled": false
+        }
+      '''
+    }
+  }
+}

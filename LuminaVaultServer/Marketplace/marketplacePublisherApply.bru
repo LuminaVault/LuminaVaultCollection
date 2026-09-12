@@ -2,6 +2,9 @@ meta {
   name: marketplacePublisherApply
   type: http
   seq: 8
+  tags: [
+    Marketplace
+  ]
 }
 
 post {
@@ -16,5 +19,50 @@ body:json {
     "displayName": "",
     "bio": "",
     "websiteURL": ""
+  }
+}
+
+example {
+  name: 200 Response
+  description: Publisher application.
+
+  request: {
+    url: {{baseUrl}}/v1/marketplace/publisher/apply
+    method: POST
+    mode: json
+    body:json: {
+      {
+        "handle": "",
+        "displayName": "",
+        "bio": "",
+        "websiteURL": ""
+      }
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "id": "",
+          "handle": "",
+          "displayName": "",
+          "bio": "",
+          "websiteURL": "",
+          "verified": false,
+          "status": "pending"
+        }
+      '''
+    }
   }
 }

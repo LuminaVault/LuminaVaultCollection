@@ -1,0 +1,117 @@
+meta {
+  name: Latch one or more onboarding flags (one-way only)
+  type: http
+  seq: 2
+  tags: [
+    Onboarding
+  ]
+}
+
+patch {
+  url: {{baseUrl}}/v1/onboarding
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "signupCompleted": false,
+    "emailVerifiedCompleted": false,
+    "soulConfiguredCompleted": false,
+    "firstCaptureCompleted": false,
+    "firstKBCompileCompleted": false,
+    "firstQueryCompleted": false,
+    "brainConfiguredCompleted": false
+  }
+}
+
+example {
+  name: 200 Response
+  description: Updated state.
+
+  request: {
+    url: {{baseUrl}}/v1/onboarding
+    method: PATCH
+    mode: json
+    body:json: {
+      {
+        "signupCompleted": false,
+        "emailVerifiedCompleted": false,
+        "soulConfiguredCompleted": false,
+        "firstCaptureCompleted": false,
+        "firstKBCompileCompleted": false,
+        "firstQueryCompleted": false,
+        "brainConfiguredCompleted": false
+      }
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "signupCompleted": false,
+          "signupCompletedAt": "",
+          "emailVerifiedCompleted": false,
+          "emailVerifiedCompletedAt": "",
+          "soulConfiguredCompleted": false,
+          "soulConfiguredCompletedAt": "",
+          "firstCaptureCompleted": false,
+          "firstCaptureCompletedAt": "",
+          "firstKBCompileCompleted": false,
+          "firstKBCompileCompletedAt": "",
+          "firstQueryCompleted": false,
+          "firstQueryCompletedAt": "",
+          "brainConfiguredCompleted": false,
+          "brainConfiguredCompletedAt": ""
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: 400 Response
+  description: Attempted to set a flag to false (latches are one-way).
+
+  request: {
+    url: {{baseUrl}}/v1/onboarding
+    method: PATCH
+    mode: json
+    body:json: {
+      {
+        "signupCompleted": false,
+        "emailVerifiedCompleted": false,
+        "soulConfiguredCompleted": false,
+        "firstCaptureCompleted": false,
+        "firstKBCompileCompleted": false,
+        "firstQueryCompleted": false,
+        "brainConfiguredCompleted": false
+      }
+    }
+  }
+
+  response: {
+    status: {
+      code: 400
+      text: Bad Request
+    }
+
+    body: {
+      type: text
+      content: '''
+
+      '''
+    }
+  }
+}

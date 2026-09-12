@@ -1,0 +1,78 @@
+meta {
+  name: List vault files
+  type: http
+  seq: 2
+  tags: [
+    Vault
+  ]
+}
+
+get {
+  url: {{baseUrl}}/v1/vault/files
+  body: none
+  auth: inherit
+}
+
+params:query {
+  limit: 100
+  @description('Filter by Space slug (HER-9 binding). The reserved value `inbox` returns unfiled notes (space_id IS NULL) instead of resolving a Space row.')
+  ~space:
+  @description('When `true`, returns only unfiled notes (space_id IS NULL). Alias for `space=inbox`. The Inbox bucket uses this.')
+  ~unfiled:
+  @description('Case-insensitive substring match on file path (HER-105).')
+  ~q:
+  @description('Cursor — ISO-8601 createdAt; returns rows older than this.')
+  ~before:
+  @description('Cursor — ISO-8601 createdAt; returns rows newer than this.')
+  ~after:
+}
+
+example {
+  name: 200 Response
+  description: Vault file index.
+
+  request: {
+    url: {{baseUrl}}/v1/vault/files
+    method: GET
+    mode: none
+    params:query: {
+      ~space:
+      ~unfiled:
+      ~q:
+      ~before:
+      ~after:
+      limit: 100
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "files": [
+            {
+              "id": "",
+              "path": "",
+              "contentType": "",
+              "sizeBytes": 0,
+              "sha256": "",
+              "processedAt": "",
+              "createdAt": "",
+              "metadata": {}
+            }
+          ]
+        }
+      '''
+    }
+  }
+}

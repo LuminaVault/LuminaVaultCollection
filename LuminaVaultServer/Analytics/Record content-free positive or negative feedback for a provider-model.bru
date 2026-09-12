@@ -1,0 +1,62 @@
+meta {
+  name: Record content-free positive or negative feedback for a provider/model
+  type: http
+  seq: 7
+  tags: [
+    Analytics
+  ]
+}
+
+post {
+  url: {{baseUrl}}/v1/analytics/model-feedback
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "provider": "",
+    "model": "",
+    "rating": "positive",
+    "idempotencyKey": ""
+  }
+}
+
+example {
+  name: 200 Response
+  description: Feedback accepted.
+
+  request: {
+    url: {{baseUrl}}/v1/analytics/model-feedback
+    method: POST
+    mode: json
+    body:json: {
+      {
+        "provider": "",
+        "model": "",
+        "rating": "positive",
+        "idempotencyKey": ""
+      }
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "accepted": false
+        }
+      '''
+    }
+  }
+}

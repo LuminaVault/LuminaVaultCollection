@@ -1,0 +1,88 @@
+meta {
+  name: Current central Hermes image + available-update info
+  type: http
+  seq: 1
+  tags: [
+    System
+  ]
+}
+
+get {
+  url: {{baseUrl}}/v1/system/hermes/version
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+example {
+  name: 200 Response
+  description: Version info.
+
+  request: {
+    url: {{baseUrl}}/v1/system/hermes/version
+    method: GET
+    mode: none
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "info": {
+            "currentRef": "",
+            "currentDigest": "",
+            "currentLabel": "",
+            "availableLabel": "",
+            "updateAvailable": false,
+            "lastUpdatedAt": ""
+          }
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: 401 Response
+  description: Missing / invalid credential.
+
+  request: {
+    url: {{baseUrl}}/v1/system/hermes/version
+    method: GET
+    mode: none
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 401
+      text: Unauthorized
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "error": "",
+          "message": ""
+        }
+      '''
+    }
+  }
+}

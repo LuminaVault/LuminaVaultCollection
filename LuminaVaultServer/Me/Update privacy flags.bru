@@ -1,0 +1,70 @@
+meta {
+  name: Update privacy flags
+  type: http
+  seq: 2
+  tags: [
+    Me
+  ]
+}
+
+put {
+  url: {{baseUrl}}/v1/auth/me/privacy
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "privacyNoCNOrigin": false,
+    "contextRouting": false,
+    "autoSaveLinks": false,
+    "mnemosyneEnabled": false
+  }
+}
+
+example {
+  name: 200 Response
+  description: Updated profile.
+
+  request: {
+    url: {{baseUrl}}/v1/auth/me/privacy
+    method: PUT
+    mode: json
+    body:json: {
+      {
+        "privacyNoCNOrigin": false,
+        "contextRouting": false,
+        "autoSaveLinks": false,
+        "mnemosyneEnabled": false
+      }
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "userId": "",
+          "email": "",
+          "username": "",
+          "isVerified": false,
+          "isAdmin": false,
+          "privacyNoCNOrigin": false,
+          "contextRouting": false,
+          "autoSaveLinks": false,
+          "mnemosyneEnabled": false
+        }
+      '''
+    }
+  }
+}

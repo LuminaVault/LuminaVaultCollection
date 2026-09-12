@@ -1,0 +1,68 @@
+meta {
+  name: List curator and SOUL review reports
+  type: http
+  seq: 4
+  tags: [
+    Self_Improvement
+  ]
+}
+
+get {
+  url: {{baseUrl}}/v1/me/improvement/runs
+  body: none
+  auth: inherit
+}
+
+params:query {
+  limit: 30
+}
+
+example {
+  name: 200 Response
+  description: Run history.
+
+  request: {
+    url: {{baseUrl}}/v1/me/improvement/runs
+    method: GET
+    mode: none
+    params:query: {
+      limit: 30
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "runs": [
+            {
+              "id": "",
+              "kind": "curator",
+              "status": "queued",
+              "trigger": "manual",
+              "dryRun": false,
+              "modelUsed": "",
+              "reportMarkdown": "",
+              "actionsApplied": 0,
+              "actionsSkipped": 0,
+              "startedAt": "",
+              "endedAt": "",
+              "createdAt": "",
+              "failureReason": ""
+            }
+          ]
+        }
+      '''
+    }
+  }
+}

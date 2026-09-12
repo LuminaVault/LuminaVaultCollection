@@ -2,6 +2,9 @@ meta {
   name: teamInvitationsCreate
   type: http
   seq: 6
+  tags: [
+    Teams
+  ]
 }
 
 post {
@@ -10,9 +13,93 @@ post {
   auth: inherit
 }
 
+params:path {
+  teamID:
+}
+
 body:json {
   {
     "email": "",
     "vaultGrants": {}
+  }
+}
+
+example {
+  name: 200 Response
+  description: Invitation created
+
+  request: {
+    url: {{baseUrl}}/v1/teams/:teamID/invitations
+    method: POST
+    mode: json
+    params:path: {
+      teamID:
+    }
+
+    body:json: {
+      {
+        "email": "",
+        "vaultGrants": {}
+      }
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "id": "",
+          "teamID": "",
+          "email": "",
+          "expiresAt": "",
+          "token": ""
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: 409 Response
+  description: An active invitation already exists.
+
+  request: {
+    url: {{baseUrl}}/v1/teams/:teamID/invitations
+    method: POST
+    mode: json
+    params:path: {
+      teamID:
+    }
+
+    body:json: {
+      {
+        "email": "",
+        "vaultGrants": {}
+      }
+    }
+  }
+
+  response: {
+    status: {
+      code: 409
+      text: Conflict
+    }
+
+    body: {
+      type: text
+      content: '''
+
+      '''
+    }
   }
 }

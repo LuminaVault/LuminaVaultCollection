@@ -2,6 +2,9 @@ meta {
   name: marketplacePublisherCreateVersion
   type: http
   seq: 11
+  tags: [
+    Marketplace
+  ]
 }
 
 post {
@@ -17,15 +20,17 @@ params:path {
 body:json {
   {
     "version": "",
-    "runtimeKind": "",
-    "permissions": [],
+    "runtimeKind": "native",
+    "permissions": [
+      "memory.read"
+    ],
     "networkHosts": [],
     "configFields": [
       {
         "key": "",
         "label": "",
         "placeholder": "",
-        "kind": "",
+        "kind": "text",
         "isRequired": false
       }
     ],
@@ -34,5 +39,79 @@ body:json {
     "artifactSHA256": "",
     "artifactSignature": "",
     "manifestJSON": ""
+  }
+}
+
+example {
+  name: 200 Response
+  description: Draft immutable version.
+
+  request: {
+    url: {{baseUrl}}/v1/marketplace/publisher/plugins/:slug/versions
+    method: POST
+    mode: json
+    params:path: {
+      slug:
+    }
+
+    body:json: {
+      {
+        "version": "",
+        "runtimeKind": "native",
+        "permissions": [
+          "memory.read"
+        ],
+        "networkHosts": [],
+        "configFields": [
+          {
+            "key": "",
+            "label": "",
+            "placeholder": "",
+            "kind": "text",
+            "isRequired": false
+          }
+        ],
+        "changelog": "",
+        "artifactKey": "",
+        "artifactSHA256": "",
+        "artifactSignature": "",
+        "manifestJSON": ""
+      }
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "id": "",
+          "version": "",
+          "status": "draft",
+          "runtimeKind": "native",
+          "permissions": [
+            "memory.read"
+          ],
+          "networkHosts": [],
+          "changelog": "",
+          "publishedAt": "",
+          "tools": [
+            {
+              "name": "",
+              "description": ""
+            }
+          ]
+        }
+      '''
+    }
   }
 }

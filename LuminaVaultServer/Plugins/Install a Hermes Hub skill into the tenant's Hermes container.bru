@@ -1,0 +1,82 @@
+meta {
+  name: Install a Hermes Hub skill into the tenant's Hermes container
+  type: http
+  seq: 3
+  tags: [
+    Plugins
+  ]
+}
+
+post {
+  url: {{baseUrl}}/v1/plugins/hermes-skills/install
+  body: none
+  auth: inherit
+}
+
+params:query {
+  @description('Hub skill id or URL (`hermes skills install` argument).')
+  id:
+}
+
+docs {
+  Runs `hermes skills install <id>` inside the caller's per-tenant Hermes
+  container (CLI-only upstream → docker exec). Returns the refreshed
+  read-only list of installed skills. 409 if the tenant has no container.
+
+}
+
+example {
+  name: 200 Response
+  description: Installed; refreshed Hermes-installed skills list.
+
+  request: {
+    url: {{baseUrl}}/v1/plugins/hermes-skills/install
+    method: POST
+    mode: none
+    params:query: {
+      id:
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "items": [
+            {
+              "slug": "",
+              "name": "",
+              "summary": "",
+              "description": "",
+              "category": "connector",
+              "capabilityKind": "connector",
+              "iconSlug": "",
+              "version": "",
+              "publisher": "",
+              "verified": false,
+              "configFields": [
+                {
+                  "key": "",
+                  "label": "",
+                  "placeholder": "",
+                  "kind": "text",
+                  "isRequired": false
+                }
+              ]
+            }
+          ]
+        }
+      '''
+    }
+  }
+}

@@ -1,0 +1,66 @@
+meta {
+  name: List the caller's projects
+  type: http
+  seq: 1
+  tags: [
+    Projects
+  ]
+}
+
+get {
+  url: {{baseUrl}}/v1/projects
+  body: none
+  auth: inherit
+}
+
+params:query {
+  limit: 100
+}
+
+docs {
+  Projects group note-todos. Each carries a live `todoCount`.
+}
+
+example {
+  name: 200 Response
+  description: Project list.
+
+  request: {
+    url: {{baseUrl}}/v1/projects
+    method: GET
+    mode: none
+    params:query: {
+      limit: 100
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "projects": [
+            {
+              "id": "",
+              "name": "",
+              "description": "",
+              "archived": false,
+              "todoCount": 0,
+              "createdAt": ""
+            }
+          ],
+          "nextCursor": ""
+        }
+      '''
+    }
+  }
+}

@@ -1,0 +1,355 @@
+meta {
+  name: Chat completion. Routes via TableModelRouter; BYO Hermes-aware
+  type: http
+  seq: 18
+  tags: [
+    LLM
+  ]
+}
+
+post {
+  url: {{baseUrl}}/v1/llm/chat
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "model": "",
+    "messages": [
+      {
+        "role": "system",
+        "content": "",
+        "toolCalls": [
+          {}
+        ]
+      }
+    ],
+    "temperature": 0,
+    "stream": false
+  }
+}
+
+example {
+  name: 200 Response
+  description: OpenAI-compatible chat-completions response.
+
+  request: {
+    url: {{baseUrl}}/v1/llm/chat
+    method: POST
+    mode: json
+    body:json: {
+      {
+        "model": "",
+        "messages": [
+          {
+            "role": "system",
+            "content": "",
+            "toolCalls": [
+              {}
+            ]
+          }
+        ],
+        "temperature": 0,
+        "stream": false
+      }
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "id": "",
+          "model": "",
+          "choices": [
+            {
+              "index": 0,
+              "message": {
+                "role": "system",
+                "content": "",
+                "toolCalls": [
+                  {}
+                ]
+              },
+              "finishReason": ""
+            }
+          ],
+          "usage": {
+            "promptTokens": 0,
+            "completionTokens": 0,
+            "totalTokens": 0
+          }
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: 402 Response
+  description: Entitlement / billing block.
+
+  request: {
+    url: {{baseUrl}}/v1/llm/chat
+    method: POST
+    mode: json
+    body:json: {
+      {
+        "model": "",
+        "messages": [
+          {
+            "role": "system",
+            "content": "",
+            "toolCalls": [
+              {}
+            ]
+          }
+        ],
+        "temperature": 0,
+        "stream": false
+      }
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 402
+      text: Payment Required
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "paywall": false,
+          "paywallId": "default",
+          "requiredTier": "pro"
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: byokKeysRequired
+
+  request: {
+    url: {{baseUrl}}/v1/llm/chat
+    method: POST
+    mode: json
+    body:json: {
+      {
+        "model": "",
+        "messages": [
+          {
+            "role": "system",
+            "content": "",
+            "toolCalls": [
+              {}
+            ]
+          }
+        ],
+        "temperature": 0,
+        "stream": false
+      }
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 403
+      text: Forbidden
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "error": {
+            "code": "byok_keys_required",
+            "message": "Add an LLM API key in Settings (OpenRouter recommended for Auto) or switch to Managed mode.",
+            "cta": [
+              "add_key",
+              "switch_to_managed"
+            ]
+          }
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: freeLaneExhausted
+
+  request: {
+    url: {{baseUrl}}/v1/llm/chat
+    method: POST
+    mode: json
+    body:json: {
+      {
+        "model": "",
+        "messages": [
+          {
+            "role": "system",
+            "content": "",
+            "toolCalls": [
+              {}
+            ]
+          }
+        ],
+        "temperature": 0,
+        "stream": false
+      }
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 429
+      text: Too Many Requests
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "error": {
+            "code": "free_lane_exhausted",
+            "message": "You've used today's free messages. Upgrade for the full brain, or add your own API key in Settings to keep going now.",
+            "cta": [
+              "upgrade",
+              "add_key"
+            ],
+            "retryAfterSeconds": 18000
+          }
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: 502 Response
+  description: LLM upstream rejected, was unreachable, or all providers exhausted.
+
+  request: {
+    url: {{baseUrl}}/v1/llm/chat
+    method: POST
+    mode: json
+    body:json: {
+      {
+        "model": "",
+        "messages": [
+          {
+            "role": "system",
+            "content": "",
+            "toolCalls": [
+              {}
+            ]
+          }
+        ],
+        "temperature": 0,
+        "stream": false
+      }
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 502
+      text: Bad Gateway
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "error": {
+            "code": "upstream_timeout",
+            "message": "",
+            "retry_after_ms": 0
+          }
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: 504 Response
+  description: LLM upstream timed out. Safe to retry once after retry_after_ms.
+
+  request: {
+    url: {{baseUrl}}/v1/llm/chat
+    method: POST
+    mode: json
+    body:json: {
+      {
+        "model": "",
+        "messages": [
+          {
+            "role": "system",
+            "content": "",
+            "toolCalls": [
+              {}
+            ]
+          }
+        ],
+        "temperature": 0,
+        "stream": false
+      }
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 504
+      text: Gateway Timeout
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "error": {
+            "code": "upstream_timeout",
+            "message": "",
+            "retry_after_ms": 0
+          }
+        }
+      '''
+    }
+  }
+}

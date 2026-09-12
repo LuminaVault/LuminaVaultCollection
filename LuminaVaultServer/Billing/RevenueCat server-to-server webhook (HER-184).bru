@@ -1,0 +1,106 @@
+meta {
+  name: RevenueCat server-to-server webhook (HER-184)
+  type: http
+  seq: 1
+  tags: [
+    Billing
+  ]
+}
+
+post {
+  url: {{baseUrl}}/v1/billing/revenuecat-webhook
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {}
+}
+
+example {
+  name: 204 Response
+  description: Event ingested.
+
+  request: {
+    url: {{baseUrl}}/v1/billing/revenuecat-webhook
+    method: POST
+    mode: json
+    body:json: {
+      {}
+    }
+  }
+
+  response: {
+    status: {
+      code: 204
+      text: No Content
+    }
+
+    body: {
+      type: text
+      content: '''
+
+      '''
+    }
+  }
+}
+
+example {
+  name: 401 Response
+  description: Bad webhook secret.
+
+  request: {
+    url: {{baseUrl}}/v1/billing/revenuecat-webhook
+    method: POST
+    mode: json
+    body:json: {
+      {}
+    }
+  }
+
+  response: {
+    status: {
+      code: 401
+      text: Unauthorized
+    }
+
+    body: {
+      type: text
+      content: '''
+
+      '''
+    }
+  }
+}
+
+example {
+  name: 503 Response
+  description: Webhook disabled (revenuecat.webhookSecret empty).
+
+  request: {
+    url: {{baseUrl}}/v1/billing/revenuecat-webhook
+    method: POST
+    mode: json
+    body:json: {
+      {}
+    }
+  }
+
+  response: {
+    status: {
+      code: 503
+      text: Service Unavailable
+    }
+
+    body: {
+      type: text
+      content: '''
+
+      '''
+    }
+  }
+}

@@ -1,0 +1,67 @@
+meta {
+  name: List chat-history sessions for the OS Shell Sessions tab (HER-245 / HER-259)
+  type: http
+  seq: 1
+  tags: [
+    Dashboard
+  ]
+}
+
+get {
+  url: {{baseUrl}}/v1/sessions
+  body: none
+  auth: inherit
+}
+
+params:query {
+  limit: 50
+  @description('HER-261 — scope to a single Workspace (Space) ID.')
+  ~workspace:
+}
+
+example {
+  name: 200 Response
+  description: Session list.
+
+  request: {
+    url: {{baseUrl}}/v1/sessions
+    method: GET
+    mode: none
+    params:query: {
+      limit: 50
+      ~workspace:
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "sessions": [
+            {
+              "id": "",
+              "title": "",
+              "preview": "",
+              "messageCount": 0,
+              "lastMessageAt": "",
+              "workspaceID": "",
+              "pinned": false,
+              "archived": false
+            }
+          ],
+          "nextCursor": ""
+        }
+      '''
+    }
+  }
+}

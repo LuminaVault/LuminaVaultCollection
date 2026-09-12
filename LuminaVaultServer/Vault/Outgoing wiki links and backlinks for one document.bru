@@ -2,6 +2,9 @@ meta {
   name: Outgoing wiki links and backlinks for one document
   type: http
   seq: 12
+  tags: [
+    Vault
+  ]
 }
 
 get {
@@ -16,4 +19,175 @@ params:path {
 
 auth:bearer {
   token: {{token}}
+}
+
+docs {
+  `outgoing` is every `[[wikilink]]` written in this document, with its
+  resolution state. `incoming` is every link elsewhere that resolves to
+  this document — backlinks.
+
+  `resolutionState` is `resolved`, `unresolved` (points at a note that
+  does not exist yet), or `ambiguous` (the name matches more than one
+  document). Ambiguous links are reported rather than guessed.
+
+}
+
+example {
+  name: 200 Response
+  description: Links in both directions.
+
+  request: {
+    url: {{baseUrl}}/v1/vault/links/:vaultFileID
+    method: GET
+    mode: none
+    params:path: {
+      vaultFileID:
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "vaultFileID": "",
+          "path": "",
+          "outgoing": [
+            {
+              "sourceLine": 0,
+              "rawTarget": "",
+              "targetSlug": "",
+              "targetHeading": "",
+              "label": "",
+              "resolutionState": "resolved",
+              "targetPath": ""
+            }
+          ],
+          "incoming": [
+            {
+              "sourcePath": "",
+              "sourceLine": 0,
+              "rawTarget": "",
+              "targetSlug": "",
+              "resolutionState": "resolved"
+            }
+          ]
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: 400 Response
+  description: Malformed vaultFileID.
+
+  request: {
+    url: {{baseUrl}}/v1/vault/links/:vaultFileID
+    method: GET
+    mode: none
+    params:path: {
+      vaultFileID:
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 400
+      text: Bad Request
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "error": "",
+          "message": ""
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: 401 Response
+  description: Missing / invalid credential.
+
+  request: {
+    url: {{baseUrl}}/v1/vault/links/:vaultFileID
+    method: GET
+    mode: none
+    params:path: {
+      vaultFileID:
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 401
+      text: Unauthorized
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "error": "",
+          "message": ""
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: 404 Response
+  description: Resource not found.
+
+  request: {
+    url: {{baseUrl}}/v1/vault/links/:vaultFileID
+    method: GET
+    mode: none
+    params:path: {
+      vaultFileID:
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 404
+      text: Not Found
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "error": "",
+          "message": ""
+        }
+      '''
+    }
+  }
 }

@@ -1,0 +1,116 @@
+meta {
+  name: Update a project (name / description / archived)
+  type: http
+  seq: 3
+  tags: [
+    Projects
+  ]
+}
+
+patch {
+  url: {{baseUrl}}/v1/projects/:id
+  body: json
+  auth: inherit
+}
+
+params:path {
+  id:
+}
+
+body:json {
+  {
+    "name": "",
+    "description": "",
+    "archived": false
+  }
+}
+
+example {
+  name: 200 Response
+  description: Updated project.
+
+  request: {
+    url: {{baseUrl}}/v1/projects/:id
+    method: PATCH
+    mode: json
+    params:path: {
+      id:
+    }
+
+    body:json: {
+      {
+        "name": "",
+        "description": "",
+        "archived": false
+      }
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "id": "",
+          "name": "",
+          "description": "",
+          "archived": false,
+          "todoCount": 0,
+          "createdAt": ""
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: 404 Response
+  description: Unknown project.
+
+  request: {
+    url: {{baseUrl}}/v1/projects/:id
+    method: PATCH
+    mode: json
+    params:path: {
+      id:
+    }
+
+    body:json: {
+      {
+        "name": "",
+        "description": "",
+        "archived": false
+      }
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 404
+      text: Not Found
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "error": "",
+          "message": ""
+        }
+      '''
+    }
+  }
+}

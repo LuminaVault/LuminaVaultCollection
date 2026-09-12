@@ -2,6 +2,9 @@ meta {
   name: Deterministic evidence packet for one document
   type: http
   seq: 11
+  tags: [
+    Vault
+  ]
 }
 
 get {
@@ -11,7 +14,8 @@ get {
 }
 
 params:query {
-  ~siblingLimit:
+  @description('Same-Space neighbours to return (1-100, default 25).')
+  siblingLimit: 25
 }
 
 params:path {
@@ -20,4 +24,199 @@ params:path {
 
 auth:bearer {
   token: {{token}}
+}
+
+docs {
+  What should be understood alongside this document: its heading
+  structure, its neighbours in the same Space, and the documents it
+  links to and from.
+
+  No LLM, no scoring, no ranking — every field is a direct read of the
+  index, so two calls against an unchanged vault return identical
+  results. `danglingLinks` surfaces links that resolve to nothing or to
+  more than one document, verbatim as written, rather than hiding them.
+
+}
+
+example {
+  name: 200 Response
+  description: The evidence packet.
+
+  request: {
+    url: {{baseUrl}}/v1/vault/context/:vaultFileID
+    method: GET
+    mode: none
+    params:query: {
+      siblingLimit: 25
+    }
+
+    params:path: {
+      vaultFileID:
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "vaultFileID": "",
+          "path": "",
+          "spaceID": "",
+          "chunkCount": 0,
+          "headings": [
+            {
+              "path": [],
+              "startLine": 0
+            }
+          ],
+          "siblings": [
+            {
+              "vaultFileID": "",
+              "path": ""
+            }
+          ],
+          "linksTo": [
+            {
+              "vaultFileID": "",
+              "path": ""
+            }
+          ],
+          "linkedFrom": [
+            {
+              "vaultFileID": "",
+              "path": ""
+            }
+          ],
+          "danglingLinks": []
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: 400 Response
+  description: Malformed vaultFileID.
+
+  request: {
+    url: {{baseUrl}}/v1/vault/context/:vaultFileID
+    method: GET
+    mode: none
+    params:query: {
+      siblingLimit: 25
+    }
+
+    params:path: {
+      vaultFileID:
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 400
+      text: Bad Request
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "error": "",
+          "message": ""
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: 401 Response
+  description: Missing / invalid credential.
+
+  request: {
+    url: {{baseUrl}}/v1/vault/context/:vaultFileID
+    method: GET
+    mode: none
+    params:query: {
+      siblingLimit: 25
+    }
+
+    params:path: {
+      vaultFileID:
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 401
+      text: Unauthorized
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "error": "",
+          "message": ""
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: 404 Response
+  description: Resource not found.
+
+  request: {
+    url: {{baseUrl}}/v1/vault/context/:vaultFileID
+    method: GET
+    mode: none
+    params:query: {
+      siblingLimit: 25
+    }
+
+    params:path: {
+      vaultFileID:
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 404
+      text: Not Found
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "error": "",
+          "message": ""
+        }
+      '''
+    }
+  }
 }

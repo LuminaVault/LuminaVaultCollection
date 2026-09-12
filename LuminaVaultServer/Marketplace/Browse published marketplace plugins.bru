@@ -1,0 +1,123 @@
+meta {
+  name: Browse published marketplace plugins
+  type: http
+  seq: 1
+  tags: [
+    Marketplace
+  ]
+}
+
+get {
+  url: {{baseUrl}}/v1/marketplace/plugins
+  body: none
+  auth: inherit
+}
+
+params:query {
+  limit: 24
+  ~query:
+  ~category: connector
+  ~category: skill
+  ~category: memory
+  ~category: export
+  ~category: ui
+  ~category: theme
+  ~category: capture
+  ~featured:
+  ~cursor:
+}
+
+example {
+  name: 200 Response
+  description: Published plugins.
+
+  request: {
+    url: {{baseUrl}}/v1/marketplace/plugins
+    method: GET
+    mode: none
+    params:query: {
+      ~query:
+      ~category: connector
+      ~category: skill
+      ~category: memory
+      ~category: export
+      ~category: ui
+      ~category: theme
+      ~category: capture
+      ~featured:
+      ~cursor:
+      limit: 24
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "items": [
+            {
+              "slug": "",
+              "name": "",
+              "summary": "",
+              "description": "",
+              "category": "connector",
+              "iconURL": "",
+              "screenshots": [],
+              "publisher": {
+                "id": "",
+                "handle": "",
+                "displayName": "",
+                "bio": "",
+                "websiteURL": "",
+                "verified": false,
+                "status": "pending"
+              },
+              "latestVersion": {
+                "id": "",
+                "version": "",
+                "status": "draft",
+                "runtimeKind": "native",
+                "permissions": [
+                  "memory.read"
+                ],
+                "networkHosts": [],
+                "changelog": "",
+                "publishedAt": "",
+                "tools": [
+                  {
+                    "name": "",
+                    "description": ""
+                  }
+                ]
+              },
+              "featured": false,
+              "ratingAverage": 0,
+              "ratingCount": 0,
+              "installCount": 0,
+              "configFields": [
+                {
+                  "key": "",
+                  "label": "",
+                  "placeholder": "",
+                  "kind": "text",
+                  "isRequired": false
+                }
+              ]
+            }
+          ],
+          "nextCursor": ""
+        }
+      '''
+    }
+  }
+}

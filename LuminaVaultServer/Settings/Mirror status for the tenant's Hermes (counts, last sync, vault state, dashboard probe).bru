@@ -1,0 +1,65 @@
+meta {
+  name: Mirror status for the tenant's Hermes (counts, last sync, vault state, dashboard probe)
+  type: http
+  seq: 7
+  tags: [
+    Settings
+  ]
+}
+
+get {
+  url: {{baseUrl}}/v1/hermes/mirror/status
+  body: none
+  auth: inherit
+}
+
+example {
+  name: 200 Response
+  description: Current mirror state; `dashboard` carries the cached dashboard probe when a dashboard URL is linked.
+
+  request: {
+    url: {{baseUrl}}/v1/hermes/mirror/status
+    method: GET
+    mode: none
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "transport": "managed",
+          "lastSyncAt": "",
+          "lastStatus": "never",
+          "lastError": "",
+          "skillsCount": 0,
+          "jobsCount": 0,
+          "vaultFilesCount": 0,
+          "vaultPath": "",
+          "vaultState": "absent",
+          "sessionsImported": 0,
+          "compileJobID": "",
+          "dashboard": {
+            "reachable": false,
+            "authMode": "bearer",
+            "skillsWrite": false,
+            "cron": false,
+            "fs": false,
+            "sessions": false,
+            "version": "",
+            "kbVaultPath": ""
+          }
+        }
+      '''
+    }
+  }
+}

@@ -1,0 +1,50 @@
+meta {
+  name: Confirm email with the verification OTP
+  type: http
+  seq: 11
+  tags: [
+    Auth
+  ]
+}
+
+post {
+  url: {{baseUrl}}/v1/auth/email/confirm
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "code": ""
+  }
+}
+
+example {
+  name: 204 Response
+  description: Email confirmed.
+
+  request: {
+    url: {{baseUrl}}/v1/auth/email/confirm
+    method: POST
+    mode: json
+    body:json: {
+      {
+        "code": ""
+      }
+    }
+  }
+
+  response: {
+    status: {
+      code: 204
+      text: No Content
+    }
+
+    body: {
+      type: text
+      content: '''
+
+      '''
+    }
+  }
+}

@@ -1,0 +1,77 @@
+meta {
+  name: Analytics for the selected shared vault
+  type: http
+  seq: 5
+  tags: [
+    Analytics
+  ]
+}
+
+get {
+  url: {{baseUrl}}/v1/analytics/team
+  body: none
+  auth: inherit
+}
+
+params:query {
+  range: 30d
+  ~range: 7d
+  ~range: 90d
+}
+
+example {
+  name: 200 Response
+  description: Team-vault aggregate with admin-only member detail.
+
+  request: {
+    url: {{baseUrl}}/v1/analytics/team
+    method: GET
+    mode: none
+    params:query: {
+      ~range: 7d
+      range: 30d
+      ~range: 90d
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "vaultId": "",
+          "range": "7d",
+          "summary": {
+            "sessions": 0,
+            "aiRequests": 0,
+            "tokensIn": 0,
+            "tokensOut": 0,
+            "captures": 0,
+            "retrievals": 0,
+            "estimatedCostUsdMicros": 0
+          },
+          "members": [
+            {
+              "id": "",
+              "displayName": "",
+              "captures": 0,
+              "retrievals": 0,
+              "aiRequests": 0,
+              "tokens": 0,
+              "estimatedCostUsdMicros": 0
+            }
+          ]
+        }
+      '''
+    }
+  }
+}

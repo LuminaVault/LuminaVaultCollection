@@ -1,0 +1,125 @@
+meta {
+  name: List memories for the authenticated user
+  type: http
+  seq: 1
+  tags: [
+    Memory
+  ]
+}
+
+get {
+  url: {{baseUrl}}/v1/memory
+  body: none
+  auth: inherit
+}
+
+params:query {
+  limit: 50
+  offset: 0
+  @description('HER-18 — filter to memories carrying this tag.')
+  ~tag:
+  @description('''
+    HER-290 — comma-separated subset of `auto | pending | approved | rejected`
+    (e.g. `pending` or `pending,approved`). When omitted, the default
+    returns all states except `rejected`.
+
+  ''')
+  ~reviewState:
+  @description('Actionable memory-health queue used by analytics recommendations.')
+  ~healthFilter: review-overdue
+  @description('Actionable memory-health queue used by analytics recommendations.')
+  ~healthFilter: pending
+  @description('Actionable memory-health queue used by analytics recommendations.')
+  ~healthFilter: unorganized
+  @description('Actionable memory-health queue used by analytics recommendations.')
+  ~healthFilter: unused
+}
+
+example {
+  name: 200 Response
+  description: Memory page.
+
+  request: {
+    url: {{baseUrl}}/v1/memory
+    method: GET
+    mode: none
+    params:query: {
+      limit: 50
+      offset: 0
+      ~tag:
+      ~reviewState:
+      ~healthFilter: review-overdue
+      ~healthFilter: pending
+      ~healthFilter: unorganized
+      ~healthFilter: unused
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "memories": [
+            {
+              "id": "",
+              "content": "",
+              "tags": [],
+              "score": 0,
+              "accessCount": 0,
+              "queryHitCount": 0,
+              "lastAccessedAt": "",
+              "createdAt": "",
+              "updatedAt": "",
+              "sourceVaultFileId": "",
+              "reviewState": "auto",
+              "provenance": {
+                "createdBy": {
+                  "id": "",
+                  "operation": "create",
+                  "actor": "user",
+                  "source": "manual",
+                  "model": {
+                    "provider": "",
+                    "model": ""
+                  },
+                  "sourceReference": "",
+                  "createdAt": ""
+                },
+                "lastUpdatedBy": {
+                  "id": "",
+                  "operation": "create",
+                  "actor": "user",
+                  "source": "manual",
+                  "model": {
+                    "provider": "",
+                    "model": ""
+                  },
+                  "sourceReference": "",
+                  "createdAt": ""
+                },
+                "contributors": [
+                  {
+                    "provider": "",
+                    "model": ""
+                  }
+                ]
+              }
+            }
+          ],
+          "limit": 0,
+          "offset": 0
+        }
+      '''
+    }
+  }
+}

@@ -1,0 +1,100 @@
+meta {
+  name: Full status snapshot for one apply job (poll fallback)
+  type: http
+  seq: 21
+  tags: [
+    Me
+  ]
+}
+
+get {
+  url: {{baseUrl}}/v1/me/hermes-gateways/apply/:jobID
+  body: none
+  auth: inherit
+}
+
+params:path {
+  jobID:
+}
+
+example {
+  name: 200 Response
+  description: Job snapshot.
+
+  request: {
+    url: {{baseUrl}}/v1/me/hermes-gateways/apply/:jobID
+    method: GET
+    mode: none
+    params:path: {
+      jobID:
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "jobID": "",
+          "state": "running",
+          "steps": [
+            {
+              "id": "writeEnv",
+              "state": "pending",
+              "detail": "",
+              "startedAt": "",
+              "finishedAt": ""
+            }
+          ],
+          "errorMessage": "",
+          "startedAt": "",
+          "updatedAt": ""
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: 404 Response
+  description: Resource not found.
+
+  request: {
+    url: {{baseUrl}}/v1/me/hermes-gateways/apply/:jobID
+    method: GET
+    mode: none
+    params:path: {
+      jobID:
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 404
+      text: Not Found
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "error": "",
+          "message": ""
+        }
+      '''
+    }
+  }
+}

@@ -1,0 +1,39 @@
+meta {
+  name: Reset SOUL.md to the bootstrap template
+  type: http
+  seq: 3
+  tags: [
+    Soul
+  ]
+}
+
+delete {
+  url: {{baseUrl}}/v1/soul
+  body: none
+  auth: inherit
+}
+
+example {
+  name: 204 Response
+  description: Reset.
+
+  request: {
+    url: {{baseUrl}}/v1/soul
+    method: DELETE
+    mode: none
+  }
+
+  response: {
+    status: {
+      code: 204
+      text: No Content
+    }
+
+    body: {
+      type: text
+      content: '''
+
+      '''
+    }
+  }
+}

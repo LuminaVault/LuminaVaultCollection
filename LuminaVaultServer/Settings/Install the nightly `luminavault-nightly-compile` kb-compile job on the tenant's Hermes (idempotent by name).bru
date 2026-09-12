@@ -1,0 +1,79 @@
+meta {
+  name: Install the nightly `luminavault-nightly-compile` kb-compile job on the tenant's Hermes (idempotent by name)
+  type: http
+  seq: 19
+  tags: [
+    Settings
+  ]
+}
+
+post {
+  url: {{baseUrl}}/v1/hermes/mirror/jobs/install-compile
+  body: none
+  auth: inherit
+}
+
+example {
+  name: 200 Response
+  description: Job id and schedule; `created` is false when it already existed.
+
+  request: {
+    url: {{baseUrl}}/v1/hermes/mirror/jobs/install-compile
+    method: POST
+    mode: none
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "jobID": "",
+          "schedule": "",
+          "created": false
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: 502 Response
+  description: Hermes refused or was unreachable (stable code in `message`).
+
+  request: {
+    url: {{baseUrl}}/v1/hermes/mirror/jobs/install-compile
+    method: POST
+    mode: none
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 502
+      text: Bad Gateway
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "error": "",
+          "message": ""
+        }
+      '''
+    }
+  }
+}

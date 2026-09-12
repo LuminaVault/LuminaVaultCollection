@@ -1,0 +1,80 @@
+meta {
+  name: Uninstall a skill from the tenant's Hermes container
+  type: http
+  seq: 4
+  tags: [
+    Plugins
+  ]
+}
+
+delete {
+  url: {{baseUrl}}/v1/plugins/hermes-skills/:name
+  body: none
+  auth: inherit
+}
+
+params:path {
+  name:
+}
+
+docs {
+  Runs `hermes skills uninstall <name>` inside the caller's container.
+  Returns the refreshed read-only list of installed skills.
+
+}
+
+example {
+  name: 200 Response
+  description: Uninstalled; refreshed Hermes-installed skills list.
+
+  request: {
+    url: {{baseUrl}}/v1/plugins/hermes-skills/:name
+    method: DELETE
+    mode: none
+    params:path: {
+      name:
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "items": [
+            {
+              "slug": "",
+              "name": "",
+              "summary": "",
+              "description": "",
+              "category": "connector",
+              "capabilityKind": "connector",
+              "iconSlug": "",
+              "version": "",
+              "publisher": "",
+              "verified": false,
+              "configFields": [
+                {
+                  "key": "",
+                  "label": "",
+                  "placeholder": "",
+                  "kind": "text",
+                  "isRequired": false
+                }
+              ]
+            }
+          ]
+        }
+      '''
+    }
+  }
+}

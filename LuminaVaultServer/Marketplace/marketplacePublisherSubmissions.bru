@@ -2,10 +2,55 @@ meta {
   name: marketplacePublisherSubmissions
   type: http
   seq: 14
+  tags: [
+    Marketplace
+  ]
 }
 
 get {
   url: {{baseUrl}}/v1/marketplace/publisher/submissions
   body: none
   auth: inherit
+}
+
+example {
+  name: 200 Response
+  description: Caller submissions.
+
+  request: {
+    url: {{baseUrl}}/v1/marketplace/publisher/submissions
+    method: GET
+    mode: none
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "items": [
+            {
+              "id": "",
+              "pluginSlug": "",
+              "versionId": "",
+              "status": "draft",
+              "validationErrors": [],
+              "reviewNote": "",
+              "submittedAt": "",
+              "reviewedAt": ""
+            }
+          ]
+        }
+      '''
+    }
+  }
 }

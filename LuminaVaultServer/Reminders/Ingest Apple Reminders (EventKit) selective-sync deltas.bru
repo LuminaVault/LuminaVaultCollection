@@ -1,0 +1,191 @@
+meta {
+  name: Ingest Apple Reminders (EventKit) selective-sync deltas
+  type: http
+  seq: 4
+  tags: [
+    Reminders
+  ]
+}
+
+post {
+  url: {{baseUrl}}/v1/reminders/sync
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "reminders": [
+      {
+        "externalID": "",
+        "title": "",
+        "notes": "",
+        "dueAt": "",
+        "completed": false,
+        "completedAt": "",
+        "listName": "",
+        "priority": 0,
+        "remoteUpdatedAt": ""
+      }
+    ]
+  }
+}
+
+docs {
+  Batch-upserts the iOS client's EventKit reminder deltas into the
+  server-side `apple_reminders` cache (DISTINCT from the app-scheduled
+  `reminders` table). Upsert key is `(tenant_id, externalID)` where
+  `externalID` is the EventKit `calendarItemIdentifier`; last-writer-wins
+  on `remoteUpdatedAt` keeps overlapping pushes idempotent. Consent-gated
+  on the `reminders` Apple data domain. The persisted cache backs the
+  Hermes `reminders_list` tool (device-RPC stays as a fallback).
+
+}
+
+example {
+  name: 200 Response
+  description: Sync result.
+
+  request: {
+    url: {{baseUrl}}/v1/reminders/sync
+    method: POST
+    mode: json
+    body:json: {
+      {
+        "reminders": [
+          {
+            "externalID": "",
+            "title": "",
+            "notes": "",
+            "dueAt": "",
+            "completed": false,
+            "completedAt": "",
+            "listName": "",
+            "priority": 0,
+            "remoteUpdatedAt": ""
+          }
+        ]
+      }
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "inserted": 0,
+          "updated": 0,
+          "skipped": 0
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: 400 Response
+  description: Empty reminders array.
+
+  request: {
+    url: {{baseUrl}}/v1/reminders/sync
+    method: POST
+    mode: json
+    body:json: {
+      {
+        "reminders": [
+          {
+            "externalID": "",
+            "title": "",
+            "notes": "",
+            "dueAt": "",
+            "completed": false,
+            "completedAt": "",
+            "listName": "",
+            "priority": 0,
+            "remoteUpdatedAt": ""
+          }
+        ]
+      }
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 400
+      text: Bad Request
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "error": "",
+          "message": ""
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: 403 Response
+  description: Reminders access not allowed by the user.
+
+  request: {
+    url: {{baseUrl}}/v1/reminders/sync
+    method: POST
+    mode: json
+    body:json: {
+      {
+        "reminders": [
+          {
+            "externalID": "",
+            "title": "",
+            "notes": "",
+            "dueAt": "",
+            "completed": false,
+            "completedAt": "",
+            "listName": "",
+            "priority": 0,
+            "remoteUpdatedAt": ""
+          }
+        ]
+      }
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 403
+      text: Forbidden
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "error": "",
+          "message": ""
+        }
+      '''
+    }
+  }
+}

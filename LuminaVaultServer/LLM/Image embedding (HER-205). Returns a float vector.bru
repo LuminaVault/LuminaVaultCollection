@@ -1,0 +1,60 @@
+meta {
+  name: Image embedding (HER-205). Returns a float vector
+  type: http
+  seq: 23
+  tags: [
+    LLM
+  ]
+}
+
+post {
+  url: {{baseUrl}}/v1/vision/embed
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "image": "",
+    "mimeType": "image/png",
+    "model": ""
+  }
+}
+
+example {
+  name: 200 Response
+  description: Embedding vector.
+
+  request: {
+    url: {{baseUrl}}/v1/vision/embed
+    method: POST
+    mode: json
+    body:json: {
+      {
+        "image": "",
+        "mimeType": "image/png",
+        "model": ""
+      }
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "embedding": []
+        }
+      '''
+    }
+  }
+}

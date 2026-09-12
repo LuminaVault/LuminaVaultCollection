@@ -1,0 +1,118 @@
+meta {
+  name: Bulk-reprovision all per-tenant Hermes containers onto the current image
+  type: http
+  seq: 7
+  tags: [
+    System
+  ]
+}
+
+post {
+  url: {{baseUrl}}/v1/system/hermes/reprovision
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+docs {
+  Force-removes then re-creates every per-tenant Hermes container, re-seeding `config.yaml` from the latest template. The per-tenant data volume (memory DB + auth.json) is bind-mounted and untouched, so no data is lost. Idempotent. Does NOT run a central blue-green update.
+
+}
+
+example {
+  name: 200 Response
+  description: Reprovision complete.
+
+  request: {
+    url: {{baseUrl}}/v1/system/hermes/reprovision
+    method: POST
+    mode: none
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "reprovisioned": 0
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: 401 Response
+  description: Missing / invalid credential.
+
+  request: {
+    url: {{baseUrl}}/v1/system/hermes/reprovision
+    method: POST
+    mode: none
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 401
+      text: Unauthorized
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "error": "",
+          "message": ""
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: 503 Response
+  description: Per-tenant containers are disabled on this server.
+
+  request: {
+    url: {{baseUrl}}/v1/system/hermes/reprovision
+    method: POST
+    mode: none
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 503
+      text: Service Unavailable
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "error": "",
+          "message": ""
+        }
+      '''
+    }
+  }
+}

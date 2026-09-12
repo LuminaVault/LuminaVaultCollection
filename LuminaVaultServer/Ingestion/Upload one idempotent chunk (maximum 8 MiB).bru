@@ -1,0 +1,50 @@
+meta {
+  name: Upload one idempotent chunk (maximum 8 MiB)
+  type: http
+  seq: 7
+  tags: [
+    Ingestion
+  ]
+}
+
+put {
+  url: {{baseUrl}}/v1/ingestions/:batchID/items/:itemID/chunks/:index
+  body: text
+  auth: inherit
+}
+
+params:path {
+  batchID:
+  itemID:
+  index: 0
+}
+
+example {
+  name: 204 Response
+  description: Chunk accepted.
+
+  request: {
+    url: {{baseUrl}}/v1/ingestions/:batchID/items/:itemID/chunks/:index
+    method: PUT
+    mode: text
+    params:path: {
+      batchID:
+      itemID:
+      index: 0
+    }
+  }
+
+  response: {
+    status: {
+      code: 204
+      text: No Content
+    }
+
+    body: {
+      type: text
+      content: '''
+
+      '''
+    }
+  }
+}

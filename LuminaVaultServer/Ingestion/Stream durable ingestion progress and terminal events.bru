@@ -1,0 +1,66 @@
+meta {
+  name: Stream durable ingestion progress and terminal events
+  type: http
+  seq: 6
+  tags: [
+    Ingestion
+  ]
+}
+
+get {
+  url: {{baseUrl}}/v1/ingestions/:batchID/events
+  body: none
+  auth: inherit
+}
+
+params:query {
+  ~after: 0
+}
+
+params:path {
+  batchID:
+}
+
+headers {
+  ~Last-Event-ID: 0
+}
+
+example {
+  name: 200 Response
+  description: Server-sent event stream; each ingestion event is durable and resumable by ID.
+
+  request: {
+    url: {{baseUrl}}/v1/ingestions/:batchID/events
+    method: GET
+    mode: none
+    params:query: {
+      ~after: 0
+    }
+
+    params:path: {
+      batchID:
+    }
+
+    headers: {
+      ~Last-Event-ID: 0
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: text/event-stream
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: text
+      content: '''
+
+      '''
+    }
+  }
+}

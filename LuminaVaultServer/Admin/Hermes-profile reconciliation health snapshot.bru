@@ -1,0 +1,52 @@
+meta {
+  name: Hermes-profile reconciliation health snapshot
+  type: http
+  seq: 1
+  tags: [
+    Admin
+  ]
+}
+
+get {
+  url: {{baseUrl}}/v1/admin/hermes-profiles/health
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+example {
+  name: 200 Response
+  description: Status.
+
+  request: {
+    url: {{baseUrl}}/v1/admin/hermes-profiles/health
+    method: GET
+    mode: none
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "totalUsers": 0,
+          "provisioned": 0,
+          "errored": 0,
+          "provisioning": 0
+        }
+      '''
+    }
+  }
+}

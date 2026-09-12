@@ -1,0 +1,101 @@
+meta {
+  name: Create a project
+  type: http
+  seq: 2
+  tags: [
+    Projects
+  ]
+}
+
+post {
+  url: {{baseUrl}}/v1/projects
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "name": "",
+    "description": ""
+  }
+}
+
+example {
+  name: 200 Response
+  description: Created project.
+
+  request: {
+    url: {{baseUrl}}/v1/projects
+    method: POST
+    mode: json
+    body:json: {
+      {
+        "name": "",
+        "description": ""
+      }
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "id": "",
+          "name": "",
+          "description": "",
+          "archived": false,
+          "todoCount": 0,
+          "createdAt": ""
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: 400 Response
+  description: Missing name.
+
+  request: {
+    url: {{baseUrl}}/v1/projects
+    method: POST
+    mode: json
+    body:json: {
+      {
+        "name": "",
+        "description": ""
+      }
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 400
+      text: Bad Request
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "error": "",
+          "message": ""
+        }
+      '''
+    }
+  }
+}

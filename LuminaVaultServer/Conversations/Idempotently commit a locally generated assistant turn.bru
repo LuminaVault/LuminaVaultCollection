@@ -1,0 +1,94 @@
+meta {
+  name: Idempotently commit a locally generated assistant turn
+  type: http
+  seq: 9
+  tags: [
+    Conversations
+  ]
+}
+
+post {
+  url: {{baseUrl}}/v1/conversations/:id/messages/commit
+  body: json
+  auth: inherit
+}
+
+params:path {
+  id:
+}
+
+body:json {
+  {
+    "executionID": "",
+    "content": "",
+    "location": "on_device",
+    "provider": "",
+    "model": "",
+    "usage": {
+      "inputTokens": 0,
+      "outputTokens": 0,
+      "latencyMs": 0
+    }
+  }
+}
+
+example {
+  name: 200 Response
+  description: Persisted assistant turn and follow-up suggestions.
+
+  request: {
+    url: {{baseUrl}}/v1/conversations/:id/messages/commit
+    method: POST
+    mode: json
+    params:path: {
+      id:
+    }
+
+    body:json: {
+      {
+        "executionID": "",
+        "content": "",
+        "location": "on_device",
+        "provider": "",
+        "model": "",
+        "usage": {
+          "inputTokens": 0,
+          "outputTokens": 0,
+          "latencyMs": 0
+        }
+      }
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "message": {
+            "id": "",
+            "conversationId": "",
+            "role": "user",
+            "content": "",
+            "sourceMemoryIDs": [],
+            "parallelExecutionID": "",
+            "provider": "",
+            "model": "",
+            "toolCallCount": 0,
+            "createdAt": ""
+          },
+          "followUps": []
+        }
+      '''
+    }
+  }
+}

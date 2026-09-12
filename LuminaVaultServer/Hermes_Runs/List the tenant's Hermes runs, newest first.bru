@@ -1,0 +1,69 @@
+meta {
+  name: List the tenant's Hermes runs, newest first
+  type: http
+  seq: 2
+  tags: [
+    Hermes_Runs
+  ]
+}
+
+get {
+  url: {{baseUrl}}/v1/hermes/runs
+  body: none
+  auth: inherit
+}
+
+params:query {
+  limit: 20
+}
+
+example {
+  name: 200 Response
+  description: Persisted runs.
+
+  request: {
+    url: {{baseUrl}}/v1/hermes/runs
+    method: GET
+    mode: none
+    params:query: {
+      limit: 20
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "runs": [
+            {
+              "id": "",
+              "hermesRunID": "",
+              "status": "queued",
+              "prompt": "",
+              "sessionID": "",
+              "model": "",
+              "conversationID": "",
+              "startedAt": "",
+              "finishedAt": "",
+              "lastEvent": "",
+              "lastSeq": 0,
+              "pendingApproval": "",
+              "summary": "",
+              "error": ""
+            }
+          ]
+        }
+      '''
+    }
+  }
+}

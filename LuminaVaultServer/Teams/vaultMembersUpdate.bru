@@ -2,6 +2,9 @@ meta {
   name: vaultMembersUpdate
   type: http
   seq: 15
+  tags: [
+    Teams
+  ]
 }
 
 put {
@@ -10,9 +13,61 @@ put {
   auth: inherit
 }
 
+params:path {
+  vaultID:
+  userID:
+}
+
 body:json {
   {
-    "role": "",
+    "role": "viewer",
     "canUseAI": false
+  }
+}
+
+example {
+  name: 200 Response
+  description: Updated member
+
+  request: {
+    url: {{baseUrl}}/v1/vaults/:vaultID/members/:userID
+    method: PUT
+    mode: json
+    params:path: {
+      vaultID:
+      userID:
+    }
+
+    body:json: {
+      {
+        "role": "viewer",
+        "canUseAI": false
+      }
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "id": "",
+          "userID": "",
+          "username": "",
+          "email": "",
+          "role": "viewer",
+          "canUseAI": false
+        }
+      '''
+    }
   }
 }

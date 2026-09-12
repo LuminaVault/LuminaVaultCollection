@@ -1,0 +1,77 @@
+meta {
+  name: Context-aware natural-language query suggestions (HER-37)
+  type: http
+  seq: 5
+  tags: [
+    Me
+  ]
+}
+
+get {
+  url: {{baseUrl}}/v1/me/suggestions
+  body: none
+  auth: inherit
+}
+
+example {
+  name: 200 Response
+  description: Suggestions list.
+
+  request: {
+    url: {{baseUrl}}/v1/me/suggestions
+    method: GET
+    mode: none
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "suggestions": []
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: 429 Response
+  description: Rate-limit exceeded; honour `Retry-After`.
+
+  request: {
+    url: {{baseUrl}}/v1/me/suggestions
+    method: GET
+    mode: none
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 429
+      text: Too Many Requests
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "error": "",
+          "message": ""
+        }
+      '''
+    }
+  }
+}

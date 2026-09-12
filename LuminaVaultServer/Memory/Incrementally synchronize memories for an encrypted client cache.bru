@@ -1,0 +1,65 @@
+meta {
+  name: Incrementally synchronize memories for an encrypted client cache
+  type: http
+  seq: 18
+  tags: [
+    Memory
+  ]
+}
+
+get {
+  url: {{baseUrl}}/v1/memory/local-sync
+  body: none
+  auth: inherit
+}
+
+params:query {
+  limit: 200
+  @description('Opaque stable pagination cursor. Legacy ISO-8601 cursors remain accepted.')
+  ~cursor:
+}
+
+example {
+  name: 200 Response
+  description: Updated memories and the next synchronization cursor.
+
+  request: {
+    url: {{baseUrl}}/v1/memory/local-sync
+    method: GET
+    mode: none
+    params:query: {
+      ~cursor:
+      limit: 200
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "memories": [
+            {
+              "id": "",
+              "content": "",
+              "source": "manual",
+              "createdAt": "",
+              "updatedAt": ""
+            }
+          ],
+          "deletedIDs": [],
+          "nextCursor": ""
+        }
+      '''
+    }
+  }
+}

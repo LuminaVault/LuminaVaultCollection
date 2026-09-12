@@ -1,0 +1,58 @@
+meta {
+  name: List this tenant's plugin installs
+  type: http
+  seq: 5
+  tags: [
+    Plugins
+  ]
+}
+
+get {
+  url: {{baseUrl}}/v1/plugins/installs
+  body: none
+  auth: inherit
+}
+
+example {
+  name: 200 Response
+  description: Installs.
+
+  request: {
+    url: {{baseUrl}}/v1/plugins/installs
+    method: GET
+    mode: none
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "items": [
+            {
+              "id": "",
+              "pluginSlug": "",
+              "status": "enabled",
+              "hasConfig": false,
+              "createdAt": "",
+              "lastSyncAt": "",
+              "marketplaceVersionId": "",
+              "grantedPermissions": [
+                "memory.read"
+              ]
+            }
+          ]
+        }
+      '''
+    }
+  }
+}

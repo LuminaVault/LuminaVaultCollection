@@ -1,0 +1,48 @@
+meta {
+  name: Get the cross-device local/cloud routing profile
+  type: http
+  seq: 30
+  tags: [
+    Me
+  ]
+}
+
+get {
+  url: {{baseUrl}}/v1/me/preferences/hybrid-execution
+  body: none
+  auth: inherit
+}
+
+example {
+  name: 200 Response
+  description: Hybrid execution preferences.
+
+  request: {
+    url: {{baseUrl}}/v1/me/preferences/hybrid-execution
+    method: GET
+    mode: none
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "profile": "private",
+          "localFallbackEnabled": false,
+          "cloudFallbackEnabled": false,
+          "syncLocalConversations": false
+        }
+      '''
+    }
+  }
+}

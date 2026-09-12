@@ -1,0 +1,55 @@
+meta {
+  name: List curator-managed skills and jobs, including pinned state
+  type: http
+  seq: 7
+  tags: [
+    Self_Improvement
+  ]
+}
+
+get {
+  url: {{baseUrl}}/v1/me/improvement/resources
+  body: none
+  auth: inherit
+}
+
+example {
+  name: 200 Response
+  description: Curator resources.
+
+  request: {
+    url: {{baseUrl}}/v1/me/improvement/resources
+    method: GET
+    mode: none
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "skills": [
+            {
+              "name": "",
+              "title": "",
+              "kind": "skill",
+              "state": "active",
+              "pinned": false,
+              "curatorManaged": false,
+              "lastActivityAt": ""
+            }
+          ]
+        }
+      '''
+    }
+  }
+}

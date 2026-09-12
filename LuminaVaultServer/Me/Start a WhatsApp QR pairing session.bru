@@ -1,0 +1,87 @@
+meta {
+  name: Start a WhatsApp QR pairing session
+  type: http
+  seq: 23
+  tags: [
+    Me
+  ]
+}
+
+post {
+  url: {{baseUrl}}/v1/me/hermes-gateways/whatsapp/pair
+  body: none
+  auth: inherit
+}
+
+docs {
+  WhatsApp has no enterable credential — it pairs via the interactive
+  `hermes whatsapp` CLI. This runs that CLI inside the tenant's Hermes
+  container and returns a `sessionID`; the client then opens the SSE
+  stream to receive the QR (Unicode block-art) and live status until the
+  device is linked. The user scans the QR with their phone's
+  *WhatsApp → Linked Devices*.
+
+}
+
+example {
+  name: 200 Response
+  description: Pairing session started.
+
+  request: {
+    url: {{baseUrl}}/v1/me/hermes-gateways/whatsapp/pair
+    method: POST
+    mode: none
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "sessionID": ""
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: 404 Response
+  description: `whatsapp_pairing_unavailable` — per-tenant containers are disabled.
+
+  request: {
+    url: {{baseUrl}}/v1/me/hermes-gateways/whatsapp/pair
+    method: POST
+    mode: none
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 404
+      text: Not Found
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "error": "",
+          "message": ""
+        }
+      '''
+    }
+  }
+}

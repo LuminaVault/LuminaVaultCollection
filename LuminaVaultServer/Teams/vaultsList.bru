@@ -2,10 +2,52 @@ meta {
   name: vaultsList
   type: http
   seq: 13
+  tags: [
+    Teams
+  ]
 }
 
 get {
   url: {{baseUrl}}/v1/vaults
   body: none
   auth: inherit
+}
+
+example {
+  name: 200 Response
+  description: Personal and shared vaults
+
+  request: {
+    url: {{baseUrl}}/v1/vaults
+    method: GET
+    mode: none
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        [
+          {
+            "id": "",
+            "teamID": "",
+            "name": "",
+            "isPersonal": false,
+            "role": "viewer",
+            "canUseAI": false,
+            "archivedAt": ""
+          }
+        ]
+      '''
+    }
+  }
 }
