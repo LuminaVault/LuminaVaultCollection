@@ -1,0 +1,65 @@
+meta {
+  name: Read curator and SOUL reviewer settings and status
+  type: http
+  seq: 1
+  tags: [
+    Self_Improvement
+  ]
+}
+
+get {
+  url: {{baseUrl}}/v1/me/improvement
+  body: none
+  auth: inherit
+}
+
+example {
+  name: 200 Response
+  description: Current self-improvement status.
+
+  request: {
+    url: {{baseUrl}}/v1/me/improvement
+    method: GET
+    mode: none
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "settings": {
+            "enabled": false,
+            "curatorEnabled": false,
+            "intervalHours": 0,
+            "minimumIdleHours": 0,
+            "consolidate": false,
+            "pruneBuiltins": false,
+            "backupKeep": 0,
+            "soulReviewEnabled": false,
+            "reviewComplexSessions": false,
+            "soulReviewWindowDays": 0,
+            "soulReviewCooldownHours": 0,
+            "modelMode": "economy"
+          },
+          "availability": "managed",
+          "economyModelAvailable": false,
+          "pendingChanges": 0,
+          "lastCuratorReviewAt": "",
+          "lastSoulReviewAt": "",
+          "nextReviewAt": "",
+          "message": ""
+        }
+      '''
+    }
+  }
+}

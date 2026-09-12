@@ -1,0 +1,54 @@
+meta {
+  name: Remove a Space or Job profile override
+  type: http
+  seq: 8
+  tags: [
+    LLM
+  ]
+}
+
+delete {
+  url: {{baseUrl}}/v1/router/bindings/:scope/:scopeID
+  body: none
+  auth: inherit
+}
+
+params:path {
+  scope: user
+  scope: space
+  scope: job
+  scope: workflow
+  scopeID:
+}
+
+example {
+  name: 204 Response
+  description: Removed.
+
+  request: {
+    url: {{baseUrl}}/v1/router/bindings/:scope/:scopeID
+    method: DELETE
+    mode: none
+    params:path: {
+      scope: user
+      ~scope: space
+      ~scope: job
+      ~scope: workflow
+      scopeID:
+    }
+  }
+
+  response: {
+    status: {
+      code: 204
+      text: No Content
+    }
+
+    body: {
+      type: text
+      content: '''
+
+      '''
+    }
+  }
+}

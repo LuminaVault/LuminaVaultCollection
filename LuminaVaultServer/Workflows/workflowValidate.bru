@@ -2,6 +2,9 @@ meta {
   name: workflowValidate
   type: http
   seq: 6
+  tags: [
+    Workflows
+  ]
 }
 
 post {
@@ -13,12 +16,12 @@ post {
 body:json {
   {
     "schemaVersion": 0,
-    "trigger": "",
+    "trigger": "manual",
     "triggerConfiguration": {},
     "nodes": [
       {
         "id": "",
-        "kind": "",
+        "kind": "trigger",
         "name": "",
         "x": 0,
         "y": 0,
@@ -34,5 +37,70 @@ body:json {
         "targetPort": ""
       }
     ]
+  }
+}
+
+example {
+  name: 200 Response
+  description: Validation result.
+
+  request: {
+    url: {{baseUrl}}/v1/workflows/validate
+    method: POST
+    mode: json
+    body:json: {
+      {
+        "schemaVersion": 0,
+        "trigger": "manual",
+        "triggerConfiguration": {},
+        "nodes": [
+          {
+            "id": "",
+            "kind": "trigger",
+            "name": "",
+            "x": 0,
+            "y": 0,
+            "configuration": {}
+          }
+        ],
+        "edges": [
+          {
+            "id": "",
+            "sourceNodeID": "",
+            "sourcePort": "",
+            "targetNodeID": "",
+            "targetPort": ""
+          }
+        ]
+      }
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "valid": false,
+          "issues": [
+            {
+              "id": "",
+              "code": "",
+              "message": "",
+              "nodeID": ""
+            }
+          ]
+        }
+      '''
+    }
   }
 }

@@ -2,10 +2,45 @@ meta {
   name: synthesisPresetDelete
   type: http
   seq: 17
+  tags: [
+    LLM
+  ]
 }
 
 delete {
   url: {{baseUrl}}/v1/router/synthesis-presets/:presetID
   body: none
   auth: inherit
+}
+
+params:path {
+  presetID:
+}
+
+example {
+  name: 204 Response
+  description: Deleted.
+
+  request: {
+    url: {{baseUrl}}/v1/router/synthesis-presets/:presetID
+    method: DELETE
+    mode: none
+    params:path: {
+      presetID:
+    }
+  }
+
+  response: {
+    status: {
+      code: 204
+      text: No Content
+    }
+
+    body: {
+      type: text
+      content: '''
+
+      '''
+    }
+  }
 }

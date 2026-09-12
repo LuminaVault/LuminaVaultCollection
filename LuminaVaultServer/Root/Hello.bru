@@ -1,0 +1,43 @@
+meta {
+  name: Hello
+  type: http
+  seq: 1
+  tags: [
+    Root
+  ]
+}
+
+get {
+  url: {{baseUrl}}/
+  body: none
+  auth: inherit
+}
+
+example {
+  name: 200 Response
+  description: Plaintext greeting.
+
+  request: {
+    url: {{baseUrl}}/
+    method: GET
+    mode: none
+  }
+
+  response: {
+    headers: {
+      Content-Type: text/plain
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: text
+      content: '''
+
+      '''
+    }
+  }
+}

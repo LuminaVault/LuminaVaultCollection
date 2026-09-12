@@ -1,0 +1,292 @@
+meta {
+  name: Start an agent run on the tenant's Hermes
+  type: http
+  seq: 1
+  tags: [
+    Hermes_Runs
+  ]
+}
+
+post {
+  url: {{baseUrl}}/v1/hermes/runs
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "prompt": "",
+    "sessionID": "",
+    "model": "",
+    "conversationID": ""
+  }
+}
+
+docs {
+  Proxies `POST /v1/runs` on the tenant's Hermes gateway and persists
+  the run — LuminaVault owns run history because the gateway keeps runs
+  in memory for 300 s only. Returns as soon as Hermes has accepted the
+  run; a server-side watcher then follows its SSE feed, persists every
+  event, and pushes an `approval` notification when a tool call needs a
+  decision. `501 hermes_runs_unsupported` when the tenant's Hermes does
+  not report both `approval_events` and `run_events_sse`.
+
+}
+
+example {
+  name: 202 Response
+  description: Run accepted by Hermes and persisted.
+
+  request: {
+    url: {{baseUrl}}/v1/hermes/runs
+    method: POST
+    mode: json
+    body:json: {
+      {
+        "prompt": "",
+        "sessionID": "",
+        "model": "",
+        "conversationID": ""
+      }
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 202
+      text: Accepted
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "id": "",
+          "hermesRunID": "",
+          "status": "queued",
+          "prompt": "",
+          "sessionID": "",
+          "model": "",
+          "conversationID": "",
+          "startedAt": "",
+          "finishedAt": "",
+          "lastEvent": "",
+          "lastSeq": 0,
+          "pendingApproval": "",
+          "summary": "",
+          "error": ""
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: 400 Response
+  description: Empty prompt (`prompt_required`).
+
+  request: {
+    url: {{baseUrl}}/v1/hermes/runs
+    method: POST
+    mode: json
+    body:json: {
+      {
+        "prompt": "",
+        "sessionID": "",
+        "model": "",
+        "conversationID": ""
+      }
+    }
+  }
+
+  response: {
+    status: {
+      code: 400
+      text: Bad Request
+    }
+
+    body: {
+      type: text
+      content: '''
+
+      '''
+    }
+  }
+}
+
+example {
+  name: 402 Response
+  description: Chat entitlement required.
+
+  request: {
+    url: {{baseUrl}}/v1/hermes/runs
+    method: POST
+    mode: json
+    body:json: {
+      {
+        "prompt": "",
+        "sessionID": "",
+        "model": "",
+        "conversationID": ""
+      }
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 402
+      text: Payment Required
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "paywall": false,
+          "paywallId": "default",
+          "requiredTier": "pro"
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: 404 Response
+  description: Referenced conversation not found (`conversation_not_found`).
+
+  request: {
+    url: {{baseUrl}}/v1/hermes/runs
+    method: POST
+    mode: json
+    body:json: {
+      {
+        "prompt": "",
+        "sessionID": "",
+        "model": "",
+        "conversationID": ""
+      }
+    }
+  }
+
+  response: {
+    status: {
+      code: 404
+      text: Not Found
+    }
+
+    body: {
+      type: text
+      content: '''
+
+      '''
+    }
+  }
+}
+
+example {
+  name: 429 Response
+  description: Rate limited, or too many concurrent runs (`hermes_runs_limit`).
+
+  request: {
+    url: {{baseUrl}}/v1/hermes/runs
+    method: POST
+    mode: json
+    body:json: {
+      {
+        "prompt": "",
+        "sessionID": "",
+        "model": "",
+        "conversationID": ""
+      }
+    }
+  }
+
+  response: {
+    status: {
+      code: 429
+      text: Too Many Requests
+    }
+
+    body: {
+      type: text
+      content: '''
+
+      '''
+    }
+  }
+}
+
+example {
+  name: 501 Response
+  description: This Hermes has no runs API (`hermes_runs_unsupported`).
+
+  request: {
+    url: {{baseUrl}}/v1/hermes/runs
+    method: POST
+    mode: json
+    body:json: {
+      {
+        "prompt": "",
+        "sessionID": "",
+        "model": "",
+        "conversationID": ""
+      }
+    }
+  }
+
+  response: {
+    status: {
+      code: 501
+      text: Not Implemented
+    }
+
+    body: {
+      type: text
+      content: '''
+
+      '''
+    }
+  }
+}
+
+example {
+  name: 502 Response
+  description: Hermes gateway error (`hermes_runs_upstream_error`).
+
+  request: {
+    url: {{baseUrl}}/v1/hermes/runs
+    method: POST
+    mode: json
+    body:json: {
+      {
+        "prompt": "",
+        "sessionID": "",
+        "model": "",
+        "conversationID": ""
+      }
+    }
+  }
+
+  response: {
+    status: {
+      code: 502
+      text: Bad Gateway
+    }
+
+    body: {
+      type: text
+      content: '''
+
+      '''
+    }
+  }
+}

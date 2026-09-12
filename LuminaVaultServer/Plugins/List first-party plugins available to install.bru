@@ -1,0 +1,90 @@
+meta {
+  name: List first-party plugins available to install
+  type: http
+  seq: 1
+  tags: [
+    Plugins
+  ]
+}
+
+get {
+  url: {{baseUrl}}/v1/plugins/catalog
+  body: none
+  auth: inherit
+}
+
+params:query {
+  ~category: connector
+  ~category: skill
+  ~category: memory
+  ~category: export
+  ~category: ui
+  ~category: theme
+  @description('When true, returns only Featured marketplace entries.')
+  ~featured:
+  @description('When true, returns only premium (paid-tier) entries.')
+  ~premium:
+}
+
+example {
+  name: 200 Response
+  description: Catalog entries (connectors + LV predefined skills).
+
+  request: {
+    url: {{baseUrl}}/v1/plugins/catalog
+    method: GET
+    mode: none
+    params:query: {
+      ~category: connector
+      ~category: skill
+      ~category: memory
+      ~category: export
+      ~category: ui
+      ~category: theme
+      ~featured:
+      ~premium:
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "items": [
+            {
+              "slug": "",
+              "name": "",
+              "summary": "",
+              "description": "",
+              "category": "connector",
+              "capabilityKind": "connector",
+              "iconSlug": "",
+              "version": "",
+              "publisher": "",
+              "verified": false,
+              "configFields": [
+                {
+                  "key": "",
+                  "label": "",
+                  "placeholder": "",
+                  "kind": "text",
+                  "isRequired": false
+                }
+              ]
+            }
+          ]
+        }
+      '''
+    }
+  }
+}

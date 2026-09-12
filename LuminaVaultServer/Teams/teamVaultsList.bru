@@ -2,10 +2,59 @@ meta {
   name: teamVaultsList
   type: http
   seq: 3
+  tags: [
+    Teams
+  ]
 }
 
 get {
   url: {{baseUrl}}/v1/teams/:teamID/vaults
   body: none
   auth: inherit
+}
+
+params:path {
+  teamID:
+}
+
+example {
+  name: 200 Response
+  description: Team vaults
+
+  request: {
+    url: {{baseUrl}}/v1/teams/:teamID/vaults
+    method: GET
+    mode: none
+    params:path: {
+      teamID:
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        [
+          {
+            "id": "",
+            "teamID": "",
+            "name": "",
+            "isPersonal": false,
+            "role": "viewer",
+            "canUseAI": false,
+            "archivedAt": ""
+          }
+        ]
+      '''
+    }
+  }
 }

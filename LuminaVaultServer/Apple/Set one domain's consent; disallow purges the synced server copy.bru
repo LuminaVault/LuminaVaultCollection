@@ -1,0 +1,67 @@
+meta {
+  name: Set one domain's consent; disallow purges the synced server copy
+  type: http
+  seq: 2
+  tags: [
+    Apple
+  ]
+}
+
+put {
+  url: {{baseUrl}}/v1/apple/consent
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "domain": "health",
+    "allowed": false,
+    "allowWrites": false
+  }
+}
+
+example {
+  name: 200 Response
+  description: Updated snapshot.
+
+  request: {
+    url: {{baseUrl}}/v1/apple/consent
+    method: PUT
+    mode: json
+    body:json: {
+      {
+        "domain": "health",
+        "allowed": false,
+        "allowWrites": false
+      }
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "consents": [
+            {
+              "domain": "health",
+              "allowed": false,
+              "allowWrites": false,
+              "lastSyncAt": ""
+            }
+          ]
+        }
+      '''
+    }
+  }
+}

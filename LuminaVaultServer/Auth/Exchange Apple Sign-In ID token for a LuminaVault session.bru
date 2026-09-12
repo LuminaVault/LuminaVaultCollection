@@ -1,0 +1,99 @@
+meta {
+  name: Exchange Apple Sign-In ID token for a LuminaVault session
+  type: http
+  seq: 12
+  tags: [
+    Auth
+  ]
+}
+
+post {
+  url: {{baseUrl}}/v1/auth/oauth/apple/exchange
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "idToken": ""
+  }
+}
+
+example {
+  name: 200 Response
+  description: Session issued.
+
+  request: {
+    url: {{baseUrl}}/v1/auth/oauth/apple/exchange
+    method: POST
+    mode: json
+    body:json: {
+      {
+        "idToken": ""
+      }
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "accessToken": "",
+          "refreshToken": "",
+          "expiresIn": 0,
+          "userId": "",
+          "username": "",
+          "email": "",
+          "vaultInitialized": false
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: 401 Response
+  description: Missing / invalid credential.
+
+  request: {
+    url: {{baseUrl}}/v1/auth/oauth/apple/exchange
+    method: POST
+    mode: json
+    body:json: {
+      {
+        "idToken": ""
+      }
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 401
+      text: Unauthorized
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "error": "",
+          "message": ""
+        }
+      '''
+    }
+  }
+}

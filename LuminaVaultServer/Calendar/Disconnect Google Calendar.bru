@@ -1,0 +1,45 @@
+meta {
+  name: Disconnect Google Calendar
+  type: http
+  seq: 3
+  tags: [
+    Calendar
+  ]
+}
+
+post {
+  url: {{baseUrl}}/v1/calendar/disconnect
+  body: none
+  auth: inherit
+}
+
+docs {
+  Revokes the grant at Google (best-effort), deletes the stored tokens,
+  and purges this tenant's cached Google calendar events.
+
+}
+
+example {
+  name: 204 Response
+  description: Disconnected and purged.
+
+  request: {
+    url: {{baseUrl}}/v1/calendar/disconnect
+    method: POST
+    mode: none
+  }
+
+  response: {
+    status: {
+      code: 204
+      text: No Content
+    }
+
+    body: {
+      type: text
+      content: '''
+
+      '''
+    }
+  }
+}

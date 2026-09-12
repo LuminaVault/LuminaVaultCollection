@@ -1,0 +1,91 @@
+meta {
+  name: Upsert the Hermes gateway override
+  type: http
+  seq: 2
+  tags: [
+    Settings
+  ]
+}
+
+put {
+  url: {{baseUrl}}/v1/settings/hermes
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "baseUrl": "",
+    "authHeader": ""
+  }
+}
+
+example {
+  name: 200 Response
+  description: Updated config (verifiedAt reset to null).
+
+  request: {
+    url: {{baseUrl}}/v1/settings/hermes
+    method: PUT
+    mode: json
+    body:json: {
+      {
+        "baseUrl": "",
+        "authHeader": ""
+      }
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "baseUrl": "",
+          "hasAuthHeader": false,
+          "verifiedAt": ""
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: 400 Response
+  description: SSRFGuard rejection (invalid_base_url:<reason>).
+
+  request: {
+    url: {{baseUrl}}/v1/settings/hermes
+    method: PUT
+    mode: json
+    body:json: {
+      {
+        "baseUrl": "",
+        "authHeader": ""
+      }
+    }
+  }
+
+  response: {
+    status: {
+      code: 400
+      text: Bad Request
+    }
+
+    body: {
+      type: text
+      content: '''
+
+      '''
+    }
+  }
+}

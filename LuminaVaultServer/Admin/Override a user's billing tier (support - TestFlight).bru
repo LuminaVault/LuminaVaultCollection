@@ -1,0 +1,73 @@
+meta {
+  name: Override a user's billing tier (support / TestFlight)
+  type: http
+  seq: 11
+  tags: [
+    Admin
+  ]
+}
+
+put {
+  url: {{baseUrl}}/v1/admin/users/:userID/tier-override
+  body: json
+  auth: bearer
+}
+
+params:path {
+  userID:
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+    "override": "none",
+    "expiresAt": ""
+  }
+}
+
+example {
+  name: 200 Response
+  description: Updated user.
+
+  request: {
+    url: {{baseUrl}}/v1/admin/users/:userID/tier-override
+    method: PUT
+    mode: json
+    params:path: {
+      userID:
+    }
+
+    body:json: {
+      {
+        "override": "none",
+        "expiresAt": ""
+      }
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "userId": "",
+          "tier": "",
+          "tierOverride": "",
+          "tierExpiresAt": ""
+        }
+      '''
+    }
+  }
+}

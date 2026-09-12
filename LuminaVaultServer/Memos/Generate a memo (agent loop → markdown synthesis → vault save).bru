@@ -1,0 +1,59 @@
+meta {
+  name: Generate a memo (agent loop → markdown synthesis → vault save)
+  type: http
+  seq: 1
+  tags: [
+    Memos
+  ]
+}
+
+post {
+  url: {{baseUrl}}/v1/memos
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "topic": "",
+    "depth": "quick"
+  }
+}
+
+example {
+  name: 200 Response
+  description: Memo generated.
+
+  request: {
+    url: {{baseUrl}}/v1/memos
+    method: POST
+    mode: json
+    body:json: {
+      {
+        "topic": "",
+        "depth": "quick"
+      }
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "vaultFileId": "",
+          "markdown": ""
+        }
+      '''
+    }
+  }
+}

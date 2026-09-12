@@ -1,0 +1,74 @@
+meta {
+  name: Delete a conversation and its messages (HER-37)
+  type: http
+  seq: 5
+  tags: [
+    Conversations
+  ]
+}
+
+delete {
+  url: {{baseUrl}}/v1/conversations/:id
+  body: none
+  auth: inherit
+}
+
+params:path {
+  id:
+}
+
+example {
+  name: 204 Response
+  description: Conversation deleted.
+
+  request: {
+    url: {{baseUrl}}/v1/conversations/:id
+    method: DELETE
+    mode: none
+    params:path: {
+      id:
+    }
+  }
+
+  response: {
+    status: {
+      code: 204
+      text: No Content
+    }
+
+    body: {
+      type: text
+      content: '''
+
+      '''
+    }
+  }
+}
+
+example {
+  name: 404 Response
+  description: Conversation not found.
+
+  request: {
+    url: {{baseUrl}}/v1/conversations/:id
+    method: DELETE
+    mode: none
+    params:path: {
+      id:
+    }
+  }
+
+  response: {
+    status: {
+      code: 404
+      text: Not Found
+    }
+
+    body: {
+      type: text
+      content: '''
+
+      '''
+    }
+  }
+}

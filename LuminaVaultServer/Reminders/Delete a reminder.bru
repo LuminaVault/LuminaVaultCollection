@@ -1,0 +1,81 @@
+meta {
+  name: Delete a reminder
+  type: http
+  seq: 6
+  tags: [
+    Reminders
+  ]
+}
+
+delete {
+  url: {{baseUrl}}/v1/reminders/:id
+  body: none
+  auth: inherit
+}
+
+params:path {
+  id:
+}
+
+example {
+  name: 204 Response
+  description: Row deleted.
+
+  request: {
+    url: {{baseUrl}}/v1/reminders/:id
+    method: DELETE
+    mode: none
+    params:path: {
+      id:
+    }
+  }
+
+  response: {
+    status: {
+      code: 204
+      text: No Content
+    }
+
+    body: {
+      type: text
+      content: '''
+
+      '''
+    }
+  }
+}
+
+example {
+  name: 404 Response
+  description: Unknown reminder.
+
+  request: {
+    url: {{baseUrl}}/v1/reminders/:id
+    method: DELETE
+    mode: none
+    params:path: {
+      id:
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 404
+      text: Not Found
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "error": "",
+          "message": ""
+        }
+      '''
+    }
+  }
+}

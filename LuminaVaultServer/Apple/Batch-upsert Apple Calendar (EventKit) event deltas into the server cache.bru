@@ -1,0 +1,134 @@
+meta {
+  name: Batch-upsert Apple Calendar (EventKit) event deltas into the server cache
+  type: http
+  seq: 4
+  tags: [
+    Apple
+  ]
+}
+
+post {
+  url: {{baseUrl}}/v1/calendar/sync
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "events": [
+      {
+        "externalID": "",
+        "calendarID": "",
+        "title": "",
+        "notes": "",
+        "location": "",
+        "startsAt": "",
+        "endsAt": "",
+        "allDay": false,
+        "status": "",
+        "organizer": "",
+        "remoteUpdatedAt": ""
+      }
+    ]
+  }
+}
+
+docs {
+  Promotes Calendar from on-demand device-RPC to a persisted server cache (`calendar_events`, source `apple_eventkit`) that the `calendar_query` Hermes tool reads in the background. Consent-gated on the `calendar` domain. Upsert key is `(tenant_id, source, external_id)`; last-writer-wins on `remoteUpdatedAt`. Cancelled events are tombstoned, not deleted.
+}
+
+example {
+  name: 200 Response
+  description: Sync result counts.
+
+  request: {
+    url: {{baseUrl}}/v1/calendar/sync
+    method: POST
+    mode: json
+    body:json: {
+      {
+        "events": [
+          {
+            "externalID": "",
+            "calendarID": "",
+            "title": "",
+            "notes": "",
+            "location": "",
+            "startsAt": "",
+            "endsAt": "",
+            "allDay": false,
+            "status": "",
+            "organizer": "",
+            "remoteUpdatedAt": ""
+          }
+        ]
+      }
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "inserted": 0,
+          "updated": 0,
+          "skipped": 0
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: 403 Response
+  description: Calendar access not allowed by the user.
+
+  request: {
+    url: {{baseUrl}}/v1/calendar/sync
+    method: POST
+    mode: json
+    body:json: {
+      {
+        "events": [
+          {
+            "externalID": "",
+            "calendarID": "",
+            "title": "",
+            "notes": "",
+            "location": "",
+            "startsAt": "",
+            "endsAt": "",
+            "allDay": false,
+            "status": "",
+            "organizer": "",
+            "remoteUpdatedAt": ""
+          }
+        ]
+      }
+    }
+  }
+
+  response: {
+    status: {
+      code: 403
+      text: Forbidden
+    }
+
+    body: {
+      type: text
+      content: '''
+
+      '''
+    }
+  }
+}

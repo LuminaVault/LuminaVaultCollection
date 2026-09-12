@@ -2,6 +2,9 @@ meta {
   name: Is the retrievable index up to date with the vault?
   type: http
   seq: 8
+  tags: [
+    Vault
+  ]
 }
 
 get {
@@ -12,4 +15,94 @@ get {
 
 auth:bearer {
   token: {{token}}
+}
+
+docs {
+  Reports how much of the vault is actually searchable with citations.
+
+  Two kinds of drift are counted separately because they need different
+  fixes: `unindexedDocumentCount` are documents with no chunks at all
+  (run the chunk backfill), `staleDocumentCount` are documents edited
+  after they were last indexed (re-index those documents).
+
+  Read-only: calling this never indexes, embeds, or re-resolves anything.
+
+  Distinct from `/v1/vault/status`, which reports vault *provisioning*
+  state (has this tenant's vault been created?).
+
+}
+
+example {
+  name: 200 Response
+  description: Index freshness and counts.
+
+  request: {
+    url: {{baseUrl}}/v1/vault/index
+    method: GET
+    mode: none
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "documentCount": 0,
+          "memoryCount": 0,
+          "chunkCount": 0,
+          "resolvedLinkCount": 0,
+          "unresolvedLinkCount": 0,
+          "ambiguousLinkCount": 0,
+          "unindexedDocumentCount": 0,
+          "staleDocumentCount": 0,
+          "unindexedSample": [],
+          "staleSample": [],
+          "lastIndexedAt": "",
+          "stale": false,
+          "staleReasons": []
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: 401 Response
+  description: Missing / invalid credential.
+
+  request: {
+    url: {{baseUrl}}/v1/vault/index
+    method: GET
+    mode: none
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 401
+      text: Unauthorized
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "error": "",
+          "message": ""
+        }
+      '''
+    }
+  }
 }

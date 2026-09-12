@@ -2,6 +2,9 @@ meta {
   name: Health checks over the vault and its index
   type: http
   seq: 10
+  tags: [
+    Vault
+  ]
 }
 
 get {
@@ -12,4 +15,104 @@ get {
 
 auth:bearer {
   token: {{token}}
+}
+
+docs {
+  Turns "my notes feel messy" into a specific list: broken and ambiguous
+  wiki links, duplicate document names, orphans, stale index entries,
+  oversized files, empty documents, and unreadable files.
+
+  A GET because it changes nothing — the linter reads files and index
+  rows and never rewrites either.
+
+  Severities: `error` means retrieval is affected (a document is
+  unreachable or a row claims a file the vault cannot produce);
+  `warning` means worth fixing but retrieval still works — a link to a
+  note you have not written yet is intent, not damage; `pass` means the
+  check found nothing.
+
+  File-derived checks scan at most 2000 documents per call and say so in
+  their message when truncated. Each check lists at most 50 findings;
+  the counts in `message` remain exact.
+
+}
+
+example {
+  name: 200 Response
+  description: One entry per check, including the ones that passed.
+
+  request: {
+    url: {{baseUrl}}/v1/vault/lint
+    method: GET
+    mode: none
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "checks": [
+            {
+              "name": "broken-links",
+              "severity": "error",
+              "message": "",
+              "findings": [
+                {
+                  "path": "",
+                  "line": 0,
+                  "message": ""
+                }
+              ]
+            }
+          ],
+          "passed": 0,
+          "warned": 0,
+          "failed": 0,
+          "hasFindings": false
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: 401 Response
+  description: Missing / invalid credential.
+
+  request: {
+    url: {{baseUrl}}/v1/vault/lint
+    method: GET
+    mode: none
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 401
+      text: Unauthorized
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "error": "",
+          "message": ""
+        }
+      '''
+    }
+  }
 }

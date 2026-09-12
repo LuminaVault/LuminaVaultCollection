@@ -1,0 +1,161 @@
+meta {
+  name: Import the KB vault on the tenant's Hermes into LuminaVault (markdown only, resumable)
+  type: http
+  seq: 21
+  tags: [
+    Settings
+  ]
+}
+
+post {
+  url: {{baseUrl}}/v1/hermes/mirror/vault/import
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "vaultPath": ""
+  }
+}
+
+docs {
+  Detects the vault (`.kb/manifest.json`, or `raw/` + `wiki/`, under the
+  dashboard working directory; `kb-config.json` pointer) unless
+  `vaultPath` is given. Caps: 5000 files, 2 MiB each, 200 files per call
+  — `truncated: true` means call again (or let the refresh worker
+  continue) from `cursor`. Paths containing `..` are rejected.
+
+}
+
+example {
+  name: 200 Response
+  description: Import counts for this run.
+
+  request: {
+    url: {{baseUrl}}/v1/hermes/mirror/vault/import
+    method: POST
+    mode: json
+    body:json: {
+      {
+        "vaultPath": ""
+      }
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "vaultPath": "",
+          "scanned": 0,
+          "imported": 0,
+          "skipped": 0,
+          "failed": 0,
+          "truncated": false,
+          "cursor": ""
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: 400 Response
+  description: `hermes_mirror_invalid_path` or `hermes_vault_path_not_found`.
+
+  request: {
+    url: {{baseUrl}}/v1/hermes/mirror/vault/import
+    method: POST
+    mode: json
+    body:json: {
+      {
+        "vaultPath": ""
+      }
+    }
+  }
+
+  response: {
+    status: {
+      code: 400
+      text: Bad Request
+    }
+
+    body: {
+      type: text
+      content: '''
+
+      '''
+    }
+  }
+}
+
+example {
+  name: 404 Response
+  description: No vault detected (`hermes_vault_not_found`).
+
+  request: {
+    url: {{baseUrl}}/v1/hermes/mirror/vault/import
+    method: POST
+    mode: json
+    body:json: {
+      {
+        "vaultPath": ""
+      }
+    }
+  }
+
+  response: {
+    status: {
+      code: 404
+      text: Not Found
+    }
+
+    body: {
+      type: text
+      content: '''
+
+      '''
+    }
+  }
+}
+
+example {
+  name: 409 Response
+  description: An import for this tenant is already running (`hermes_mirror_busy`).
+
+  request: {
+    url: {{baseUrl}}/v1/hermes/mirror/vault/import
+    method: POST
+    mode: json
+    body:json: {
+      {
+        "vaultPath": ""
+      }
+    }
+  }
+
+  response: {
+    status: {
+      code: 409
+      text: Conflict
+    }
+
+    body: {
+      type: text
+      content: '''
+
+      '''
+    }
+  }
+}

@@ -1,0 +1,102 @@
+meta {
+  name: Replace tenant self-improvement settings
+  type: http
+  seq: 2
+  tags: [
+    Self_Improvement
+  ]
+}
+
+put {
+  url: {{baseUrl}}/v1/me/improvement
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "settings": {
+      "enabled": false,
+      "curatorEnabled": false,
+      "intervalHours": 0,
+      "minimumIdleHours": 0,
+      "consolidate": false,
+      "pruneBuiltins": false,
+      "backupKeep": 0,
+      "soulReviewEnabled": false,
+      "reviewComplexSessions": false,
+      "soulReviewWindowDays": 0,
+      "soulReviewCooldownHours": 0,
+      "modelMode": "economy"
+    }
+  }
+}
+
+example {
+  name: 200 Response
+  description: Updated status.
+
+  request: {
+    url: {{baseUrl}}/v1/me/improvement
+    method: PUT
+    mode: json
+    body:json: {
+      {
+        "settings": {
+          "enabled": false,
+          "curatorEnabled": false,
+          "intervalHours": 0,
+          "minimumIdleHours": 0,
+          "consolidate": false,
+          "pruneBuiltins": false,
+          "backupKeep": 0,
+          "soulReviewEnabled": false,
+          "reviewComplexSessions": false,
+          "soulReviewWindowDays": 0,
+          "soulReviewCooldownHours": 0,
+          "modelMode": "economy"
+        }
+      }
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "settings": {
+            "enabled": false,
+            "curatorEnabled": false,
+            "intervalHours": 0,
+            "minimumIdleHours": 0,
+            "consolidate": false,
+            "pruneBuiltins": false,
+            "backupKeep": 0,
+            "soulReviewEnabled": false,
+            "reviewComplexSessions": false,
+            "soulReviewWindowDays": 0,
+            "soulReviewCooldownHours": 0,
+            "modelMode": "economy"
+          },
+          "availability": "managed",
+          "economyModelAvailable": false,
+          "pendingChanges": 0,
+          "lastCuratorReviewAt": "",
+          "lastSoulReviewAt": "",
+          "nextReviewAt": "",
+          "message": ""
+        }
+      '''
+    }
+  }
+}

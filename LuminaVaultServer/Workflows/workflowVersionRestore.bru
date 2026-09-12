@@ -2,6 +2,9 @@ meta {
   name: workflowVersionRestore
   type: http
   seq: 20
+  tags: [
+    Workflows
+  ]
 }
 
 post {
@@ -12,5 +15,78 @@ post {
 
 params:path {
   id:
-  version:
+  version: 1
+}
+
+example {
+  name: 200 Response
+  description: Version copied into a new draft revision.
+
+  request: {
+    url: {{baseUrl}}/v1/workflows/:id/versions/:version/restore
+    method: POST
+    mode: none
+    params:path: {
+      id:
+      version: 1
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "workflow": {
+            "id": "",
+            "name": "",
+            "descriptionText": "",
+            "enabled": false,
+            "trigger": "manual",
+            "draftRevision": 0,
+            "publishedVersion": 0,
+            "lastRunStatus": "queued",
+            "lastRunAt": "",
+            "pendingApprovalCount": 0,
+            "isLegacyJob": false,
+            "createdAt": "",
+            "updatedAt": ""
+          },
+          "definition": {
+            "schemaVersion": 0,
+            "trigger": "manual",
+            "triggerConfiguration": {},
+            "nodes": [
+              {
+                "id": "",
+                "kind": "trigger",
+                "name": "",
+                "x": 0,
+                "y": 0,
+                "configuration": {}
+              }
+            ],
+            "edges": [
+              {
+                "id": "",
+                "sourceNodeID": "",
+                "sourcePort": "",
+                "targetNodeID": "",
+                "targetPort": ""
+              }
+            ]
+          }
+        }
+      '''
+    }
+  }
 }

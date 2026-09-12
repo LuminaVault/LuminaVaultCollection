@@ -1,0 +1,76 @@
+meta {
+  name: Operational effectiveness grouped by provider and model
+  type: http
+  seq: 4
+  tags: [
+    Analytics
+  ]
+}
+
+get {
+  url: {{baseUrl}}/v1/analytics/models
+  body: none
+  auth: inherit
+}
+
+params:query {
+  range: 30d
+  scope: active
+  ~range: 7d
+  ~range: 90d
+  ~scope: personal
+}
+
+example {
+  name: 200 Response
+  description: Model effectiveness analytics.
+
+  request: {
+    url: {{baseUrl}}/v1/analytics/models
+    method: GET
+    mode: none
+    params:query: {
+      ~range: 7d
+      range: 30d
+      ~range: 90d
+      ~scope: personal
+      scope: active
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "range": "7d",
+          "models": [
+            {
+              "provider": "",
+              "model": "",
+              "requests": 0,
+              "successRate": 0,
+              "fallbackRate": 0,
+              "averageLatencyMs": 0,
+              "p95LatencyMs": 0,
+              "tokens": 0,
+              "estimatedCostUsdMicros": 0,
+              "positiveFeedback": 0,
+              "negativeFeedback": 0,
+              "satisfactionRate": 0
+            }
+          ]
+        }
+      '''
+    }
+  }
+}

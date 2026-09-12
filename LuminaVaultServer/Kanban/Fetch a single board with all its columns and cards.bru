@@ -1,0 +1,143 @@
+meta {
+  name: Fetch a single board with all its columns and cards
+  type: http
+  seq: 3
+  tags: [
+    Kanban
+  ]
+}
+
+get {
+  url: {{baseUrl}}/v1/boards/:boardID
+  body: none
+  auth: inherit
+}
+
+params:path {
+  boardID:
+}
+
+example {
+  name: 200 Response
+  description: Full board snapshot.
+
+  request: {
+    url: {{baseUrl}}/v1/boards/:boardID
+    method: GET
+    mode: none
+    params:path: {
+      boardID:
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "id": "",
+          "title": "",
+          "version": 0,
+          "columns": [
+            {
+              "id": "",
+              "title": "",
+              "rank": "",
+              "cards": [
+                {
+                  "id": "",
+                  "columnID": "",
+                  "title": "",
+                  "body": "",
+                  "priority": "",
+                  "dueAt": "",
+                  "rank": "",
+                  "updatedAt": ""
+                }
+              ]
+            }
+          ]
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: 401 Response
+  description: Missing / invalid credential.
+
+  request: {
+    url: {{baseUrl}}/v1/boards/:boardID
+    method: GET
+    mode: none
+    params:path: {
+      boardID:
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 401
+      text: Unauthorized
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "error": "",
+          "message": ""
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: 404 Response
+  description: Resource not found.
+
+  request: {
+    url: {{baseUrl}}/v1/boards/:boardID
+    method: GET
+    mode: none
+    params:path: {
+      boardID:
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 404
+      text: Not Found
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "error": "",
+          "message": ""
+        }
+      '''
+    }
+  }
+}

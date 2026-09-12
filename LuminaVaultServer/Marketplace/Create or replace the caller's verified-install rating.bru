@@ -1,0 +1,107 @@
+meta {
+  name: Create or replace the caller's verified-install rating
+  type: http
+  seq: 4
+  tags: [
+    Marketplace
+  ]
+}
+
+put {
+  url: {{baseUrl}}/v1/marketplace/plugins/:slug/rating
+  body: json
+  auth: inherit
+}
+
+params:path {
+  slug:
+}
+
+body:json {
+  {
+    "rating": 0,
+    "body": ""
+  }
+}
+
+example {
+  name: 200 Response
+  description: Saved review.
+
+  request: {
+    url: {{baseUrl}}/v1/marketplace/plugins/:slug/rating
+    method: PUT
+    mode: json
+    params:path: {
+      slug:
+    }
+
+    body:json: {
+      {
+        "rating": 0,
+        "body": ""
+      }
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "id": "",
+          "rating": 0,
+          "body": "",
+          "authorUsername": "",
+          "verifiedInstall": false,
+          "createdAt": "",
+          "updatedAt": ""
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: 403 Response
+  description: A verified install is required; publishers cannot rate their own plugin.
+
+  request: {
+    url: {{baseUrl}}/v1/marketplace/plugins/:slug/rating
+    method: PUT
+    mode: json
+    params:path: {
+      slug:
+    }
+
+    body:json: {
+      {
+        "rating": 0,
+        "body": ""
+      }
+    }
+  }
+
+  response: {
+    status: {
+      code: 403
+      text: Forbidden
+    }
+
+    body: {
+      type: text
+      content: '''
+
+      '''
+    }
+  }
+}

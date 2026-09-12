@@ -1,0 +1,105 @@
+meta {
+  name: Evidence-backed claim, entity, and event graph
+  type: http
+  seq: 12
+  tags: [
+    Memory
+  ]
+}
+
+get {
+  url: {{baseUrl}}/v1/knowledge/graph
+  body: none
+  auth: inherit
+}
+
+params:query {
+  limit: 800
+  minimumConfidence: 0
+  @description('CSV node kinds.')
+  ~kinds:
+  @description('CSV edge predicates.')
+  ~predicates:
+  @description('CSV edge review states.')
+  ~states:
+}
+
+example {
+  name: 200 Response
+  description: Tenant-scoped reasoning graph.
+
+  request: {
+    url: {{baseUrl}}/v1/knowledge/graph
+    method: GET
+    mode: none
+    params:query: {
+      limit: 800
+      ~kinds:
+      ~predicates:
+      ~states:
+      minimumConfidence: 0
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "nodes": [
+            {
+              "id": "",
+              "kind": "claim",
+              "label": "",
+              "summary": "",
+              "occurredAt": "",
+              "confidence": 0,
+              "evidence": [
+                {
+                  "id": "",
+                  "memoryID": "",
+                  "sourceVaultFileID": "",
+                  "quote": "",
+                  "startOffset": 0,
+                  "endOffset": 0
+                }
+              ]
+            }
+          ],
+          "edges": [
+            {
+              "id": "",
+              "from": "",
+              "to": "",
+              "predicate": "mentions",
+              "state": "asserted",
+              "confidence": 0,
+              "rationale": "",
+              "counterEvidence": "",
+              "evidence": [
+                {
+                  "id": "",
+                  "memoryID": "",
+                  "sourceVaultFileID": "",
+                  "quote": "",
+                  "startOffset": 0,
+                  "endOffset": 0
+                }
+              ]
+            }
+          ],
+          "generatedAt": ""
+        }
+      '''
+    }
+  }
+}

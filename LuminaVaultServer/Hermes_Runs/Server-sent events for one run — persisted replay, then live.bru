@@ -1,0 +1,108 @@
+meta {
+  name: Server-sent events for one run — persisted replay, then live
+  type: http
+  seq: 4
+  tags: [
+    Hermes_Runs
+  ]
+}
+
+get {
+  url: {{baseUrl}}/v1/hermes/runs/:id/events
+  body: none
+  auth: inherit
+}
+
+params:query {
+  @description('Resume cursor — the highest `seq` the client already has.')
+  after: 0
+}
+
+params:path {
+  id:
+}
+
+docs {
+  `text/event-stream`. Every record is `event: hermes.run.event` with a
+  JSON `HermesRunEvent` on the `data:` line; `: keepalive` comments hold
+  the connection open while a run is thinking. Persisted events with
+  `seq > after` are replayed first, so a client reconnecting with the
+  `lastSeq` it already holds loses nothing and sees nothing twice. The
+  stream closes once the run is terminal and fully drained.
+
+}
+
+example {
+  name: 200 Response
+  description: SSE stream of run events.
+
+  request: {
+    url: {{baseUrl}}/v1/hermes/runs/:id/events
+    method: GET
+    mode: none
+    params:query: {
+      after: 0
+    }
+
+    params:path: {
+      id:
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: text/event-stream
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: text
+      content: '''
+
+      '''
+    }
+  }
+}
+
+example {
+  name: 404 Response
+  description: Resource not found.
+
+  request: {
+    url: {{baseUrl}}/v1/hermes/runs/:id/events
+    method: GET
+    mode: none
+    params:query: {
+      after: 0
+    }
+
+    params:path: {
+      id:
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 404
+      text: Not Found
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "error": "",
+          "message": ""
+        }
+      '''
+    }
+  }
+}

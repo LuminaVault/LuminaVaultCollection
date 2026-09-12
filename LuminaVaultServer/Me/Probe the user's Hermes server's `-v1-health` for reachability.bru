@@ -1,0 +1,125 @@
+meta {
+  name: Probe the user's Hermes server's `/v1/health` for reachability
+  type: http
+  seq: 18
+  tags: [
+    Me
+  ]
+}
+
+post {
+  url: {{baseUrl}}/v1/me/hermes-gateways/:id/test
+  body: none
+  auth: inherit
+}
+
+params:path {
+  id: telegram
+  id: discord
+  id: slack
+  id: whatsapp
+  id: email
+  id: matrix
+  id: ntfy
+  id: mattermost
+}
+
+docs {
+  Hermes today exposes no gateway-admin HTTP API; this endpoint
+  only confirms the user's Hermes server is reachable and
+  responds 2xx on `/v1/health`. On success `verifiedAt` is
+  stamped; on failure `lastFailureCode` is recorded. The
+  gateway's own operational state must be checked via the
+  `hermes gateway status` CLI on the Hermes host.
+
+}
+
+example {
+  name: 200 Response
+  description: Probe result (200 even on failure — see `ok`).
+
+  request: {
+    url: {{baseUrl}}/v1/me/hermes-gateways/:id/test
+    method: POST
+    mode: none
+    params:path: {
+      id: telegram
+      ~id: discord
+      ~id: slack
+      ~id: whatsapp
+      ~id: email
+      ~id: matrix
+      ~id: ntfy
+      ~id: mattermost
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "ok": false,
+          "verifiedAt": "",
+          "errorCode": "",
+          "errorMessage": ""
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: 400 Response
+  description: '''
+    Stable code in `message`:
+    `hermes_not_configured` (user has no resolved Hermes endpoint).
+
+  '''
+
+  request: {
+    url: {{baseUrl}}/v1/me/hermes-gateways/:id/test
+    method: POST
+    mode: none
+    params:path: {
+      id: telegram
+      ~id: discord
+      ~id: slack
+      ~id: whatsapp
+      ~id: email
+      ~id: matrix
+      ~id: ntfy
+      ~id: mattermost
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 400
+      text: Bad Request
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "error": "",
+          "message": ""
+        }
+      '''
+    }
+  }
+}

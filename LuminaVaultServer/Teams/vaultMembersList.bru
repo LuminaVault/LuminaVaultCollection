@@ -2,10 +2,58 @@ meta {
   name: vaultMembersList
   type: http
   seq: 14
+  tags: [
+    Teams
+  ]
 }
 
 get {
   url: {{baseUrl}}/v1/vaults/:vaultID/members
   body: none
   auth: inherit
+}
+
+params:path {
+  vaultID:
+}
+
+example {
+  name: 200 Response
+  description: Vault members
+
+  request: {
+    url: {{baseUrl}}/v1/vaults/:vaultID/members
+    method: GET
+    mode: none
+    params:path: {
+      vaultID:
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        [
+          {
+            "id": "",
+            "userID": "",
+            "username": "",
+            "email": "",
+            "role": "viewer",
+            "canUseAI": false
+          }
+        ]
+      '''
+    }
+  }
 }

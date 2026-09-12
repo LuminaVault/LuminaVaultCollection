@@ -1,0 +1,165 @@
+meta {
+  name: Update card fields (title, body, priority, dueAt)
+  type: http
+  seq: 12
+  tags: [
+    Kanban
+  ]
+}
+
+patch {
+  url: {{baseUrl}}/v1/cards/:cardID
+  body: json
+  auth: inherit
+}
+
+params:path {
+  cardID:
+}
+
+body:json {
+  {
+    "title": "",
+    "body": "",
+    "priority": "",
+    "dueAt": ""
+  }
+}
+
+example {
+  name: 200 Response
+  description: Updated card snapshot.
+
+  request: {
+    url: {{baseUrl}}/v1/cards/:cardID
+    method: PATCH
+    mode: json
+    params:path: {
+      cardID:
+    }
+
+    body:json: {
+      {
+        "title": "",
+        "body": "",
+        "priority": "",
+        "dueAt": ""
+      }
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "id": "",
+          "columnID": "",
+          "title": "",
+          "body": "",
+          "priority": "",
+          "dueAt": "",
+          "rank": "",
+          "updatedAt": ""
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: 401 Response
+  description: Missing / invalid credential.
+
+  request: {
+    url: {{baseUrl}}/v1/cards/:cardID
+    method: PATCH
+    mode: json
+    params:path: {
+      cardID:
+    }
+
+    body:json: {
+      {
+        "title": "",
+        "body": "",
+        "priority": "",
+        "dueAt": ""
+      }
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 401
+      text: Unauthorized
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "error": "",
+          "message": ""
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: 404 Response
+  description: Resource not found.
+
+  request: {
+    url: {{baseUrl}}/v1/cards/:cardID
+    method: PATCH
+    mode: json
+    params:path: {
+      cardID:
+    }
+
+    body:json: {
+      {
+        "title": "",
+        "body": "",
+        "priority": "",
+        "dueAt": ""
+      }
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 404
+      text: Not Found
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "error": "",
+          "message": ""
+        }
+      '''
+    }
+  }
+}

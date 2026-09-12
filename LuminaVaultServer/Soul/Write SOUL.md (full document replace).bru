@@ -1,0 +1,57 @@
+meta {
+  name: Write SOUL.md (full document replace)
+  type: http
+  seq: 2
+  tags: [
+    Soul
+  ]
+}
+
+put {
+  url: {{baseUrl}}/v1/soul
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "markdown": ""
+  }
+}
+
+example {
+  name: 200 Response
+  description: Updated SOUL.md.
+
+  request: {
+    url: {{baseUrl}}/v1/soul
+    method: PUT
+    mode: json
+    body:json: {
+      {
+        "markdown": ""
+      }
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "markdown": "",
+          "updatedAt": ""
+        }
+      '''
+    }
+  }
+}

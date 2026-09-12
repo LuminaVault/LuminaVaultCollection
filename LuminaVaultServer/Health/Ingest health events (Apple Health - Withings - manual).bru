@@ -1,0 +1,76 @@
+meta {
+  name: Ingest health events (Apple Health / Withings / manual)
+  type: http
+  seq: 1
+  tags: [
+    Health
+  ]
+}
+
+post {
+  url: {{baseUrl}}/v1/health
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "events": [
+      {
+        "eventType": "",
+        "valueNumeric": 0,
+        "valueText": "",
+        "unit": "",
+        "recordedAt": "",
+        "source": "",
+        "metadata": {}
+      }
+    ]
+  }
+}
+
+example {
+  name: 200 Response
+  description: Ingested.
+
+  request: {
+    url: {{baseUrl}}/v1/health
+    method: POST
+    mode: json
+    body:json: {
+      {
+        "events": [
+          {
+            "eventType": "",
+            "valueNumeric": 0,
+            "valueText": "",
+            "unit": "",
+            "recordedAt": "",
+            "source": "",
+            "metadata": {}
+          }
+        ]
+      }
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "ingested": 0
+        }
+      '''
+    }
+  }
+}

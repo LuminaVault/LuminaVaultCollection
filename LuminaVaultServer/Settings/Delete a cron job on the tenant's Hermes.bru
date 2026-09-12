@@ -1,0 +1,145 @@
+meta {
+  name: Delete a cron job on the tenant's Hermes
+  type: http
+  seq: 14
+  tags: [
+    Settings
+  ]
+}
+
+delete {
+  url: {{baseUrl}}/v1/hermes/mirror/jobs/:id
+  body: none
+  auth: inherit
+}
+
+params:path {
+  id:
+}
+
+docs {
+  Deletes upstream first, then drops the mirrored row. Runs already
+  collected into `hermes_job_runs` are kept — the outputs are in the
+  vault and on the Today feed, and deleting a schedule is not a request
+  to forget what it produced.
+
+}
+
+example {
+  name: 204 Response
+  description: Deleted.
+
+  request: {
+    url: {{baseUrl}}/v1/hermes/mirror/jobs/:id
+    method: DELETE
+    mode: none
+    params:path: {
+      id:
+    }
+  }
+
+  response: {
+    status: {
+      code: 204
+      text: No Content
+    }
+
+    body: {
+      type: text
+      content: '''
+
+      '''
+    }
+  }
+}
+
+example {
+  name: 400 Response
+  description: `hermes_mirror_invalid_path`.
+
+  request: {
+    url: {{baseUrl}}/v1/hermes/mirror/jobs/:id
+    method: DELETE
+    mode: none
+    params:path: {
+      id:
+    }
+  }
+
+  response: {
+    status: {
+      code: 400
+      text: Bad Request
+    }
+
+    body: {
+      type: text
+      content: '''
+
+      '''
+    }
+  }
+}
+
+example {
+  name: 404 Response
+  description: The job is not mirrored for this tenant (`hermes_job_not_found`).
+
+  request: {
+    url: {{baseUrl}}/v1/hermes/mirror/jobs/:id
+    method: DELETE
+    mode: none
+    params:path: {
+      id:
+    }
+  }
+
+  response: {
+    status: {
+      code: 404
+      text: Not Found
+    }
+
+    body: {
+      type: text
+      content: '''
+
+      '''
+    }
+  }
+}
+
+example {
+  name: 502 Response
+  description: Hermes refused or was unreachable (stable code in `message`).
+
+  request: {
+    url: {{baseUrl}}/v1/hermes/mirror/jobs/:id
+    method: DELETE
+    mode: none
+    params:path: {
+      id:
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 502
+      text: Bad Gateway
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "error": "",
+          "message": ""
+        }
+      '''
+    }
+  }
+}

@@ -1,0 +1,108 @@
+meta {
+  name: What each turn in this thread actually did
+  type: http
+  seq: 6
+  tags: [
+    Conversations
+  ]
+}
+
+get {
+  url: {{baseUrl}}/v1/conversations/:id/traces
+  body: none
+  auth: inherit
+}
+
+params:path {
+  id:
+}
+
+docs {
+  The expansion behind the summary on `ConversationMessageDTO`: which
+  tools ran, whether the preferred provider failed and we fell over to
+  another, tokens, cost and latency.
+
+  A separate call so opening a thread does not pay for detail nobody has
+  asked to see. `toolNames` may be empty while `toolCallCount` is not —
+  the streaming path observes tool invocations without seeing their
+  names.
+
+}
+
+example {
+  name: 200 Response
+  description: Traces for this conversation's turns, oldest first.
+
+  request: {
+    url: {{baseUrl}}/v1/conversations/:id/traces
+    method: GET
+    mode: none
+    params:path: {
+      id:
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "traces": [
+            {
+              "id": "",
+              "conversationMessageId": "",
+              "provider": "xai",
+              "model": "",
+              "toolNames": [],
+              "toolCallCount": 0,
+              "failoverCount": 0,
+              "tokensIn": 0,
+              "tokensOut": 0,
+              "estimatedCostUsdMicros": 0,
+              "latencyMs": 0,
+              "credentialMode": "",
+              "occurredAt": ""
+            }
+          ]
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: 404 Response
+  description: Conversation not found.
+
+  request: {
+    url: {{baseUrl}}/v1/conversations/:id/traces
+    method: GET
+    mode: none
+    params:path: {
+      id:
+    }
+  }
+
+  response: {
+    status: {
+      code: 404
+      text: Not Found
+    }
+
+    body: {
+      type: text
+      content: '''
+
+      '''
+    }
+  }
+}

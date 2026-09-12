@@ -1,0 +1,67 @@
+meta {
+  name: Static per-provider facts for rendering a BYO key form
+  type: http
+  seq: 9
+  tags: [
+    Me
+  ]
+}
+
+get {
+  url: {{baseUrl}}/v1/me/providers/catalog
+  body: none
+  auth: inherit
+}
+
+docs {
+  Display name, default base URL, whether a base URL or an API key is
+  actually required, an example key format, and where keys are issued.
+
+  Carries no tenant state — pair it with `GET /v1/me/providers`, which
+  says what this user has stored. `available` is false when this
+  deployment has no adapter registered for the provider, so a client
+  should not offer to collect a key that nothing here can spend.
+
+}
+
+example {
+  name: 200 Response
+  description: The provider catalog for this deployment.
+
+  request: {
+    url: {{baseUrl}}/v1/me/providers/catalog
+    method: GET
+    mode: none
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "providers": [
+            {
+              "provider": "xai",
+              "displayName": "",
+              "defaultBaseURL": "",
+              "requiresBaseURL": false,
+              "requiresAPIKey": false,
+              "keyHint": "",
+              "keysURL": "",
+              "available": false
+            }
+          ]
+        }
+      '''
+    }
+  }
+}

@@ -1,0 +1,108 @@
+meta {
+  name: Full status snapshot for one update job (poll fallback)
+  type: http
+  seq: 4
+  tags: [
+    System
+  ]
+}
+
+get {
+  url: {{baseUrl}}/v1/system/hermes/update/:jobID
+  body: none
+  auth: bearer
+}
+
+params:path {
+  jobID:
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+example {
+  name: 200 Response
+  description: Job snapshot.
+
+  request: {
+    url: {{baseUrl}}/v1/system/hermes/update/:jobID
+    method: GET
+    mode: none
+    params:path: {
+      jobID:
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "status": {
+            "jobID": "",
+            "state": "running",
+            "steps": [
+              {
+                "id": "preflight",
+                "state": "pending",
+                "detail": "",
+                "startedAt": "",
+                "finishedAt": ""
+              }
+            ],
+            "fromVersion": "",
+            "toVersion": "",
+            "errorMessage": "",
+            "startedAt": "",
+            "updatedAt": ""
+          }
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: 404 Response
+  description: Resource not found.
+
+  request: {
+    url: {{baseUrl}}/v1/system/hermes/update/:jobID
+    method: GET
+    mode: none
+    params:path: {
+      jobID:
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 404
+      text: Not Found
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "error": "",
+          "message": ""
+        }
+      '''
+    }
+  }
+}

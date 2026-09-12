@@ -1,0 +1,51 @@
+meta {
+  name: Run memory pruning across all tenants
+  type: http
+  seq: 9
+  tags: [
+    Admin
+  ]
+}
+
+post {
+  url: {{baseUrl}}/v1/admin/memory/prune
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+example {
+  name: 200 Response
+  description: Prune summary.
+
+  request: {
+    url: {{baseUrl}}/v1/admin/memory/prune
+    method: POST
+    mode: none
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "memoriesPruned": 0,
+          "memoriesArchived": 0,
+          "durationMs": 0
+        }
+      '''
+    }
+  }
+}

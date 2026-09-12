@@ -1,0 +1,55 @@
+meta {
+  name: Full achievements catalog joined to per-tenant progress
+  type: http
+  seq: 1
+  tags: [
+    Achievements
+  ]
+}
+
+get {
+  url: {{baseUrl}}/v1/achievements
+  body: none
+  auth: inherit
+}
+
+example {
+  name: 200 Response
+  description: Achievements catalog.
+
+  request: {
+    url: {{baseUrl}}/v1/achievements
+    method: GET
+    mode: none
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "achievements": [
+            {
+              "key": "",
+              "title": "",
+              "description": "",
+              "tier": "",
+              "progressCount": 0,
+              "targetCount": 0,
+              "unlockedAt": ""
+            }
+          ]
+        }
+      '''
+    }
+  }
+}

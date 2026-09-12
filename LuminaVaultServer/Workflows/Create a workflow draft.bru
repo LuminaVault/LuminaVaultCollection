@@ -1,0 +1,207 @@
+meta {
+  name: Create a workflow draft
+  type: http
+  seq: 2
+  tags: [
+    Workflows
+  ]
+}
+
+post {
+  url: {{baseUrl}}/v1/workflows
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "name": "",
+    "descriptionText": "",
+    "definition": {
+      "schemaVersion": 0,
+      "trigger": "manual",
+      "triggerConfiguration": {},
+      "nodes": [
+        {
+          "id": "",
+          "kind": "trigger",
+          "name": "",
+          "x": 0,
+          "y": 0,
+          "configuration": {}
+        }
+      ],
+      "edges": [
+        {
+          "id": "",
+          "sourceNodeID": "",
+          "sourcePort": "",
+          "targetNodeID": "",
+          "targetPort": ""
+        }
+      ]
+    }
+  }
+}
+
+example {
+  name: 200 Response
+  description: Created workflow.
+
+  request: {
+    url: {{baseUrl}}/v1/workflows
+    method: POST
+    mode: json
+    body:json: {
+      {
+        "name": "",
+        "descriptionText": "",
+        "definition": {
+          "schemaVersion": 0,
+          "trigger": "manual",
+          "triggerConfiguration": {},
+          "nodes": [
+            {
+              "id": "",
+              "kind": "trigger",
+              "name": "",
+              "x": 0,
+              "y": 0,
+              "configuration": {}
+            }
+          ],
+          "edges": [
+            {
+              "id": "",
+              "sourceNodeID": "",
+              "sourcePort": "",
+              "targetNodeID": "",
+              "targetPort": ""
+            }
+          ]
+        }
+      }
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "workflow": {
+            "id": "",
+            "name": "",
+            "descriptionText": "",
+            "enabled": false,
+            "trigger": "manual",
+            "draftRevision": 0,
+            "publishedVersion": 0,
+            "lastRunStatus": "queued",
+            "lastRunAt": "",
+            "pendingApprovalCount": 0,
+            "isLegacyJob": false,
+            "createdAt": "",
+            "updatedAt": ""
+          },
+          "definition": {
+            "schemaVersion": 0,
+            "trigger": "manual",
+            "triggerConfiguration": {},
+            "nodes": [
+              {
+                "id": "",
+                "kind": "trigger",
+                "name": "",
+                "x": 0,
+                "y": 0,
+                "configuration": {}
+              }
+            ],
+            "edges": [
+              {
+                "id": "",
+                "sourceNodeID": "",
+                "sourcePort": "",
+                "targetNodeID": "",
+                "targetPort": ""
+              }
+            ]
+          }
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: 402 Response
+  description: Workflow creation requires Pro or Ultimate.
+
+  request: {
+    url: {{baseUrl}}/v1/workflows
+    method: POST
+    mode: json
+    body:json: {
+      {
+        "name": "",
+        "descriptionText": "",
+        "definition": {
+          "schemaVersion": 0,
+          "trigger": "manual",
+          "triggerConfiguration": {},
+          "nodes": [
+            {
+              "id": "",
+              "kind": "trigger",
+              "name": "",
+              "x": 0,
+              "y": 0,
+              "configuration": {}
+            }
+          ],
+          "edges": [
+            {
+              "id": "",
+              "sourceNodeID": "",
+              "sourcePort": "",
+              "targetNodeID": "",
+              "targetPort": ""
+            }
+          ]
+        }
+      }
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 402
+      text: Payment Required
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "paywall": false,
+          "paywallId": "default",
+          "requiredTier": "pro"
+        }
+      '''
+    }
+  }
+}

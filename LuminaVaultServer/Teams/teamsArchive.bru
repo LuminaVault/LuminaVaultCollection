@@ -2,10 +2,54 @@ meta {
   name: teamsArchive
   type: http
   seq: 10
+  tags: [
+    Teams
+  ]
 }
 
 post {
   url: {{baseUrl}}/v1/teams/:teamID/archive
   body: none
   auth: inherit
+}
+
+params:path {
+  teamID:
+}
+
+example {
+  name: 200 Response
+  description: Team archived
+
+  request: {
+    url: {{baseUrl}}/v1/teams/:teamID/archive
+    method: POST
+    mode: none
+    params:path: {
+      teamID:
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "id": "",
+          "name": "",
+          "role": "owner",
+          "archivedAt": ""
+        }
+      '''
+    }
+  }
 }

@@ -1,0 +1,64 @@
+meta {
+  name: Verify phone OTP, issue session
+  type: http
+  seq: 16
+  tags: [
+    Auth
+  ]
+}
+
+post {
+  url: {{baseUrl}}/v1/auth/phone/verify
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "phoneE164": "",
+    "code": ""
+  }
+}
+
+example {
+  name: 200 Response
+  description: Session issued.
+
+  request: {
+    url: {{baseUrl}}/v1/auth/phone/verify
+    method: POST
+    mode: json
+    body:json: {
+      {
+        "phoneE164": "",
+        "code": ""
+      }
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "accessToken": "",
+          "refreshToken": "",
+          "expiresIn": 0,
+          "userId": "",
+          "username": "",
+          "email": "",
+          "vaultInitialized": false
+        }
+      '''
+    }
+  }
+}

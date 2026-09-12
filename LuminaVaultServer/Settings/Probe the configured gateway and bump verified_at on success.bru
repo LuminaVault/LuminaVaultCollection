@@ -1,0 +1,107 @@
+meta {
+  name: Probe the configured gateway and bump verified_at on success
+  type: http
+  seq: 4
+  tags: [
+    Settings
+  ]
+}
+
+post {
+  url: {{baseUrl}}/v1/settings/hermes/test
+  body: none
+  auth: inherit
+}
+
+example {
+  name: 200 Response
+  description: Verified.
+
+  request: {
+    url: {{baseUrl}}/v1/settings/hermes/test
+    method: POST
+    mode: none
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "verifiedAt": ""
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: 404 Response
+  description: No config to test.
+
+  request: {
+    url: {{baseUrl}}/v1/settings/hermes/test
+    method: POST
+    mode: none
+  }
+
+  response: {
+    status: {
+      code: 404
+      text: Not Found
+    }
+
+    body: {
+      type: text
+      content: '''
+
+      '''
+    }
+  }
+}
+
+example {
+  name: 502 Response
+  description: '''
+    Probe failed. `message` is a stable TestError code:
+    `timeout` / `tls_error` / `http_4xx` / `http_5xx` /
+    `ssrf_rejected` / `decrypt_failed` / `unreachable`.
+
+  '''
+
+  request: {
+    url: {{baseUrl}}/v1/settings/hermes/test
+    method: POST
+    mode: none
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 502
+      text: Bad Gateway
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "error": "",
+          "message": ""
+        }
+      '''
+    }
+  }
+}

@@ -1,0 +1,79 @@
+meta {
+  name: List active and recent Hermes tasks (HER-244 / HER-246)
+  type: http
+  seq: 6
+  tags: [
+    Dashboard
+  ]
+}
+
+get {
+  url: {{baseUrl}}/v1/tasks
+  body: none
+  auth: inherit
+}
+
+params:query {
+  limit: 50
+  ~state: running
+  ~state: queued
+  ~state: completed
+  ~state: failed
+}
+
+docs {
+  Per-tenant list of long-running operations (kb-compile, deep
+  analysis, skill runs). Initial implementation returns an empty
+  list — real job tracking ships under HER-246.
+
+}
+
+example {
+  name: 200 Response
+  description: Task list.
+
+  request: {
+    url: {{baseUrl}}/v1/tasks
+    method: GET
+    mode: none
+    params:query: {
+      ~state: running
+      ~state: queued
+      ~state: completed
+      ~state: failed
+      limit: 50
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "tasks": [
+            {
+              "id": "",
+              "kind": "",
+              "label": "",
+              "state": "running",
+              "progress": 0,
+              "startedAt": "",
+              "elapsedSeconds": 0,
+              "error": ""
+            }
+          ],
+          "nextCursor": ""
+        }
+      '''
+    }
+  }
+}

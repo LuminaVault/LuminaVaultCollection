@@ -1,0 +1,66 @@
+meta {
+  name: Append-only creator and updater history for a memory
+  type: http
+  seq: 8
+  tags: [
+    Memory
+  ]
+}
+
+get {
+  url: {{baseUrl}}/v1/memory/:id/provenance
+  body: none
+  auth: inherit
+}
+
+params:path {
+  id:
+}
+
+example {
+  name: 200 Response
+  description: Contribution timeline.
+
+  request: {
+    url: {{baseUrl}}/v1/memory/:id/provenance
+    method: GET
+    mode: none
+    params:path: {
+      id:
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "memoryID": "",
+          "contributions": [
+            {
+              "id": "",
+              "operation": "create",
+              "actor": "user",
+              "source": "manual",
+              "model": {
+                "provider": "",
+                "model": ""
+              },
+              "sourceReference": "",
+              "createdAt": ""
+            }
+          ]
+        }
+      '''
+    }
+  }
+}

@@ -1,0 +1,116 @@
+meta {
+  name: Delete a board and all its columns and cards
+  type: http
+  seq: 5
+  tags: [
+    Kanban
+  ]
+}
+
+delete {
+  url: {{baseUrl}}/v1/boards/:boardID
+  body: none
+  auth: inherit
+}
+
+params:path {
+  boardID:
+}
+
+example {
+  name: 204 Response
+  description: Board deleted.
+
+  request: {
+    url: {{baseUrl}}/v1/boards/:boardID
+    method: DELETE
+    mode: none
+    params:path: {
+      boardID:
+    }
+  }
+
+  response: {
+    status: {
+      code: 204
+      text: No Content
+    }
+
+    body: {
+      type: text
+      content: '''
+
+      '''
+    }
+  }
+}
+
+example {
+  name: 401 Response
+  description: Missing / invalid credential.
+
+  request: {
+    url: {{baseUrl}}/v1/boards/:boardID
+    method: DELETE
+    mode: none
+    params:path: {
+      boardID:
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 401
+      text: Unauthorized
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "error": "",
+          "message": ""
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: 404 Response
+  description: Resource not found.
+
+  request: {
+    url: {{baseUrl}}/v1/boards/:boardID
+    method: DELETE
+    mode: none
+    params:path: {
+      boardID:
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 404
+      text: Not Found
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "error": "",
+          "message": ""
+        }
+      '''
+    }
+  }
+}

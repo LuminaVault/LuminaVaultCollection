@@ -2,6 +2,9 @@ meta {
   name: teamInvitationsAccept
   type: http
   seq: 19
+  tags: [
+    Teams
+  ]
 }
 
 post {
@@ -12,4 +15,41 @@ post {
 
 params:path {
   token:
+}
+
+example {
+  name: 200 Response
+  description: Invitation accepted
+
+  request: {
+    url: {{baseUrl}}/v1/team-invitations/:token/accept
+    method: POST
+    mode: none
+    params:path: {
+      token:
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "id": "",
+          "name": "",
+          "role": "owner",
+          "archivedAt": ""
+        }
+      '''
+    }
+  }
 }

@@ -2,6 +2,9 @@ meta {
   name: marketplacePublisherCreatePlugin
   type: http
   seq: 10
+  tags: [
+    Marketplace
+  ]
 }
 
 post {
@@ -16,8 +19,96 @@ body:json {
     "name": "",
     "summary": "",
     "description": "",
-    "category": "",
+    "category": "connector",
     "iconURL": "",
     "screenshots": []
+  }
+}
+
+example {
+  name: 200 Response
+  description: Draft listing.
+
+  request: {
+    url: {{baseUrl}}/v1/marketplace/publisher/plugins
+    method: POST
+    mode: json
+    body:json: {
+      {
+        "slug": "",
+        "name": "",
+        "summary": "",
+        "description": "",
+        "category": "connector",
+        "iconURL": "",
+        "screenshots": []
+      }
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "slug": "",
+          "name": "",
+          "summary": "",
+          "description": "",
+          "category": "connector",
+          "iconURL": "",
+          "screenshots": [],
+          "publisher": {
+            "id": "",
+            "handle": "",
+            "displayName": "",
+            "bio": "",
+            "websiteURL": "",
+            "verified": false,
+            "status": "pending"
+          },
+          "latestVersion": {
+            "id": "",
+            "version": "",
+            "status": "draft",
+            "runtimeKind": "native",
+            "permissions": [
+              "memory.read"
+            ],
+            "networkHosts": [],
+            "changelog": "",
+            "publishedAt": "",
+            "tools": [
+              {
+                "name": "",
+                "description": ""
+              }
+            ]
+          },
+          "featured": false,
+          "ratingAverage": 0,
+          "ratingCount": 0,
+          "installCount": 0,
+          "configFields": [
+            {
+              "key": "",
+              "label": "",
+              "placeholder": "",
+              "kind": "text",
+              "isRequired": false
+            }
+          ]
+        }
+      '''
+    }
   }
 }

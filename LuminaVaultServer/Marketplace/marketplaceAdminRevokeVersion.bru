@@ -2,6 +2,9 @@ meta {
   name: marketplaceAdminRevokeVersion
   type: http
   seq: 19
+  tags: [
+    Marketplace
+  ]
 }
 
 post {
@@ -17,5 +20,60 @@ params:path {
 body:json {
   {
     "reason": ""
+  }
+}
+
+example {
+  name: 200 Response
+  description: Revoked version.
+
+  request: {
+    url: {{baseUrl}}/v1/marketplace/admin/versions/:versionID/revoke
+    method: POST
+    mode: json
+    params:path: {
+      versionID:
+    }
+
+    body:json: {
+      {
+        "reason": ""
+      }
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "id": "",
+          "version": "",
+          "status": "draft",
+          "runtimeKind": "native",
+          "permissions": [
+            "memory.read"
+          ],
+          "networkHosts": [],
+          "changelog": "",
+          "publishedAt": "",
+          "tools": [
+            {
+              "name": "",
+              "description": ""
+            }
+          ]
+        }
+      '''
+    }
   }
 }

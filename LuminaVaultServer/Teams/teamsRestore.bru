@@ -2,10 +2,54 @@ meta {
   name: teamsRestore
   type: http
   seq: 11
+  tags: [
+    Teams
+  ]
 }
 
 post {
   url: {{baseUrl}}/v1/teams/:teamID/restore
   body: none
   auth: inherit
+}
+
+params:path {
+  teamID:
+}
+
+example {
+  name: 200 Response
+  description: Team restored
+
+  request: {
+    url: {{baseUrl}}/v1/teams/:teamID/restore
+    method: POST
+    mode: none
+    params:path: {
+      teamID:
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "id": "",
+          "name": "",
+          "role": "owner",
+          "archivedAt": ""
+        }
+      '''
+    }
+  }
 }

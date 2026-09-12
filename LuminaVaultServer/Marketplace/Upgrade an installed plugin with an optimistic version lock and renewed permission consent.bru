@@ -1,0 +1,122 @@
+meta {
+  name: Upgrade an installed plugin with an optimistic version lock and renewed permission consent
+  type: http
+  seq: 6
+  tags: [
+    Marketplace
+  ]
+}
+
+post {
+  url: {{baseUrl}}/v1/marketplace/plugins/:slug/upgrade
+  body: json
+  auth: inherit
+}
+
+params:path {
+  slug:
+}
+
+body:json {
+  {
+    "fromVersionId": "",
+    "toVersionId": "",
+    "grantedPermissions": [
+      "memory.read"
+    ],
+    "config": {}
+  }
+}
+
+example {
+  name: 200 Response
+  description: Upgraded.
+
+  request: {
+    url: {{baseUrl}}/v1/marketplace/plugins/:slug/upgrade
+    method: POST
+    mode: json
+    params:path: {
+      slug:
+    }
+
+    body:json: {
+      {
+        "fromVersionId": "",
+        "toVersionId": "",
+        "grantedPermissions": [
+          "memory.read"
+        ],
+        "config": {}
+      }
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "id": "",
+          "pluginSlug": "",
+          "status": "enabled",
+          "hasConfig": false,
+          "createdAt": "",
+          "lastSyncAt": "",
+          "marketplaceVersionId": "",
+          "grantedPermissions": [
+            "memory.read"
+          ]
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: 409 Response
+  description: The installed version changed or is already current.
+
+  request: {
+    url: {{baseUrl}}/v1/marketplace/plugins/:slug/upgrade
+    method: POST
+    mode: json
+    params:path: {
+      slug:
+    }
+
+    body:json: {
+      {
+        "fromVersionId": "",
+        "toVersionId": "",
+        "grantedPermissions": [
+          "memory.read"
+        ],
+        "config": {}
+      }
+    }
+  }
+
+  response: {
+    status: {
+      code: 409
+      text: Conflict
+    }
+
+    body: {
+      type: text
+      content: '''
+
+      '''
+    }
+  }
+}

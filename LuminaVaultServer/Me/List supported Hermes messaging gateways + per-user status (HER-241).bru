@@ -1,0 +1,74 @@
+meta {
+  name: List supported Hermes messaging gateways + per-user status (HER-241)
+  type: http
+  seq: 14
+  tags: [
+    Me
+  ]
+}
+
+get {
+  url: {{baseUrl}}/v1/me/hermes-gateways
+  body: none
+  auth: inherit
+}
+
+docs {
+  Returns one row per supported gateway (telegram, discord, slack,
+  whatsapp). Plaintext config is never echoed — only `hasConfig`
+  and metadata. Gateways with no stored row are returned with
+  `status: not_configured` and `hasConfig: false`.
+
+}
+
+example {
+  name: 200 Response
+  description: List of gateway catalog entries with status.
+
+  request: {
+    url: {{baseUrl}}/v1/me/hermes-gateways
+    method: GET
+    mode: none
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "items": [
+            {
+              "id": "telegram",
+              "displayName": "",
+              "iconSlug": "",
+              "description": "",
+              "requiredFields": [
+                {
+                  "key": "",
+                  "label": "",
+                  "placeholder": "",
+                  "kind": "text",
+                  "isRequired": false
+                }
+              ],
+              "status": "not_configured",
+              "hasConfig": false,
+              "verifiedAt": "",
+              "lastFailureCode": "",
+              "pairingKind": ""
+            }
+          ]
+        }
+      '''
+    }
+  }
+}

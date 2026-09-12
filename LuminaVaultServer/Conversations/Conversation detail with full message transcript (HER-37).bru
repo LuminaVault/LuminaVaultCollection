@@ -1,0 +1,107 @@
+meta {
+  name: Conversation detail with full message transcript (HER-37)
+  type: http
+  seq: 4
+  tags: [
+    Conversations
+  ]
+}
+
+get {
+  url: {{baseUrl}}/v1/conversations/:id
+  body: none
+  auth: inherit
+}
+
+params:path {
+  id:
+}
+
+example {
+  name: 200 Response
+  description: Conversation + ordered messages.
+
+  request: {
+    url: {{baseUrl}}/v1/conversations/:id
+    method: GET
+    mode: none
+    params:path: {
+      id:
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "conversation": {
+            "id": "",
+            "title": "",
+            "spaceId": "",
+            "createdAt": "",
+            "updatedAt": "",
+            "pinnedMemoryIDs": [],
+            "routeOverride": {
+              "provider": "xai",
+              "model": "",
+              "inputPerMillionUsdMicros": 0,
+              "outputPerMillionUsdMicros": 0
+            }
+          },
+          "messages": [
+            {
+              "id": "",
+              "conversationId": "",
+              "role": "user",
+              "content": "",
+              "sourceMemoryIDs": [],
+              "parallelExecutionID": "",
+              "provider": "",
+              "model": "",
+              "toolCallCount": 0,
+              "createdAt": ""
+            }
+          ]
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: 404 Response
+  description: Conversation not found.
+
+  request: {
+    url: {{baseUrl}}/v1/conversations/:id
+    method: GET
+    mode: none
+    params:path: {
+      id:
+    }
+  }
+
+  response: {
+    status: {
+      code: 404
+      text: Not Found
+    }
+
+    body: {
+      type: text
+      content: '''
+
+      '''
+    }
+  }
+}

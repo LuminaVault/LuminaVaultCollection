@@ -1,0 +1,148 @@
+meta {
+  name: Command Center one-shot payload for the Home dashboard
+  type: http
+  seq: 4
+  tags: [
+    Dashboard
+  ]
+}
+
+get {
+  url: {{baseUrl}}/v1/dashboard/home
+  body: none
+  auth: inherit
+}
+
+params:query {
+  @description('Time window for period stats, series, and mix.')
+  period: today
+  @description('Time window for period stats, series, and mix.')
+  ~period: yesterday
+  @description('Time window for period stats, series, and mix.')
+  ~period: week
+  @description('Time window for period stats, series, and mix.')
+  ~period: month
+}
+
+docs {
+  Aggregates the Home Command Center in a single request: enabled skills
+  (count + names), lifetime skill runs, live active jobs, reminders,
+  todos, projects, insights, active Hermes profile, primary LLM model,
+  memories/sessions, power level/XP, streak, Hermes cron/tools preview,
+  and period cockpit stats. Per-tenant.
+
+}
+
+example {
+  name: 200 Response
+  description: Home summary snapshot.
+
+  request: {
+    url: {{baseUrl}}/v1/dashboard/home
+    method: GET
+    mode: none
+    params:query: {
+      period: today
+      ~period: yesterday
+      ~period: week
+      ~period: month
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "skillsCount": 0,
+          "jobsCount": 0,
+          "remindersCount": 0,
+          "todosCount": 0,
+          "projectsCount": 0,
+          "insightsCount": 0,
+          "activeProfileName": "",
+          "activeProfileSlug": "",
+          "primaryProvider": "",
+          "primaryModel": "",
+          "agentOnline": false,
+          "memoriesToday": 0,
+          "memoriesTotal": 0,
+          "sessionsCount": 0,
+          "activeJobsCount": 0,
+          "activeJobs": [
+            {
+              "id": "",
+              "kind": "",
+              "label": "",
+              "state": "running",
+              "progress": 0,
+              "startedAt": "",
+              "elapsedSeconds": 0,
+              "error": ""
+            }
+          ],
+          "skills": [],
+          "powerLevel": 0,
+          "powerXP": 0,
+          "badgesEarned": 0,
+          "streakDays": 0,
+          "graphPreview": [
+            {
+              "id": "",
+              "label": "",
+              "x": 0,
+              "y": 0,
+              "z": 0,
+              "activity": 0,
+              "kind": "memory"
+            }
+          ],
+          "cronJobsCount": 0,
+          "cronJobs": [
+            {
+              "id": "",
+              "name": "",
+              "schedule": "",
+              "lastRun": "",
+              "status": ""
+            }
+          ],
+          "toolsCount": 0,
+          "tools": [],
+          "period": "today",
+          "periodStats": {
+            "done": 0,
+            "captures": 0,
+            "skillRuns": 0,
+            "tokens": 0,
+            "previousDone": 0,
+            "previousCaptures": 0,
+            "previousSkillRuns": 0,
+            "previousTokens": 0
+          },
+          "periodSeries": [
+            {
+              "at": "",
+              "value": 0
+            }
+          ],
+          "periodMix": {
+            "captures": 0,
+            "jobs": 0,
+            "skills": 0,
+            "chats": 0
+          }
+        }
+      '''
+    }
+  }
+}

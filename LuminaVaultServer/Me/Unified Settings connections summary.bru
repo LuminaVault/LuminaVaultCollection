@@ -1,0 +1,91 @@
+meta {
+  name: Unified Settings connections summary
+  type: http
+  seq: 32
+  tags: [
+    Me
+  ]
+}
+
+get {
+  url: {{baseUrl}}/v1/me/connections
+  body: none
+  auth: inherit
+}
+
+example {
+  name: 200 Response
+  description: Provider, gateway, linked-account, calendar, plugin, and server connection statuses.
+
+  request: {
+    url: {{baseUrl}}/v1/me/connections
+    method: GET
+    mode: none
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "connections": [
+            {
+              "id": "",
+              "kind": "llm_provider",
+              "title": "",
+              "subtitle": "",
+              "health": "connected",
+              "providerID": "xai",
+              "gatewayID": "telegram",
+              "lastCheckedAt": "",
+              "statusDetail": "",
+              "actionHint": "configure_provider"
+            }
+          ],
+          "checkedAt": ""
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: 401 Response
+  description: Missing / invalid credential.
+
+  request: {
+    url: {{baseUrl}}/v1/me/connections
+    method: GET
+    mode: none
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 401
+      text: Unauthorized
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "error": "",
+          "message": ""
+        }
+      '''
+    }
+  }
+}

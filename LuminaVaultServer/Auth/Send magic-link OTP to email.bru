@@ -1,0 +1,87 @@
+meta {
+  name: Send magic-link OTP to email
+  type: http
+  seq: 17
+  tags: [
+    Auth
+  ]
+}
+
+post {
+  url: {{baseUrl}}/v1/auth/email/start
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "email": ""
+  }
+}
+
+example {
+  name: 204 Response
+  description: Magic link sent.
+
+  request: {
+    url: {{baseUrl}}/v1/auth/email/start
+    method: POST
+    mode: json
+    body:json: {
+      {
+        "email": ""
+      }
+    }
+  }
+
+  response: {
+    status: {
+      code: 204
+      text: No Content
+    }
+
+    body: {
+      type: text
+      content: '''
+
+      '''
+    }
+  }
+}
+
+example {
+  name: 429 Response
+  description: Rate-limit exceeded; honour `Retry-After`.
+
+  request: {
+    url: {{baseUrl}}/v1/auth/email/start
+    method: POST
+    mode: json
+    body:json: {
+      {
+        "email": ""
+      }
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 429
+      text: Too Many Requests
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "error": "",
+          "message": ""
+        }
+      '''
+    }
+  }
+}

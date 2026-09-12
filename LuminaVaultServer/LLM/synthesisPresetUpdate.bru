@@ -2,6 +2,9 @@ meta {
   name: synthesisPresetUpdate
   type: http
   seq: 16
+  tags: [
+    LLM
+  ]
 }
 
 put {
@@ -10,9 +13,58 @@ put {
   auth: inherit
 }
 
+params:path {
+  presetID:
+}
+
 body:json {
   {
     "name": "",
     "prompt": ""
+  }
+}
+
+example {
+  name: 200 Response
+  description: Updated preset.
+
+  request: {
+    url: {{baseUrl}}/v1/router/synthesis-presets/:presetID
+    method: PUT
+    mode: json
+    params:path: {
+      presetID:
+    }
+
+    body:json: {
+      {
+        "name": "",
+        "prompt": ""
+      }
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "id": "",
+          "name": "",
+          "prompt": "",
+          "createdAt": "",
+          "updatedAt": ""
+        }
+      '''
+    }
   }
 }

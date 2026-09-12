@@ -1,0 +1,85 @@
+meta {
+  name: Begin the Google Calendar OAuth flow
+  type: http
+  seq: 2
+  tags: [
+    Calendar
+  ]
+}
+
+post {
+  url: {{baseUrl}}/v1/calendar/connect
+  body: none
+  auth: inherit
+}
+
+docs {
+  Returns the Google consent URL. The client opens it in an in-app
+  browser session (ASWebAuthenticationSession, scheme `luminavault`).
+  Google redirects to the server callback, which exchanges the code and
+  hands back to the app via `luminavault://oauth/google-calendar`.
+
+}
+
+example {
+  name: 200 Response
+  description: Consent URL to open.
+
+  request: {
+    url: {{baseUrl}}/v1/calendar/connect
+    method: POST
+    mode: none
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "authorizeURL": ""
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: 503 Response
+  description: Google Calendar not configured on this server.
+
+  request: {
+    url: {{baseUrl}}/v1/calendar/connect
+    method: POST
+    mode: none
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 503
+      text: Service Unavailable
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "error": "",
+          "message": ""
+        }
+      '''
+    }
+  }
+}

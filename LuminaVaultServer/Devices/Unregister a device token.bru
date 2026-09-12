@@ -1,0 +1,46 @@
+meta {
+  name: Unregister a device token
+  type: http
+  seq: 3
+  tags: [
+    Devices
+  ]
+}
+
+delete {
+  url: {{baseUrl}}/v1/devices/:token
+  body: none
+  auth: inherit
+}
+
+params:path {
+  token:
+}
+
+example {
+  name: 204 Response
+  description: Unregistered.
+
+  request: {
+    url: {{baseUrl}}/v1/devices/:token
+    method: DELETE
+    mode: none
+    params:path: {
+      token:
+    }
+  }
+
+  response: {
+    status: {
+      code: 204
+      text: No Content
+    }
+
+    body: {
+      type: text
+      content: '''
+
+      '''
+    }
+  }
+}

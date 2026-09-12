@@ -1,0 +1,146 @@
+meta {
+  name: Upsert the primary model + ordered fallback chain
+  type: http
+  seq: 27
+  tags: [
+    Me
+  ]
+}
+
+put {
+  url: {{baseUrl}}/v1/me/preferences/llm
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "mode": "managed",
+    "primaryProvider": "xai",
+    "primaryModel": "",
+    "fallbackChain": [
+      {
+        "provider": "xai",
+        "model": ""
+      }
+    ],
+    "allowedProviders": [
+      "xai"
+    ],
+    "blockedProviders": [
+      "xai"
+    ]
+  }
+}
+
+example {
+  name: 200 Response
+  description: Updated snapshot.
+
+  request: {
+    url: {{baseUrl}}/v1/me/preferences/llm
+    method: PUT
+    mode: json
+    body:json: {
+      {
+        "mode": "managed",
+        "primaryProvider": "xai",
+        "primaryModel": "",
+        "fallbackChain": [
+          {
+            "provider": "xai",
+            "model": ""
+          }
+        ],
+        "allowedProviders": [
+          "xai"
+        ],
+        "blockedProviders": [
+          "xai"
+        ]
+      }
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "mode": "managed",
+          "primaryProvider": "xai",
+          "primaryModel": "",
+          "fallbackChain": [
+            {
+              "provider": "xai",
+              "model": ""
+            }
+          ],
+          "allowedProviders": [
+            "xai"
+          ],
+          "blockedProviders": [
+            "xai"
+          ]
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: 400 Response
+  description: '''
+    Validation error in `message`:
+    `primary_model_required` / `fallback_model_required`.
+
+  '''
+
+  request: {
+    url: {{baseUrl}}/v1/me/preferences/llm
+    method: PUT
+    mode: json
+    body:json: {
+      {
+        "mode": "managed",
+        "primaryProvider": "xai",
+        "primaryModel": "",
+        "fallbackChain": [
+          {
+            "provider": "xai",
+            "model": ""
+          }
+        ],
+        "allowedProviders": [
+          "xai"
+        ],
+        "blockedProviders": [
+          "xai"
+        ]
+      }
+    }
+  }
+
+  response: {
+    status: {
+      code: 400
+      text: Bad Request
+    }
+
+    body: {
+      type: text
+      content: '''
+
+      '''
+    }
+  }
+}

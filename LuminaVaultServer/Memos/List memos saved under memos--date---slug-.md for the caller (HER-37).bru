@@ -1,0 +1,53 @@
+meta {
+  name: List memos saved under memos/<date>/<slug>.md for the caller (HER-37)
+  type: http
+  seq: 2
+  tags: [
+    Memos
+  ]
+}
+
+get {
+  url: {{baseUrl}}/v1/memos
+  body: none
+  auth: inherit
+}
+
+example {
+  name: 200 Response
+  description: Memo list (most-recent first, max 200).
+
+  request: {
+    url: {{baseUrl}}/v1/memos
+    method: GET
+    mode: none
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "memos": [
+            {
+              "id": "",
+              "title": "",
+              "path": "",
+              "createdAt": "",
+              "summary": ""
+            }
+          ]
+        }
+      '''
+    }
+  }
+}

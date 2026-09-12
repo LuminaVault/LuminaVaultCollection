@@ -1,0 +1,68 @@
+meta {
+  name: Execute an installed approved WASM tool in the isolated runner
+  type: http
+  seq: 7
+  tags: [
+    Marketplace
+  ]
+}
+
+post {
+  url: {{baseUrl}}/v1/marketplace/plugins/:slug/tools/:toolName/run
+  body: json
+  auth: inherit
+}
+
+params:path {
+  slug:
+  toolName:
+}
+
+body:json {
+  {
+    "input": {}
+  }
+}
+
+example {
+  name: 200 Response
+  description: Sandboxed tool output.
+
+  request: {
+    url: {{baseUrl}}/v1/marketplace/plugins/:slug/tools/:toolName/run
+    method: POST
+    mode: json
+    params:path: {
+      slug:
+      toolName:
+    }
+
+    body:json: {
+      {
+        "input": {}
+      }
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "runId": "",
+          "output": {},
+          "fuelConsumed": 0
+        }
+      '''
+    }
+  }
+}

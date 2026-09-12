@@ -1,0 +1,79 @@
+meta {
+  name: Create a scheduled job (authored as a vault cron skill)
+  type: http
+  seq: 3
+  tags: [
+    Skills
+  ]
+}
+
+post {
+  url: {{baseUrl}}/v1/jobs
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "title": "",
+    "cron": "",
+    "domain": "",
+    "spec": "",
+    "spaceId": ""
+  }
+}
+
+example {
+  name: 200 Response
+  description: The created job, as a SkillDTO.
+
+  request: {
+    url: {{baseUrl}}/v1/jobs
+    method: POST
+    mode: json
+    body:json: {
+      {
+        "title": "",
+        "cron": "",
+        "domain": "",
+        "spec": "",
+        "spaceId": ""
+      }
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "id": "",
+          "source": "builtin",
+          "name": "",
+          "title": "",
+          "descriptionText": "",
+          "capability": "low",
+          "schedule": "",
+          "scheduleOverride": "",
+          "enabled": false,
+          "lastRunAt": "",
+          "lastStatus": "pending",
+          "lastError": "",
+          "dailyRunCount": 0,
+          "dailyRunCap": 0,
+          "apnsCategory": "chat",
+          "bodyExcerpt": ""
+        }
+      '''
+    }
+  }
+}

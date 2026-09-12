@@ -1,0 +1,51 @@
+meta {
+  name: Force-run the reconciler pass
+  type: http
+  seq: 2
+  tags: [
+    Admin
+  ]
+}
+
+post {
+  url: {{baseUrl}}/v1/admin/hermes-profiles/reconcile
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+example {
+  name: 200 Response
+  description: Reconcile result.
+
+  request: {
+    url: {{baseUrl}}/v1/admin/hermes-profiles/reconcile
+    method: POST
+    mode: none
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "retried": 0,
+          "succeeded": 0,
+          "failed": 0
+        }
+      '''
+    }
+  }
+}

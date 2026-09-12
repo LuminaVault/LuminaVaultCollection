@@ -2,10 +2,57 @@ meta {
   name: teamInvitationsResend
   type: http
   seq: 8
+  tags: [
+    Teams
+  ]
 }
 
 post {
   url: {{baseUrl}}/v1/teams/:teamID/invitations/:invitationID/resend
   body: none
   auth: inherit
+}
+
+params:path {
+  teamID:
+  invitationID:
+}
+
+example {
+  name: 200 Response
+  description: Invitation token rotated and resent
+
+  request: {
+    url: {{baseUrl}}/v1/teams/:teamID/invitations/:invitationID/resend
+    method: POST
+    mode: none
+    params:path: {
+      teamID:
+      invitationID:
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "id": "",
+          "teamID": "",
+          "email": "",
+          "expiresAt": "",
+          "token": ""
+        }
+      '''
+    }
+  }
 }

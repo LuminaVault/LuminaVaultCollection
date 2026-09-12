@@ -1,0 +1,114 @@
+meta {
+  name: Create a new board
+  type: http
+  seq: 2
+  tags: [
+    Kanban
+  ]
+}
+
+post {
+  url: {{baseUrl}}/v1/boards
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "title": ""
+  }
+}
+
+example {
+  name: 200 Response
+  description: The created board.
+
+  request: {
+    url: {{baseUrl}}/v1/boards
+    method: POST
+    mode: json
+    body:json: {
+      {
+        "title": ""
+      }
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "id": "",
+          "title": "",
+          "version": 0,
+          "columns": [
+            {
+              "id": "",
+              "title": "",
+              "rank": "",
+              "cards": [
+                {
+                  "id": "",
+                  "columnID": "",
+                  "title": "",
+                  "body": "",
+                  "priority": "",
+                  "dueAt": "",
+                  "rank": "",
+                  "updatedAt": ""
+                }
+              ]
+            }
+          ]
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: 401 Response
+  description: Missing / invalid credential.
+
+  request: {
+    url: {{baseUrl}}/v1/boards
+    method: POST
+    mode: json
+    body:json: {
+      {
+        "title": ""
+      }
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 401
+      text: Unauthorized
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "error": "",
+          "message": ""
+        }
+      '''
+    }
+  }
+}

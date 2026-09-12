@@ -1,0 +1,118 @@
+meta {
+  name: Apply all configured gateways to the running Hermes container
+  type: http
+  seq: 19
+  tags: [
+    Me
+  ]
+}
+
+post {
+  url: {{baseUrl}}/v1/me/hermes-gateways/apply
+  body: none
+  auth: inherit
+}
+
+docs {
+  Re-seeds the tenant's `/opt/data/.env` from the saved gateway rows
+  (token env-vars) and recreates the container so the new config takes
+  effect, streaming progress over SSE. Detached: returns a job id
+  immediately; observe via the stream or by polling the status route.
+
+}
+
+example {
+  name: 200 Response
+  description: Apply job accepted.
+
+  request: {
+    url: {{baseUrl}}/v1/me/hermes-gateways/apply
+    method: POST
+    mode: none
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "jobID": "",
+          "state": "running"
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: 404 Response
+  description: `apply_unavailable` — per-tenant containers are disabled.
+
+  request: {
+    url: {{baseUrl}}/v1/me/hermes-gateways/apply
+    method: POST
+    mode: none
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 404
+      text: Not Found
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "error": "",
+          "message": ""
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: 409 Response
+  description: An apply is already in progress for this tenant.
+
+  request: {
+    url: {{baseUrl}}/v1/me/hermes-gateways/apply
+    method: POST
+    mode: none
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 409
+      text: Conflict
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "error": "",
+          "message": ""
+        }
+      '''
+    }
+  }
+}

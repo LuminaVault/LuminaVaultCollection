@@ -1,0 +1,53 @@
+meta {
+  name: Get the authenticated user's profile
+  type: http
+  seq: 1
+  tags: [
+    Me
+  ]
+}
+
+get {
+  url: {{baseUrl}}/v1/auth/me
+  body: none
+  auth: inherit
+}
+
+example {
+  name: 200 Response
+  description: User profile.
+
+  request: {
+    url: {{baseUrl}}/v1/auth/me
+    method: GET
+    mode: none
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "userId": "",
+          "email": "",
+          "username": "",
+          "isVerified": false,
+          "isAdmin": false,
+          "privacyNoCNOrigin": false,
+          "contextRouting": false,
+          "autoSaveLinks": false,
+          "mnemosyneEnabled": false
+        }
+      '''
+    }
+  }
+}

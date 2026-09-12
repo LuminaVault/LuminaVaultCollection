@@ -1,0 +1,103 @@
+meta {
+  name: Run an Ultimate-tier multi-model execution and stream progress
+  type: http
+  seq: 10
+  tags: [
+    LLM
+  ]
+}
+
+post {
+  url: {{baseUrl}}/v1/router/parallel/executions/stream
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "prompt": "",
+    "strategy": "auto",
+    "participants": [
+      {
+        "id": "",
+        "role": "",
+        "instructions": "",
+        "route": {
+          "provider": "xai",
+          "model": "",
+          "inputPerMillionUsdMicros": 0,
+          "outputPerMillionUsdMicros": 0
+        }
+      }
+    ],
+    "synthesisRoute": {
+      "provider": "xai",
+      "model": "",
+      "inputPerMillionUsdMicros": 0,
+      "outputPerMillionUsdMicros": 0
+    },
+    "synthesisPrompt": "",
+    "synthesisPresetID": "",
+    "spaceID": ""
+  }
+}
+
+example {
+  name: 200 Response
+  description: Server-Sent Events stream of `QueryStreamEvent`.
+
+  request: {
+    url: {{baseUrl}}/v1/router/parallel/executions/stream
+    method: POST
+    mode: json
+    body:json: {
+      {
+        "prompt": "",
+        "strategy": "auto",
+        "participants": [
+          {
+            "id": "",
+            "role": "",
+            "instructions": "",
+            "route": {
+              "provider": "xai",
+              "model": "",
+              "inputPerMillionUsdMicros": 0,
+              "outputPerMillionUsdMicros": 0
+            }
+          }
+        ],
+        "synthesisRoute": {
+          "provider": "xai",
+          "model": "",
+          "inputPerMillionUsdMicros": 0,
+          "outputPerMillionUsdMicros": 0
+        },
+        "synthesisPrompt": "",
+        "synthesisPresetID": "",
+        "spaceID": ""
+      }
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: text/event-stream
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: text
+      content: '''
+        {
+          "type": "source",
+          "payload": ""
+        }
+      '''
+    }
+  }
+}

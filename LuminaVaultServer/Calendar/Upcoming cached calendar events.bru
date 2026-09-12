@@ -1,0 +1,73 @@
+meta {
+  name: Upcoming cached calendar events
+  type: http
+  seq: 4
+  tags: [
+    Calendar
+  ]
+}
+
+get {
+  url: {{baseUrl}}/v1/calendar/events
+  body: none
+  auth: inherit
+}
+
+params:query {
+  limit: 50
+}
+
+docs {
+  Returns the tenant's non-cancelled events ending at or after now,
+  soonest first, from the local sync cache (window −7d…+30d).
+
+}
+
+example {
+  name: 200 Response
+  description: Upcoming events.
+
+  request: {
+    url: {{baseUrl}}/v1/calendar/events
+    method: GET
+    mode: none
+    params:query: {
+      limit: 50
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "events": [
+            {
+              "id": "",
+              "source": "",
+              "externalID": "",
+              "title": "",
+              "notes": "",
+              "location": "",
+              "startsAt": "",
+              "endsAt": "",
+              "allDay": false,
+              "status": "",
+              "organizer": "",
+              "htmlLink": ""
+            }
+          ]
+        }
+      '''
+    }
+  }
+}

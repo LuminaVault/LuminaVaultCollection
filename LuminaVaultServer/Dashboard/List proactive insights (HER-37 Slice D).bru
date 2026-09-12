@@ -1,0 +1,84 @@
+meta {
+  name: List proactive insights (HER-37 Slice D)
+  type: http
+  seq: 7
+  tags: [
+    Dashboard
+  ]
+}
+
+get {
+  url: {{baseUrl}}/v1/insights
+  body: none
+  auth: inherit
+}
+
+params:query {
+  limit: 50
+  ~section: this_week
+  ~section: this_month
+  ~section: patterns
+  ~section: contradictions
+  ~section: connections
+}
+
+docs {
+  Per-tenant list of "what Lumina noticed" findings, newest
+  first. Dismissed rows are filtered out — soft-dismiss via
+  `POST /v1/insights/{id}/dismiss`. Populated by the
+  SynthesisWorker; empty until the worker fires for the first
+  time.
+
+}
+
+example {
+  name: 200 Response
+  description: Insight list.
+
+  request: {
+    url: {{baseUrl}}/v1/insights
+    method: GET
+    mode: none
+    params:query: {
+      ~section: this_week
+      ~section: this_month
+      ~section: patterns
+      ~section: contradictions
+      ~section: connections
+      limit: 50
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "insights": [
+            {
+              "id": "",
+              "headline": "",
+              "summary": "",
+              "section": "this_week",
+              "createdAt": "",
+              "sourceMemoryIDs": [],
+              "dismissed": false,
+              "periodStart": "",
+              "periodEnd": ""
+            }
+          ],
+          "nextCursor": ""
+        }
+      '''
+    }
+  }
+}

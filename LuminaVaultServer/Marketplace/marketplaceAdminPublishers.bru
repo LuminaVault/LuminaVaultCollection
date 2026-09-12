@@ -2,10 +2,79 @@ meta {
   name: marketplaceAdminPublishers
   type: http
   seq: 16
+  tags: [
+    Marketplace
+  ]
 }
 
 get {
   url: {{baseUrl}}/v1/marketplace/admin/publishers
   body: none
   auth: inherit
+}
+
+example {
+  name: 200 Response
+  description: Pending publisher applications.
+
+  request: {
+    url: {{baseUrl}}/v1/marketplace/admin/publishers
+    method: GET
+    mode: none
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "items": [
+            {
+              "id": "",
+              "handle": "",
+              "displayName": "",
+              "bio": "",
+              "websiteURL": "",
+              "verified": false,
+              "status": "pending"
+            }
+          ]
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: 403 Response
+  description: Admin required.
+
+  request: {
+    url: {{baseUrl}}/v1/marketplace/admin/publishers
+    method: GET
+    mode: none
+  }
+
+  response: {
+    status: {
+      code: 403
+      text: Forbidden
+    }
+
+    body: {
+      type: text
+      content: '''
+
+      '''
+    }
+  }
 }

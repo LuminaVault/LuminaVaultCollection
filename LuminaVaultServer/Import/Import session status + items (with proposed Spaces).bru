@@ -1,0 +1,65 @@
+meta {
+  name: Import session status + items (with proposed Spaces)
+  type: http
+  seq: 4
+  tags: [
+    Import
+  ]
+}
+
+get {
+  url: {{baseUrl}}/v1/import/:id
+  body: none
+  auth: inherit
+}
+
+params:path {
+  id:
+}
+
+example {
+  name: 200 Response
+  description: Session status.
+
+  request: {
+    url: {{baseUrl}}/v1/import/:id
+    method: GET
+    mode: none
+    params:path: {
+      id:
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "id": "",
+          "sourceType": "",
+          "status": "",
+          "total": 0,
+          "staged": 0,
+          "items": [
+            {
+              "id": "",
+              "url": "",
+              "title": "",
+              "proposedSpace": "",
+              "status": ""
+            }
+          ]
+        }
+      '''
+    }
+  }
+}

@@ -1,0 +1,58 @@
+meta {
+  name: List spaces (user-defined organising folders)
+  type: http
+  seq: 1
+  tags: [
+    Spaces
+  ]
+}
+
+get {
+  url: {{baseUrl}}/v1/spaces
+  body: none
+  auth: inherit
+}
+
+example {
+  name: 200 Response
+  description: Spaces.
+
+  request: {
+    url: {{baseUrl}}/v1/spaces
+    method: GET
+    mode: none
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "spaces": [
+            {
+              "id": "",
+              "name": "",
+              "slug": "",
+              "description": "",
+              "color": "",
+              "icon": "",
+              "category": "",
+              "noteCount": 0,
+              "lastCompiledAt": "",
+              "createdAt": ""
+            }
+          ]
+        }
+      '''
+    }
+  }
+}

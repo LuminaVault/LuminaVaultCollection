@@ -1,0 +1,104 @@
+meta {
+  name: List recent multimodal ingestion batches
+  type: http
+  seq: 2
+  tags: [
+    Ingestion
+  ]
+}
+
+get {
+  url: {{baseUrl}}/v1/ingestions
+  body: none
+  auth: inherit
+}
+
+example {
+  name: 200 Response
+  description: Recent batches.
+
+  request: {
+    url: {{baseUrl}}/v1/ingestions
+    method: GET
+    mode: none
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "batches": [
+            {
+              "id": "",
+              "state": "",
+              "total": 0,
+              "completed": 0,
+              "failed": 0,
+              "chunkSizeBytes": 0,
+              "items": [
+                {
+                  "id": "",
+                  "batchID": "",
+                  "kind": "file",
+                  "state": "awaiting_upload",
+                  "fileName": "",
+                  "contentType": "",
+                  "sizeBytes": 0,
+                  "uploadedBytes": 0,
+                  "url": "",
+                  "vaultFileID": "",
+                  "memoryID": "",
+                  "summary": "",
+                  "error": "",
+                  "credibility": {
+                    "score": "",
+                    "confidence": 0,
+                    "signals": [],
+                    "rationale": "",
+                    "version": ""
+                  },
+                  "entities": [
+                    {
+                      "id": "",
+                      "name": "",
+                      "type": "",
+                      "confidence": 0
+                    }
+                  ],
+                  "relationships": [
+                    {
+                      "id": "",
+                      "subjectEntityID": "",
+                      "predicate": "",
+                      "objectEntityID": "",
+                      "confidence": 0,
+                      "evidence": ""
+                    }
+                  ],
+                  "contentSHA256": "",
+                  "pipelineVersion": "",
+                  "reusedFromItemID": "",
+                  "graphReadyAt": "",
+                  "createdAt": "",
+                  "updatedAt": ""
+                }
+              ],
+              "createdAt": "",
+              "updatedAt": ""
+            }
+          ]
+        }
+      '''
+    }
+  }
+}

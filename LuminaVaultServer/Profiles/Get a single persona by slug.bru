@@ -1,0 +1,94 @@
+meta {
+  name: Get a single persona by slug
+  type: http
+  seq: 3
+  tags: [
+    Profiles
+  ]
+}
+
+get {
+  url: {{baseUrl}}/v1/profiles/:slug
+  body: none
+  auth: inherit
+}
+
+params:path {
+  slug:
+}
+
+example {
+  name: 200 Response
+  description: Persona detail.
+
+  request: {
+    url: {{baseUrl}}/v1/profiles/:slug
+    method: GET
+    mode: none
+    params:path: {
+      slug:
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "id": "",
+          "slug": "",
+          "label": "",
+          "systemPrompt": "",
+          "isDefault": false,
+          "skillsEnabled": [],
+          "createdAt": "",
+          "updatedAt": ""
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: 404 Response
+  description: Unknown persona (`profile_not_found`).
+
+  request: {
+    url: {{baseUrl}}/v1/profiles/:slug
+    method: GET
+    mode: none
+    params:path: {
+      slug:
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 404
+      text: Not Found
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "error": "",
+          "message": ""
+        }
+      '''
+    }
+  }
+}

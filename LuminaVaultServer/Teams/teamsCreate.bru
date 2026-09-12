@@ -2,6 +2,9 @@ meta {
   name: teamsCreate
   type: http
   seq: 2
+  tags: [
+    Teams
+  ]
 }
 
 post {
@@ -13,5 +16,44 @@ post {
 body:json {
   {
     "name": ""
+  }
+}
+
+example {
+  name: 200 Response
+  description: Created team
+
+  request: {
+    url: {{baseUrl}}/v1/teams
+    method: POST
+    mode: json
+    body:json: {
+      {
+        "name": ""
+      }
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "id": "",
+          "name": "",
+          "role": "owner",
+          "archivedAt": ""
+        }
+      '''
+    }
   }
 }

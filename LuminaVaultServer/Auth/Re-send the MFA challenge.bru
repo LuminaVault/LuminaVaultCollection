@@ -1,0 +1,87 @@
+meta {
+  name: Re-send the MFA challenge
+  type: http
+  seq: 6
+  tags: [
+    Auth
+  ]
+}
+
+post {
+  url: {{baseUrl}}/v1/auth/mfa/resend
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "challengeId": ""
+  }
+}
+
+example {
+  name: 204 Response
+  description: Challenge re-sent.
+
+  request: {
+    url: {{baseUrl}}/v1/auth/mfa/resend
+    method: POST
+    mode: json
+    body:json: {
+      {
+        "challengeId": ""
+      }
+    }
+  }
+
+  response: {
+    status: {
+      code: 204
+      text: No Content
+    }
+
+    body: {
+      type: text
+      content: '''
+
+      '''
+    }
+  }
+}
+
+example {
+  name: 429 Response
+  description: Rate-limit exceeded; honour `Retry-After`.
+
+  request: {
+    url: {{baseUrl}}/v1/auth/mfa/resend
+    method: POST
+    mode: json
+    body:json: {
+      {
+        "challengeId": ""
+      }
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 429
+      text: Too Many Requests
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "error": "",
+          "message": ""
+        }
+      '''
+    }
+  }
+}

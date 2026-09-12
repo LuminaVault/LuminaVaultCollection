@@ -2,6 +2,9 @@ meta {
   name: workflowWebhookRotate
   type: http
   seq: 8
+  tags: [
+    Workflows
+  ]
 }
 
 post {
@@ -12,4 +15,40 @@ post {
 
 params:path {
   id:
+}
+
+example {
+  name: 200 Response
+  description: New write-only webhook credential.
+
+  request: {
+    url: {{baseUrl}}/v1/workflows/:id/webhook/rotate
+    method: POST
+    mode: none
+    params:path: {
+      id:
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "hookID": "",
+          "path": "",
+          "secret": ""
+        }
+      '''
+    }
+  }
 }

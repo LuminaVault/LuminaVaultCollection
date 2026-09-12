@@ -1,0 +1,73 @@
+meta {
+  name: Read-only list of skills installed in the tenant's Hermes agent
+  type: http
+  seq: 2
+  tags: [
+    Plugins
+  ]
+}
+
+get {
+  url: {{baseUrl}}/v1/plugins/hermes-skills
+  body: none
+  auth: inherit
+}
+
+docs {
+  Proxies the tenant's Hermes `GET /v1/skills`. Returns catalog entries
+  with `publisher: "Hermes"`. Empty when Hermes is unresolved/unreachable.
+
+}
+
+example {
+  name: 200 Response
+  description: Hermes-installed skills as read-only catalog entries.
+
+  request: {
+    url: {{baseUrl}}/v1/plugins/hermes-skills
+    method: GET
+    mode: none
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "items": [
+            {
+              "slug": "",
+              "name": "",
+              "summary": "",
+              "description": "",
+              "category": "connector",
+              "capabilityKind": "connector",
+              "iconSlug": "",
+              "version": "",
+              "publisher": "",
+              "verified": false,
+              "configFields": [
+                {
+                  "key": "",
+                  "label": "",
+                  "placeholder": "",
+                  "kind": "text",
+                  "isRequired": false
+                }
+              ]
+            }
+          ]
+        }
+      '''
+    }
+  }
+}

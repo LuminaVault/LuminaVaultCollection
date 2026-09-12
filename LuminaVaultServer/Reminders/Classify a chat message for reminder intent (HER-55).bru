@@ -1,0 +1,61 @@
+meta {
+  name: Classify a chat message for reminder intent (HER-55)
+  type: http
+  seq: 3
+  tags: [
+    Reminders
+  ]
+}
+
+post {
+  url: {{baseUrl}}/v1/reminders/detect
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "text": ""
+  }
+}
+
+example {
+  name: 200 Response
+  description: Reminder proposal (isReminder=false when not a reminder request).
+
+  request: {
+    url: {{baseUrl}}/v1/reminders/detect
+    method: POST
+    mode: json
+    body:json: {
+      {
+        "text": ""
+      }
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "isReminder": false,
+          "title": "",
+          "body": "",
+          "fireAt": "",
+          "recurrenceCron": "",
+          "scheduleHuman": ""
+        }
+      '''
+    }
+  }
+}

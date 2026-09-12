@@ -1,0 +1,61 @@
+meta {
+  name: Classify a chat message for recurring-job intent (Lumina Jobs P3)
+  type: http
+  seq: 2
+  tags: [
+    Skills
+  ]
+}
+
+post {
+  url: {{baseUrl}}/v1/jobs/detect
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "text": ""
+  }
+}
+
+example {
+  name: 200 Response
+  description: Job proposal (isJob=false when not a recurring job).
+
+  request: {
+    url: {{baseUrl}}/v1/jobs/detect
+    method: POST
+    mode: json
+    body:json: {
+      {
+        "text": ""
+      }
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "isJob": false,
+          "title": "",
+          "cron": "",
+          "scheduleHuman": "",
+          "domain": "",
+          "spec": ""
+        }
+      '''
+    }
+  }
+}

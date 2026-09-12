@@ -1,0 +1,84 @@
+meta {
+  name: Fetch candidates, revisions, and synthesis for one execution
+  type: http
+  seq: 12
+  tags: [
+    LLM
+  ]
+}
+
+get {
+  url: {{baseUrl}}/v1/router/parallel/executions/:executionID
+  body: none
+  auth: inherit
+}
+
+params:path {
+  executionID:
+}
+
+example {
+  name: 200 Response
+  description: Execution detail.
+
+  request: {
+    url: {{baseUrl}}/v1/router/parallel/executions/:executionID
+    method: GET
+    mode: none
+    params:path: {
+      executionID:
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "summary": {
+            "id": "",
+            "strategy": "auto",
+            "status": "running",
+            "promptPreview": "",
+            "participantCount": 0,
+            "estimatedCostUsdMicros": 0,
+            "latencyMs": 0,
+            "createdAt": ""
+          },
+          "prompt": "",
+          "outputs": [
+            {
+              "id": "",
+              "participantID": "",
+              "role": "",
+              "route": {
+                "provider": "xai",
+                "model": "",
+                "inputPerMillionUsdMicros": 0,
+                "outputPerMillionUsdMicros": 0
+              },
+              "stage": "answer",
+              "round": 0,
+              "content": "",
+              "status": "",
+              "tokensIn": 0,
+              "tokensOut": 0,
+              "estimatedCostUsdMicros": 0,
+              "latencyMs": 0
+            }
+          ],
+          "synthesizedAnswer": ""
+        }
+      '''
+    }
+  }
+}

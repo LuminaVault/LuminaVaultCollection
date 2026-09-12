@@ -2,10 +2,80 @@ meta {
   name: marketplaceAdminSubmissions
   type: http
   seq: 15
+  tags: [
+    Marketplace
+  ]
 }
 
 get {
   url: {{baseUrl}}/v1/marketplace/admin/submissions
   body: none
   auth: inherit
+}
+
+example {
+  name: 200 Response
+  description: Moderation queue.
+
+  request: {
+    url: {{baseUrl}}/v1/marketplace/admin/submissions
+    method: GET
+    mode: none
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "items": [
+            {
+              "id": "",
+              "pluginSlug": "",
+              "versionId": "",
+              "status": "draft",
+              "validationErrors": [],
+              "reviewNote": "",
+              "submittedAt": "",
+              "reviewedAt": ""
+            }
+          ]
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: 403 Response
+  description: Admin required.
+
+  request: {
+    url: {{baseUrl}}/v1/marketplace/admin/submissions
+    method: GET
+    mode: none
+  }
+
+  response: {
+    status: {
+      code: 403
+      text: Forbidden
+    }
+
+    body: {
+      type: text
+      content: '''
+
+      '''
+    }
+  }
 }

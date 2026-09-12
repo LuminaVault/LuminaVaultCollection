@@ -1,0 +1,77 @@
+meta {
+  name: Streaming natural-language semantic query (SSE)
+  type: http
+  seq: 2
+  tags: [
+    Query
+  ]
+}
+
+post {
+  url: {{baseUrl}}/v1/query/stream
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "query": "",
+    "limit": 0
+  }
+}
+
+docs {
+  Returns `text/event-stream` — each event is a JSON-encoded
+  `QueryStreamEvent` on a single SSE `data:` line.
+
+  Streams an answer in this order:
+
+  1. One `source` event per top-N retrieved memory hit (client may
+     render source chips immediately).
+  2. Many `token` events as the LLM produces output deltas.
+  3. Optional `summary` event with the final concatenated answer.
+  4. One `follow_ups` event with server-generated follow-up chips.
+  5. One `done` event to terminate the stream.
+
+  On stream-level failures an `error` event is emitted in lieu of
+  `done`. Clients should abort the read loop on either terminator.
+
+}
+
+example {
+  name: 200 Response
+  description: Server-Sent Events stream of `QueryStreamEvent`.
+
+  request: {
+    url: {{baseUrl}}/v1/query/stream
+    method: POST
+    mode: json
+    body:json: {
+      {
+        "query": "",
+        "limit": 0
+      }
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: text/event-stream
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: text
+      content: '''
+        {
+          "type": "source",
+          "payload": ""
+        }
+      '''
+    }
+  }
+}

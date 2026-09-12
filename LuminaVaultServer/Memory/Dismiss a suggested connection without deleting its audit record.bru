@@ -1,0 +1,81 @@
+meta {
+  name: Dismiss a suggested connection without deleting its audit record
+  type: http
+  seq: 17
+  tags: [
+    Memory
+  ]
+}
+
+post {
+  url: {{baseUrl}}/v1/knowledge/edges/:id/dismiss
+  body: json
+  auth: inherit
+}
+
+params:path {
+  id:
+}
+
+body:json {
+  {
+    "note": ""
+  }
+}
+
+example {
+  name: 200 Response
+  description: Dismissed edge.
+
+  request: {
+    url: {{baseUrl}}/v1/knowledge/edges/:id/dismiss
+    method: POST
+    mode: json
+    params:path: {
+      id:
+    }
+
+    body:json: {
+      {
+        "note": ""
+      }
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "id": "",
+          "from": "",
+          "to": "",
+          "predicate": "mentions",
+          "state": "asserted",
+          "confidence": 0,
+          "rationale": "",
+          "counterEvidence": "",
+          "evidence": [
+            {
+              "id": "",
+              "memoryID": "",
+              "sourceVaultFileID": "",
+              "quote": "",
+              "startOffset": 0,
+              "endOffset": 0
+            }
+          ]
+        }
+      '''
+    }
+  }
+}

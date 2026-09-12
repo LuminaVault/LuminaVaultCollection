@@ -1,0 +1,46 @@
+meta {
+  name: Delete an execution and all persisted outputs
+  type: http
+  seq: 13
+  tags: [
+    LLM
+  ]
+}
+
+delete {
+  url: {{baseUrl}}/v1/router/parallel/executions/:executionID
+  body: none
+  auth: inherit
+}
+
+params:path {
+  executionID:
+}
+
+example {
+  name: 204 Response
+  description: Deleted.
+
+  request: {
+    url: {{baseUrl}}/v1/router/parallel/executions/:executionID
+    method: DELETE
+    mode: none
+    params:path: {
+      executionID:
+    }
+  }
+
+  response: {
+    status: {
+      code: 204
+      text: No Content
+    }
+
+    body: {
+      type: text
+      content: '''
+
+      '''
+    }
+  }
+}

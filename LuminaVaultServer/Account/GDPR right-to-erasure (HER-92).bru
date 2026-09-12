@@ -1,0 +1,87 @@
+meta {
+  name: GDPR right-to-erasure (HER-92)
+  type: http
+  seq: 1
+  tags: [
+    Account
+  ]
+}
+
+delete {
+  url: {{baseUrl}}/v1/account
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "password": ""
+  }
+}
+
+example {
+  name: 204 Response
+  description: Account wiped.
+
+  request: {
+    url: {{baseUrl}}/v1/account
+    method: DELETE
+    mode: json
+    body:json: {
+      {
+        "password": ""
+      }
+    }
+  }
+
+  response: {
+    status: {
+      code: 204
+      text: No Content
+    }
+
+    body: {
+      type: text
+      content: '''
+
+      '''
+    }
+  }
+}
+
+example {
+  name: 401 Response
+  description: Missing / invalid credential.
+
+  request: {
+    url: {{baseUrl}}/v1/account
+    method: DELETE
+    mode: json
+    body:json: {
+      {
+        "password": ""
+      }
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 401
+      text: Unauthorized
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "error": "",
+          "message": ""
+        }
+      '''
+    }
+  }
+}

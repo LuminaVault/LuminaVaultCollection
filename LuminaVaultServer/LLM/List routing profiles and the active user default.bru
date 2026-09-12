@@ -1,0 +1,152 @@
+meta {
+  name: List routing profiles and the active user default
+  type: http
+  seq: 1
+  tags: [
+    LLM
+  ]
+}
+
+get {
+  url: {{baseUrl}}/v1/router
+  body: none
+  auth: inherit
+}
+
+example {
+  name: 200 Response
+  description: Router profiles.
+
+  request: {
+    url: {{baseUrl}}/v1/router
+    method: GET
+    mode: none
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "profiles": [
+            {
+              "id": "",
+              "name": "",
+              "mode": "managed",
+              "isPreset": false,
+              "objective": {
+                "quality": 0,
+                "cost": 0,
+                "latency": 0
+              },
+              "budget": {
+                "softLimitUsdMicros": 0,
+                "hardLimitUsdMicros": 0
+              },
+              "allowedProviders": [
+                "xai"
+              ],
+              "blockedProviders": [
+                "xai"
+              ],
+              "defaultAction": {
+                "kind": "sequential",
+                "routes": [
+                  {
+                    "provider": "xai",
+                    "model": "",
+                    "inputPerMillionUsdMicros": 0,
+                    "outputPerMillionUsdMicros": 0
+                  }
+                ],
+                "synthesisRoute": {
+                  "provider": "xai",
+                  "model": "",
+                  "inputPerMillionUsdMicros": 0,
+                  "outputPerMillionUsdMicros": 0
+                },
+                "minimumSuccessfulResults": 0,
+                "retryPolicy": "fast",
+                "parallelStrategy": "auto",
+                "participants": [
+                  {
+                    "id": "",
+                    "role": "",
+                    "instructions": "",
+                    "route": {
+                      "provider": "xai",
+                      "model": "",
+                      "inputPerMillionUsdMicros": 0,
+                      "outputPerMillionUsdMicros": 0
+                    }
+                  }
+                ]
+              },
+              "rules": [
+                {
+                  "id": "",
+                  "name": "",
+                  "enabled": false,
+                  "priority": 0,
+                  "taskTypes": [
+                    "general"
+                  ],
+                  "surfaces": [
+                    "chat"
+                  ],
+                  "action": {
+                    "kind": "sequential",
+                    "routes": [
+                      {
+                        "provider": "xai",
+                        "model": "",
+                        "inputPerMillionUsdMicros": 0,
+                        "outputPerMillionUsdMicros": 0
+                      }
+                    ],
+                    "synthesisRoute": {
+                      "provider": "xai",
+                      "model": "",
+                      "inputPerMillionUsdMicros": 0,
+                      "outputPerMillionUsdMicros": 0
+                    },
+                    "minimumSuccessfulResults": 0,
+                    "retryPolicy": "fast",
+                    "parallelStrategy": "auto",
+                    "participants": [
+                      {
+                        "id": "",
+                        "role": "",
+                        "instructions": "",
+                        "route": {
+                          "provider": "xai",
+                          "model": "",
+                          "inputPerMillionUsdMicros": 0,
+                          "outputPerMillionUsdMicros": 0
+                        }
+                      }
+                    ]
+                  }
+                }
+              ],
+              "routingPolicy": "locked",
+              "revision": 0,
+              "createdAt": "",
+              "updatedAt": ""
+            }
+          ],
+          "defaultProfileID": ""
+        }
+      '''
+    }
+  }
+}

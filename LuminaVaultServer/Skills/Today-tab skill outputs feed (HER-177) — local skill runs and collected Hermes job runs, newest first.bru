@@ -1,0 +1,86 @@
+meta {
+  name: Today-tab skill outputs feed (HER-177) — local skill runs and collected Hermes job runs, newest first
+  type: http
+  seq: 6
+  tags: [
+    Skills
+  ]
+}
+
+get {
+  url: {{baseUrl}}/v1/skills/outputs
+  body: none
+  auth: inherit
+}
+
+params:query {
+  limit: 50
+  @description('Exclusive lower bound — return only outputs newer than this.')
+  ~since:
+  @description("Exclusive upper bound — the previous page's `nextCursor`.")
+  ~before:
+}
+
+docs {
+  Unions `skill_run_log` runs that produced markdown with the
+  `hermes_job_runs` collected from the tenant's Hermes (Phase 2), newest
+  first. Hermes runs are mirrored into `skill_run_log` for the skill
+  surfaces; the feed reads them from the job-runs side instead, which
+  also carries `vaultFilePath`. A failed run with no markdown falls back
+  to its error text. `since` and `before` are both exclusive; page
+  backwards by passing the previous response's `nextCursor` as `before`
+  (present only when the page was full).
+
+}
+
+example {
+  name: 200 Response
+  description: Outputs feed + streak + active-run flag.
+
+  request: {
+    url: {{baseUrl}}/v1/skills/outputs
+    method: GET
+    mode: none
+    params:query: {
+      ~since:
+      ~before:
+      limit: 50
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "outputs": [
+            {
+              "id": "",
+              "skillName": "",
+              "source": "builtin",
+              "kind": "daily_brief",
+              "headline": "",
+              "body": "",
+              "createdAt": "",
+              "memoryID": "",
+              "memoID": "",
+              "vaultFilePath": ""
+            }
+          ],
+          "streakDays": 0,
+          "activeRun": false,
+          "nextCursor": ""
+        }
+      '''
+    }
+  }
+}

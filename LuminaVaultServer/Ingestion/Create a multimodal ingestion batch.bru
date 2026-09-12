@@ -1,0 +1,131 @@
+meta {
+  name: Create a multimodal ingestion batch
+  type: http
+  seq: 1
+  tags: [
+    Ingestion
+  ]
+}
+
+post {
+  url: {{baseUrl}}/v1/ingestions
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "spaceID": "",
+    "items": [
+      {
+        "kind": "file",
+        "fileName": "",
+        "contentType": "",
+        "sizeBytes": 0,
+        "sha256": "",
+        "url": ""
+      }
+    ]
+  }
+}
+
+example {
+  name: 200 Response
+  description: Batch created; URL items may already be processing.
+
+  request: {
+    url: {{baseUrl}}/v1/ingestions
+    method: POST
+    mode: json
+    body:json: {
+      {
+        "spaceID": "",
+        "items": [
+          {
+            "kind": "file",
+            "fileName": "",
+            "contentType": "",
+            "sizeBytes": 0,
+            "sha256": "",
+            "url": ""
+          }
+        ]
+      }
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "id": "",
+          "state": "",
+          "total": 0,
+          "completed": 0,
+          "failed": 0,
+          "chunkSizeBytes": 0,
+          "items": [
+            {
+              "id": "",
+              "batchID": "",
+              "kind": "file",
+              "state": "awaiting_upload",
+              "fileName": "",
+              "contentType": "",
+              "sizeBytes": 0,
+              "uploadedBytes": 0,
+              "url": "",
+              "vaultFileID": "",
+              "memoryID": "",
+              "summary": "",
+              "error": "",
+              "credibility": {
+                "score": "",
+                "confidence": 0,
+                "signals": [],
+                "rationale": "",
+                "version": ""
+              },
+              "entities": [
+                {
+                  "id": "",
+                  "name": "",
+                  "type": "",
+                  "confidence": 0
+                }
+              ],
+              "relationships": [
+                {
+                  "id": "",
+                  "subjectEntityID": "",
+                  "predicate": "",
+                  "objectEntityID": "",
+                  "confidence": 0,
+                  "evidence": ""
+                }
+              ],
+              "contentSHA256": "",
+              "pipelineVersion": "",
+              "reusedFromItemID": "",
+              "graphReadyAt": "",
+              "createdAt": "",
+              "updatedAt": ""
+            }
+          ],
+          "createdAt": "",
+          "updatedAt": ""
+        }
+      '''
+    }
+  }
+}

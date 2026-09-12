@@ -1,0 +1,170 @@
+meta {
+  name: Update a reminder
+  type: http
+  seq: 5
+  tags: [
+    Reminders
+  ]
+}
+
+patch {
+  url: {{baseUrl}}/v1/reminders/:id
+  body: json
+  auth: inherit
+}
+
+params:path {
+  id:
+}
+
+body:json {
+  {
+    "title": "",
+    "body": "",
+    "fireAt": "",
+    "recurrenceCron": ""
+  }
+}
+
+docs {
+  Any unset field is left unchanged. Editing `fireAt` re-arms a
+  reminder that had already fired.
+
+}
+
+example {
+  name: 200 Response
+  description: Updated reminder.
+
+  request: {
+    url: {{baseUrl}}/v1/reminders/:id
+    method: PATCH
+    mode: json
+    params:path: {
+      id:
+    }
+
+    body:json: {
+      {
+        "title": "",
+        "body": "",
+        "fireAt": "",
+        "recurrenceCron": ""
+      }
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "id": "",
+          "title": "",
+          "body": "",
+          "fireAt": "",
+          "recurrenceCron": "",
+          "firedAt": "",
+          "createdAt": ""
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: 400 Response
+  description: Empty title or invalid recurrence cron.
+
+  request: {
+    url: {{baseUrl}}/v1/reminders/:id
+    method: PATCH
+    mode: json
+    params:path: {
+      id:
+    }
+
+    body:json: {
+      {
+        "title": "",
+        "body": "",
+        "fireAt": "",
+        "recurrenceCron": ""
+      }
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 400
+      text: Bad Request
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "error": "",
+          "message": ""
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: 404 Response
+  description: Unknown reminder.
+
+  request: {
+    url: {{baseUrl}}/v1/reminders/:id
+    method: PATCH
+    mode: json
+    params:path: {
+      id:
+    }
+
+    body:json: {
+      {
+        "title": "",
+        "body": "",
+        "fireAt": "",
+        "recurrenceCron": ""
+      }
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 404
+      text: Not Found
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "error": "",
+          "message": ""
+        }
+      '''
+    }
+  }
+}

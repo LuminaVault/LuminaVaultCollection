@@ -2,6 +2,9 @@ meta {
   name: workflowRunsList
   type: http
   seq: 10
+  tags: [
+    Workflows
+  ]
 }
 
 get {
@@ -12,4 +15,72 @@ get {
 
 params:path {
   id:
+}
+
+example {
+  name: 200 Response
+  description: Workflow run history.
+
+  request: {
+    url: {{baseUrl}}/v1/workflows/:id/runs
+    method: GET
+    mode: none
+    params:path: {
+      id:
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "runs": [
+            {
+              "id": "",
+              "workflowID": "",
+              "workflowName": "",
+              "version": 0,
+              "status": "queued",
+              "trigger": "manual",
+              "startedAt": "",
+              "endedAt": "",
+              "createdAt": "",
+              "error": "",
+              "pauseReason": "runSpendLimit",
+              "managedSpendUsdMicros": 0,
+              "managedSpendLimitUsdMicros": 0,
+              "nodeRuns": [
+                {
+                  "id": "",
+                  "nodeID": "",
+                  "nodeName": "",
+                  "status": "pending",
+                  "attempt": 0,
+                  "startedAt": "",
+                  "endedAt": "",
+                  "outputPreview": "",
+                  "error": "",
+                  "provider": "",
+                  "model": "",
+                  "tokensIn": 0,
+                  "tokensOut": 0,
+                  "managedCostUsdMicros": 0
+                }
+              ]
+            }
+          ]
+        }
+      '''
+    }
+  }
 }

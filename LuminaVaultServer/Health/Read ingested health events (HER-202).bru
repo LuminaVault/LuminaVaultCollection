@@ -1,0 +1,73 @@
+meta {
+  name: Read ingested health events (HER-202)
+  type: http
+  seq: 2
+  tags: [
+    Health
+  ]
+}
+
+get {
+  url: {{baseUrl}}/v1/health
+  body: none
+  auth: inherit
+}
+
+params:query {
+  limit: 100
+  offset: 0
+  ~type:
+  ~from:
+  ~to:
+}
+
+example {
+  name: 200 Response
+  description: Health events page.
+
+  request: {
+    url: {{baseUrl}}/v1/health
+    method: GET
+    mode: none
+    params:query: {
+      ~type:
+      ~from:
+      ~to:
+      limit: 100
+      offset: 0
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "events": [
+            {
+              "id": "",
+              "eventType": "",
+              "valueNumeric": 0,
+              "valueText": "",
+              "unit": "",
+              "recordedAt": "",
+              "source": "",
+              "metadata": {}
+            }
+          ],
+          "limit": 0,
+          "offset": 0
+        }
+      '''
+    }
+  }
+}

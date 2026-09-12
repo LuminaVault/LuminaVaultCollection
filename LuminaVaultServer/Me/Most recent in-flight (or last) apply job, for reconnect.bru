@@ -1,0 +1,90 @@
+meta {
+  name: Most recent in-flight (or last) apply job, for reconnect
+  type: http
+  seq: 20
+  tags: [
+    Me
+  ]
+}
+
+get {
+  url: {{baseUrl}}/v1/me/hermes-gateways/apply/current
+  body: none
+  auth: inherit
+}
+
+example {
+  name: 200 Response
+  description: Job snapshot.
+
+  request: {
+    url: {{baseUrl}}/v1/me/hermes-gateways/apply/current
+    method: GET
+    mode: none
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "jobID": "",
+          "state": "running",
+          "steps": [
+            {
+              "id": "writeEnv",
+              "state": "pending",
+              "detail": "",
+              "startedAt": "",
+              "finishedAt": ""
+            }
+          ],
+          "errorMessage": "",
+          "startedAt": "",
+          "updatedAt": ""
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: 404 Response
+  description: Resource not found.
+
+  request: {
+    url: {{baseUrl}}/v1/me/hermes-gateways/apply/current
+    method: GET
+    mode: none
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 404
+      text: Not Found
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "error": "",
+          "message": ""
+        }
+      '''
+    }
+  }
+}

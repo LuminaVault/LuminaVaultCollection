@@ -2,6 +2,9 @@ meta {
   name: workflowRunEvents
   type: http
   seq: 14
+  tags: [
+    Workflows
+  ]
 }
 
 get {
@@ -11,9 +14,57 @@ get {
 }
 
 params:query {
-  ~after:
+  after: 0
 }
 
 params:path {
   runID:
+}
+
+example {
+  name: 200 Response
+  description: Persisted replayable run events.
+
+  request: {
+    url: {{baseUrl}}/v1/workflows/runs/:runID/events
+    method: GET
+    mode: none
+    params:query: {
+      after: 0
+    }
+
+    params:path: {
+      runID:
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "events": [
+            {
+              "id": 0,
+              "runID": "",
+              "kind": "runQueued",
+              "nodeID": "",
+              "message": "",
+              "data": {},
+              "createdAt": ""
+            }
+          ]
+        }
+      '''
+    }
+  }
 }

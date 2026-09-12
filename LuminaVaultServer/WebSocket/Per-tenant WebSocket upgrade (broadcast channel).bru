@@ -1,0 +1,74 @@
+meta {
+  name: Per-tenant WebSocket upgrade (broadcast channel)
+  type: http
+  seq: 1
+  tags: [
+    WebSocket
+  ]
+}
+
+get {
+  url: {{baseUrl}}/v1/ws
+  body: none
+  auth: inherit
+}
+
+headers {
+  Upgrade: websocket
+}
+
+example {
+  name: 101 Response
+  description: Switching Protocols.
+
+  request: {
+    url: {{baseUrl}}/v1/ws
+    method: GET
+    mode: none
+    headers: {
+      Upgrade: websocket
+    }
+  }
+
+  response: {
+    status: {
+      code: 101
+      text: Switching Protocols
+    }
+
+    body: {
+      type: text
+      content: '''
+
+      '''
+    }
+  }
+}
+
+example {
+  name: 401 Response
+  description: Missing / invalid JWT.
+
+  request: {
+    url: {{baseUrl}}/v1/ws
+    method: GET
+    mode: none
+    headers: {
+      Upgrade: websocket
+    }
+  }
+
+  response: {
+    status: {
+      code: 401
+      text: Unauthorized
+    }
+
+    body: {
+      type: text
+      content: '''
+
+      '''
+    }
+  }
+}

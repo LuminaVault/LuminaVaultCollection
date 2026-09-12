@@ -1,0 +1,60 @@
+meta {
+  name: Cheap count of vault rows with `processed_at` IS NULL (HER-293)
+  type: http
+  seq: 2
+  tags: [
+    KB
+  ]
+}
+
+get {
+  url: {{baseUrl}}/v1/memory-compile/pending
+  body: none
+  auth: inherit
+}
+
+docs {
+  Drives the disabled state and microcopy of the iOS "Sync & Learn"
+  button (HER-108). Returns `{ pendingFiles: 0 }` when nothing is
+  pending so the client can disable the CTA instead of letting users
+  tap into the empty `memoriesIngested: 0` no-op response.
+
+  Tenant-scoped via the standard auth middleware. Backed by a single
+  indexed `COUNT(*)` against `vault_files` filtered by tenant + NULL
+  `processed_at`, so the endpoint is cheap to poll on screen focus.
+
+  HER-240 / spec ticket #2 — renamed from `/v1/kb-compile/pending`.
+  Legacy path 308-redirects to this one for one milestone.
+
+}
+
+example {
+  name: 200 Response
+  description: Pending count.
+
+  request: {
+    url: {{baseUrl}}/v1/memory-compile/pending
+    method: GET
+    mode: none
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "pendingFiles": 0
+        }
+      '''
+    }
+  }
+}

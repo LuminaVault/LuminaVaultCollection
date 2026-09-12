@@ -1,0 +1,90 @@
+meta {
+  name: Persist a user turn and prepare grounded context for local inference
+  type: http
+  seq: 8
+  tags: [
+    Conversations
+  ]
+}
+
+post {
+  url: {{baseUrl}}/v1/conversations/:id/messages/prepare
+  body: json
+  auth: inherit
+}
+
+params:path {
+  id:
+}
+
+body:json {
+  {
+    "content": ""
+  }
+}
+
+example {
+  name: 200 Response
+  description: Expiring local-execution context.
+
+  request: {
+    url: {{baseUrl}}/v1/conversations/:id/messages/prepare
+    method: POST
+    mode: json
+    params:path: {
+      id:
+    }
+
+    body:json: {
+      {
+        "content": ""
+      }
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "executionID": "",
+          "messages": [
+            {
+              "role": "system",
+              "content": "",
+              "toolCalls": [
+                {}
+              ]
+            }
+          ],
+          "sources": [
+            {
+              "id": "",
+              "content": "",
+              "distance": 0,
+              "createdAt": "",
+              "snippet": "",
+              "citation": ""
+            }
+          ],
+          "expiresAt": "",
+          "allowedTools": [
+            {
+              "name": "memory_search",
+              "description": ""
+            }
+          ]
+        }
+      '''
+    }
+  }
+}

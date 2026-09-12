@@ -2,6 +2,9 @@ meta {
   name: marketplacePublisherSubmitVersion
   type: http
   seq: 13
+  tags: [
+    Marketplace
+  ]
 }
 
 post {
@@ -13,4 +16,46 @@ post {
 params:path {
   slug:
   versionID:
+}
+
+example {
+  name: 200 Response
+  description: Validation/submission result.
+
+  request: {
+    url: {{baseUrl}}/v1/marketplace/publisher/plugins/:slug/versions/:versionID/submit
+    method: POST
+    mode: none
+    params:path: {
+      slug:
+      versionID:
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "id": "",
+          "pluginSlug": "",
+          "versionId": "",
+          "status": "draft",
+          "validationErrors": [],
+          "reviewNote": "",
+          "submittedAt": "",
+          "reviewedAt": ""
+        }
+      '''
+    }
+  }
 }

@@ -1,0 +1,54 @@
+meta {
+  name: Aggregated counters for the Home/Dashboard surface (HER-244)
+  type: http
+  seq: 2
+  tags: [
+    Dashboard
+  ]
+}
+
+get {
+  url: {{baseUrl}}/v1/dashboard/stats
+  body: none
+  auth: inherit
+}
+
+docs {
+  Returns the small set of numbers the iOS Home/Dashboard renders:
+  memories created today, total memories ever, and the most recent
+  space compile timestamp. Per-tenant scoped.
+
+}
+
+example {
+  name: 200 Response
+  description: Dashboard stats snapshot.
+
+  request: {
+    url: {{baseUrl}}/v1/dashboard/stats
+    method: GET
+    mode: none
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "memoriesToday": 0,
+          "memoriesTotal": 0,
+          "lastCompileAt": ""
+        }
+      '''
+    }
+  }
+}

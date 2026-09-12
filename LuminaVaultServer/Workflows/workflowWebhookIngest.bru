@@ -2,11 +2,14 @@ meta {
   name: workflowWebhookIngest
   type: http
   seq: 9
+  tags: [
+    Workflows
+  ]
 }
 
 post {
   url: {{baseUrl}}/v1/workflow-hooks/:hookID
-  body: none
+  body: json
   auth: inherit
 }
 
@@ -18,4 +21,120 @@ headers {
   X-Lumina-Timestamp:
   X-Lumina-Signature:
   Idempotency-Key:
+}
+
+body:json {
+  {}
+}
+
+example {
+  name: 200 Response
+  description: Queued or previously queued run.
+
+  request: {
+    url: {{baseUrl}}/v1/workflow-hooks/:hookID
+    method: POST
+    mode: json
+    params:path: {
+      hookID:
+    }
+
+    headers: {
+      X-Lumina-Timestamp:
+      X-Lumina-Signature:
+      Idempotency-Key:
+    }
+
+    body:json: {
+      {}
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "id": "",
+          "workflowID": "",
+          "workflowName": "",
+          "version": 0,
+          "status": "queued",
+          "trigger": "manual",
+          "startedAt": "",
+          "endedAt": "",
+          "createdAt": "",
+          "error": "",
+          "pauseReason": "runSpendLimit",
+          "managedSpendUsdMicros": 0,
+          "managedSpendLimitUsdMicros": 0,
+          "nodeRuns": [
+            {
+              "id": "",
+              "nodeID": "",
+              "nodeName": "",
+              "status": "pending",
+              "attempt": 0,
+              "startedAt": "",
+              "endedAt": "",
+              "outputPreview": "",
+              "error": "",
+              "provider": "",
+              "model": "",
+              "tokensIn": 0,
+              "tokensOut": 0,
+              "managedCostUsdMicros": 0
+            }
+          ]
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: 401 Response
+  description: Invalid signature or replay window.
+
+  request: {
+    url: {{baseUrl}}/v1/workflow-hooks/:hookID
+    method: POST
+    mode: json
+    params:path: {
+      hookID:
+    }
+
+    headers: {
+      X-Lumina-Timestamp:
+      X-Lumina-Signature:
+      Idempotency-Key:
+    }
+
+    body:json: {
+      {}
+    }
+  }
+
+  response: {
+    status: {
+      code: 401
+      text: Unauthorized
+    }
+
+    body: {
+      type: text
+      content: '''
+
+      '''
+    }
+  }
 }

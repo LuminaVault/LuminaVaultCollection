@@ -1,0 +1,105 @@
+meta {
+  name: Primary Chats inbox summary list
+  type: http
+  seq: 1
+  tags: [
+    Conversations
+  ]
+}
+
+get {
+  url: {{baseUrl}}/v1/chat/inbox
+  body: none
+  auth: inherit
+}
+
+params:query {
+  limit: 50
+  ~workspace:
+}
+
+example {
+  name: 200 Response
+  description: Chat inbox items with preview, count, source, and recency metadata.
+
+  request: {
+    url: {{baseUrl}}/v1/chat/inbox
+    method: GET
+    mode: none
+    params:query: {
+      limit: 50
+      ~workspace:
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "items": [
+            {
+              "id": "",
+              "title": "",
+              "preview": "",
+              "messageCount": 0,
+              "lastMessageAt": "",
+              "workspaceID": "",
+              "sourceLabel": "",
+              "providerID": "xai",
+              "model": "",
+              "pinned": false,
+              "archived": false
+            }
+          ],
+          "nextCursor": ""
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: 401 Response
+  description: Missing / invalid credential.
+
+  request: {
+    url: {{baseUrl}}/v1/chat/inbox
+    method: GET
+    mode: none
+    params:query: {
+      limit: 50
+      ~workspace:
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 401
+      text: Unauthorized
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "error": "",
+          "message": ""
+        }
+      '''
+    }
+  }
+}

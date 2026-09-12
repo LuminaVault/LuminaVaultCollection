@@ -1,0 +1,171 @@
+meta {
+  name: Update board title and/or archived flag
+  type: http
+  seq: 4
+  tags: [
+    Kanban
+  ]
+}
+
+patch {
+  url: {{baseUrl}}/v1/boards/:boardID
+  body: json
+  auth: inherit
+}
+
+params:path {
+  boardID:
+}
+
+body:json {
+  {
+    "title": "",
+    "archived": false
+  }
+}
+
+example {
+  name: 200 Response
+  description: Updated board snapshot.
+
+  request: {
+    url: {{baseUrl}}/v1/boards/:boardID
+    method: PATCH
+    mode: json
+    params:path: {
+      boardID:
+    }
+
+    body:json: {
+      {
+        "title": "",
+        "archived": false
+      }
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "id": "",
+          "title": "",
+          "version": 0,
+          "columns": [
+            {
+              "id": "",
+              "title": "",
+              "rank": "",
+              "cards": [
+                {
+                  "id": "",
+                  "columnID": "",
+                  "title": "",
+                  "body": "",
+                  "priority": "",
+                  "dueAt": "",
+                  "rank": "",
+                  "updatedAt": ""
+                }
+              ]
+            }
+          ]
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: 401 Response
+  description: Missing / invalid credential.
+
+  request: {
+    url: {{baseUrl}}/v1/boards/:boardID
+    method: PATCH
+    mode: json
+    params:path: {
+      boardID:
+    }
+
+    body:json: {
+      {
+        "title": "",
+        "archived": false
+      }
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 401
+      text: Unauthorized
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "error": "",
+          "message": ""
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: 404 Response
+  description: Resource not found.
+
+  request: {
+    url: {{baseUrl}}/v1/boards/:boardID
+    method: PATCH
+    mode: json
+    params:path: {
+      boardID:
+    }
+
+    body:json: {
+      {
+        "title": "",
+        "archived": false
+      }
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 404
+      text: Not Found
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "error": "",
+          "message": ""
+        }
+      '''
+    }
+  }
+}

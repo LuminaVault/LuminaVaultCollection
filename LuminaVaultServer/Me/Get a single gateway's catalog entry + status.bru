@@ -1,0 +1,125 @@
+meta {
+  name: Get a single gateway's catalog entry + status
+  type: http
+  seq: 15
+  tags: [
+    Me
+  ]
+}
+
+get {
+  url: {{baseUrl}}/v1/me/hermes-gateways/:id
+  body: none
+  auth: inherit
+}
+
+params:path {
+  id: telegram
+  id: discord
+  id: slack
+  id: whatsapp
+  id: email
+  id: matrix
+  id: ntfy
+  id: mattermost
+}
+
+example {
+  name: 200 Response
+  description: Gateway catalog entry.
+
+  request: {
+    url: {{baseUrl}}/v1/me/hermes-gateways/:id
+    method: GET
+    mode: none
+    params:path: {
+      id: telegram
+      ~id: discord
+      ~id: slack
+      ~id: whatsapp
+      ~id: email
+      ~id: matrix
+      ~id: ntfy
+      ~id: mattermost
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "id": "telegram",
+          "displayName": "",
+          "iconSlug": "",
+          "description": "",
+          "requiredFields": [
+            {
+              "key": "",
+              "label": "",
+              "placeholder": "",
+              "kind": "text",
+              "isRequired": false
+            }
+          ],
+          "status": "not_configured",
+          "hasConfig": false,
+          "verifiedAt": "",
+          "lastFailureCode": "",
+          "pairingKind": ""
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: 404 Response
+  description: Unsupported gateway id (`unsupported_gateway`).
+
+  request: {
+    url: {{baseUrl}}/v1/me/hermes-gateways/:id
+    method: GET
+    mode: none
+    params:path: {
+      id: telegram
+      ~id: discord
+      ~id: slack
+      ~id: whatsapp
+      ~id: email
+      ~id: matrix
+      ~id: ntfy
+      ~id: mattermost
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 404
+      text: Not Found
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "error": "",
+          "message": ""
+        }
+      '''
+    }
+  }
+}

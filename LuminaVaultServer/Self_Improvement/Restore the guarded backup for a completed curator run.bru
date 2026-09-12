@@ -1,0 +1,101 @@
+meta {
+  name: Restore the guarded backup for a completed curator run
+  type: http
+  seq: 6
+  tags: [
+    Self_Improvement
+  ]
+}
+
+post {
+  url: {{baseUrl}}/v1/me/improvement/runs/:id/rollback
+  body: none
+  auth: inherit
+}
+
+params:path {
+  id:
+}
+
+example {
+  name: 200 Response
+  description: Run marked rolled back.
+
+  request: {
+    url: {{baseUrl}}/v1/me/improvement/runs/:id/rollback
+    method: POST
+    mode: none
+    params:path: {
+      id:
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "run": {
+            "id": "",
+            "kind": "curator",
+            "status": "queued",
+            "trigger": "manual",
+            "dryRun": false,
+            "modelUsed": "",
+            "reportMarkdown": "",
+            "actionsApplied": 0,
+            "actionsSkipped": 0,
+            "startedAt": "",
+            "endedAt": "",
+            "createdAt": "",
+            "failureReason": ""
+          }
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: 409 Response
+  description: Resource conflict (e.g. duplicate registration).
+
+  request: {
+    url: {{baseUrl}}/v1/me/improvement/runs/:id/rollback
+    method: POST
+    mode: none
+    params:path: {
+      id:
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 409
+      text: Conflict
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "error": "",
+          "message": ""
+        }
+      '''
+    }
+  }
+}

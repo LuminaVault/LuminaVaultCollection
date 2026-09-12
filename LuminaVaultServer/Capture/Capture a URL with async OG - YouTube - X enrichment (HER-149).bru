@@ -1,0 +1,61 @@
+meta {
+  name: Capture a URL with async OG / YouTube / X enrichment (HER-149)
+  type: http
+  seq: 1
+  tags: [
+    Capture
+  ]
+}
+
+post {
+  url: {{baseUrl}}/v1/capture/safari
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "url": "",
+    "notes": "",
+    "spaceId": ""
+  }
+}
+
+example {
+  name: 200 Response
+  description: Capture queued; vault file id returned.
+
+  request: {
+    url: {{baseUrl}}/v1/capture/safari
+    method: POST
+    mode: json
+    body:json: {
+      {
+        "url": "",
+        "notes": "",
+        "spaceId": ""
+      }
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "vaultFileId": "",
+          "enrichmentStatus": "pending"
+        }
+      '''
+    }
+  }
+}

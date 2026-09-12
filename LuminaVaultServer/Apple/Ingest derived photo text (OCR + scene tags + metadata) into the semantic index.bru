@@ -1,0 +1,117 @@
+meta {
+  name: Ingest derived photo text (OCR + scene tags + metadata) into the semantic index
+  type: http
+  seq: 3
+  tags: [
+    Apple
+  ]
+}
+
+post {
+  url: {{baseUrl}}/v1/photos/index
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "items": [
+      {
+        "assetLocalID": "",
+        "takenAt": "",
+        "isScreenshot": false,
+        "ocrText": "",
+        "sceneTags": []
+      }
+    ]
+  }
+}
+
+docs {
+  Apple Photos derived-text index. Privacy-critical: only OCR text, on-device scene tags, and metadata are accepted — never pixel data. Consent-gated on the `photos` domain. Each item is embedded and upserted by `assetLocalID` (PHAsset localIdentifier).
+
+}
+
+example {
+  name: 200 Response
+  description: Per-batch insert/update/skip counts.
+
+  request: {
+    url: {{baseUrl}}/v1/photos/index
+    method: POST
+    mode: json
+    body:json: {
+      {
+        "items": [
+          {
+            "assetLocalID": "",
+            "takenAt": "",
+            "isScreenshot": false,
+            "ocrText": "",
+            "sceneTags": []
+          }
+        ]
+      }
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "inserted": 0,
+          "updated": 0,
+          "skipped": 0
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: 403 Response
+  description: Photos access not allowed by the user.
+
+  request: {
+    url: {{baseUrl}}/v1/photos/index
+    method: POST
+    mode: json
+    body:json: {
+      {
+        "items": [
+          {
+            "assetLocalID": "",
+            "takenAt": "",
+            "isScreenshot": false,
+            "ocrText": "",
+            "sceneTags": []
+          }
+        ]
+      }
+    }
+  }
+
+  response: {
+    status: {
+      code: 403
+      text: Forbidden
+    }
+
+    body: {
+      type: text
+      content: '''
+
+      '''
+    }
+  }
+}

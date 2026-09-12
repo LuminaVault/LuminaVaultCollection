@@ -2,6 +2,9 @@ meta {
   name: workflowRunCreate
   type: http
   seq: 11
+  tags: [
+    Workflows
+  ]
 }
 
 post {
@@ -18,5 +21,76 @@ body:json {
   {
     "input": {},
     "conversationID": ""
+  }
+}
+
+example {
+  name: 200 Response
+  description: Queued run.
+
+  request: {
+    url: {{baseUrl}}/v1/workflows/:id/runs
+    method: POST
+    mode: json
+    params:path: {
+      id:
+    }
+
+    body:json: {
+      {
+        "input": {},
+        "conversationID": ""
+      }
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "id": "",
+          "workflowID": "",
+          "workflowName": "",
+          "version": 0,
+          "status": "queued",
+          "trigger": "manual",
+          "startedAt": "",
+          "endedAt": "",
+          "createdAt": "",
+          "error": "",
+          "pauseReason": "runSpendLimit",
+          "managedSpendUsdMicros": 0,
+          "managedSpendLimitUsdMicros": 0,
+          "nodeRuns": [
+            {
+              "id": "",
+              "nodeID": "",
+              "nodeName": "",
+              "status": "pending",
+              "attempt": 0,
+              "startedAt": "",
+              "endedAt": "",
+              "outputPreview": "",
+              "error": "",
+              "provider": "",
+              "model": "",
+              "tokensIn": 0,
+              "tokensOut": 0,
+              "managedCostUsdMicros": 0
+            }
+          ]
+        }
+      '''
+    }
   }
 }

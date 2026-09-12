@@ -1,0 +1,113 @@
+meta {
+  name: Paginated run history + 14-day sparkline for the Skills hub detail view (HER-247)
+  type: http
+  seq: 5
+  tags: [
+    Skills
+  ]
+}
+
+get {
+  url: {{baseUrl}}/v1/skills/:name/runs
+  body: none
+  auth: inherit
+}
+
+params:query {
+  limit: 50
+}
+
+params:path {
+  name:
+}
+
+example {
+  name: 200 Response
+  description: Run history + sparkline.
+
+  request: {
+    url: {{baseUrl}}/v1/skills/:name/runs
+    method: GET
+    mode: none
+    params:query: {
+      limit: 50
+    }
+
+    params:path: {
+      name:
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "runs": [
+            {
+              "id": "",
+              "startedAt": "",
+              "endedAt": "",
+              "status": "pending",
+              "error": "",
+              "modelUsed": "",
+              "mtokIn": 0,
+              "mtokOut": 0,
+              "markdown": "",
+              "blocks": [
+                {
+                  "type": "",
+                  "text": "",
+                  "level": 0,
+                  "label": "",
+                  "value": "",
+                  "delta": "",
+                  "trend": "",
+                  "items": [],
+                  "columns": [],
+                  "rows": [
+                    []
+                  ],
+                  "url": "",
+                  "series": [
+                    {
+                      "name": "",
+                      "points": [
+                        {
+                          "x": "",
+                          "y": 0
+                        }
+                      ]
+                    }
+                  ],
+                  "pairs": [
+                    {
+                      "key": "",
+                      "value": ""
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "sparkline": [
+            {
+              "day": "",
+              "count": 0
+            }
+          ],
+          "nextCursor": ""
+        }
+      '''
+    }
+  }
+}

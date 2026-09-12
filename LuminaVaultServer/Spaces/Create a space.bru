@@ -1,0 +1,75 @@
+meta {
+  name: Create a space
+  type: http
+  seq: 2
+  tags: [
+    Spaces
+  ]
+}
+
+post {
+  url: {{baseUrl}}/v1/spaces
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "name": "",
+    "slug": "",
+    "description": "",
+    "color": "",
+    "icon": "",
+    "category": ""
+  }
+}
+
+example {
+  name: 200 Response
+  description: Created space.
+
+  request: {
+    url: {{baseUrl}}/v1/spaces
+    method: POST
+    mode: json
+    body:json: {
+      {
+        "name": "",
+        "slug": "",
+        "description": "",
+        "color": "",
+        "icon": "",
+        "category": ""
+      }
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "id": "",
+          "name": "",
+          "slug": "",
+          "description": "",
+          "color": "",
+          "icon": "",
+          "category": "",
+          "noteCount": 0,
+          "lastCompiledAt": "",
+          "createdAt": ""
+        }
+      '''
+    }
+  }
+}

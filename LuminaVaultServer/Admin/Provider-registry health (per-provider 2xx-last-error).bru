@@ -1,0 +1,57 @@
+meta {
+  name: Provider-registry health (per-provider 2xx/last-error)
+  type: http
+  seq: 4
+  tags: [
+    Admin
+  ]
+}
+
+get {
+  url: {{baseUrl}}/admin/llm/health
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+example {
+  name: 200 Response
+  description: Provider health table.
+
+  request: {
+    url: {{baseUrl}}/admin/llm/health
+    method: GET
+    mode: none
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "providers": [
+            {
+              "kind": "",
+              "enabled": false,
+              "lastSuccessAt": "",
+              "lastErrorAt": "",
+              "lastErrorClass": ""
+            }
+          ]
+        }
+      '''
+    }
+  }
+}

@@ -1,0 +1,50 @@
+meta {
+  name: Tier + trial status + days remaining
+  type: http
+  seq: 3
+  tags: [
+    Me
+  ]
+}
+
+get {
+  url: {{baseUrl}}/v1/auth/me/billing
+  body: none
+  auth: inherit
+}
+
+example {
+  name: 200 Response
+  description: Billing snapshot.
+
+  request: {
+    url: {{baseUrl}}/v1/auth/me/billing
+    method: GET
+    mode: none
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "tier": "free",
+          "tierExpiresAt": "",
+          "tierOverride": "",
+          "inTrial": false,
+          "daysRemaining": 0,
+          "enforcementEnabled": false
+        }
+      '''
+    }
+  }
+}

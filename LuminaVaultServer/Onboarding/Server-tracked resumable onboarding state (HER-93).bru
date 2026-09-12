@@ -1,0 +1,58 @@
+meta {
+  name: Server-tracked resumable onboarding state (HER-93)
+  type: http
+  seq: 1
+  tags: [
+    Onboarding
+  ]
+}
+
+get {
+  url: {{baseUrl}}/v1/onboarding
+  body: none
+  auth: inherit
+}
+
+example {
+  name: 200 Response
+  description: Onboarding state.
+
+  request: {
+    url: {{baseUrl}}/v1/onboarding
+    method: GET
+    mode: none
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "signupCompleted": false,
+          "signupCompletedAt": "",
+          "emailVerifiedCompleted": false,
+          "emailVerifiedCompletedAt": "",
+          "soulConfiguredCompleted": false,
+          "soulConfiguredCompletedAt": "",
+          "firstCaptureCompleted": false,
+          "firstCaptureCompletedAt": "",
+          "firstKBCompileCompleted": false,
+          "firstKBCompileCompletedAt": "",
+          "firstQueryCompleted": false,
+          "firstQueryCompletedAt": "",
+          "brainConfiguredCompleted": false,
+          "brainConfiguredCompletedAt": ""
+        }
+      '''
+    }
+  }
+}

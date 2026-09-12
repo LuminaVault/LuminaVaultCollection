@@ -1,0 +1,70 @@
+meta {
+  name: Queue a conservative SOUL.md review. Changes always require approval
+  type: http
+  seq: 9
+  tags: [
+    Self_Improvement
+  ]
+}
+
+post {
+  url: {{baseUrl}}/v1/me/improvement/soul/reviews
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "trigger": "manual"
+  }
+}
+
+example {
+  name: 202 Response
+  description: Review queued.
+
+  request: {
+    url: {{baseUrl}}/v1/me/improvement/soul/reviews
+    method: POST
+    mode: json
+    body:json: {
+      {
+        "trigger": "manual"
+      }
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 202
+      text: Accepted
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "run": {
+            "id": "",
+            "kind": "curator",
+            "status": "queued",
+            "trigger": "manual",
+            "dryRun": false,
+            "modelUsed": "",
+            "reportMarkdown": "",
+            "actionsApplied": 0,
+            "actionsSkipped": 0,
+            "startedAt": "",
+            "endedAt": "",
+            "createdAt": "",
+            "failureReason": ""
+          }
+        }
+      '''
+    }
+  }
+}

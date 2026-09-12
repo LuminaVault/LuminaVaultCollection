@@ -1,0 +1,180 @@
+meta {
+  name: Push endpoint for the tenant's Hermes — collect this job now
+  type: http
+  seq: 26
+  tags: [
+    Settings
+  ]
+}
+
+post {
+  url: {{baseUrl}}/v1/hermes/mirror/webhook/:token
+  body: json
+  auth: inherit
+}
+
+params:path {
+  token:
+}
+
+body:json {
+  {
+    "job_id": "",
+    "run_key": "",
+    "status": "running",
+    "output": "",
+    "error": "",
+    "started_at": "",
+    "finished_at": ""
+  }
+}
+
+docs {
+  Unauthenticated by construction: the sender is the user's own Hermes
+  and holds no LuminaVault session, so the token in the path plus
+  `X-Webhook-Signature-V2` — `hex(HMAC-SHA256(secret, "<timestamp>.<body>"))`
+  over the raw body, with `X-Webhook-Timestamp` in unix seconds and a
+  300 s window — is the whole gate. An unknown token, a bad signature
+  and a stale or missing timestamp all answer the same 401 so a sender
+  cannot probe for live tokens.
+
+  This only shortens the wait: the push runs the same idempotent
+  collect the background worker runs, keyed on Hermes' own run key, so
+  a webhook that never arrives, arrives late or arrives twice changes
+  latency and nothing else. A collect that could not run answers 200
+  with zero counts rather than an error, because a 5xx would invite a
+  retry loop over work the poller will do anyway.
+
+}
+
+example {
+  name: 200 Response
+  description: Counts for the collect this push triggered; zeroes when it was deferred to the poller.
+
+  request: {
+    url: {{baseUrl}}/v1/hermes/mirror/webhook/:token
+    method: POST
+    mode: json
+    params:path: {
+      token:
+    }
+
+    body:json: {
+      {
+        "job_id": "",
+        "run_key": "",
+        "status": "running",
+        "output": "",
+        "error": "",
+        "started_at": "",
+        "finished_at": ""
+      }
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "hermesJobID": "",
+          "fetched": 0,
+          "inserted": 0,
+          "skipped": 0,
+          "filesWritten": 0,
+          "truncated": false,
+          "highWaterMark": ""
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: 400 Response
+  description: `hermes_webhook_invalid_payload` or `hermes_mirror_invalid_path`.
+
+  request: {
+    url: {{baseUrl}}/v1/hermes/mirror/webhook/:token
+    method: POST
+    mode: json
+    params:path: {
+      token:
+    }
+
+    body:json: {
+      {
+        "job_id": "",
+        "run_key": "",
+        "status": "running",
+        "output": "",
+        "error": "",
+        "started_at": "",
+        "finished_at": ""
+      }
+    }
+  }
+
+  response: {
+    status: {
+      code: 400
+      text: Bad Request
+    }
+
+    body: {
+      type: text
+      content: '''
+
+      '''
+    }
+  }
+}
+
+example {
+  name: 401 Response
+  description: Unknown token, bad signature, or a stale/missing timestamp (`hermes_webhook_unauthorized`).
+
+  request: {
+    url: {{baseUrl}}/v1/hermes/mirror/webhook/:token
+    method: POST
+    mode: json
+    params:path: {
+      token:
+    }
+
+    body:json: {
+      {
+        "job_id": "",
+        "run_key": "",
+        "status": "running",
+        "output": "",
+        "error": "",
+        "started_at": "",
+        "finished_at": ""
+      }
+    }
+  }
+
+  response: {
+    status: {
+      code: 401
+      text: Unauthorized
+    }
+
+    body: {
+      type: text
+      content: '''
+
+      '''
+    }
+  }
+}

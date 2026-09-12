@@ -1,0 +1,104 @@
+meta {
+  name: Create a standalone todo (stored as a markdown todo-note)
+  type: http
+  seq: 2
+  tags: [
+    Todos
+  ]
+}
+
+post {
+  url: {{baseUrl}}/v1/todos
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "title": "",
+    "dueAt": "",
+    "projectID": ""
+  }
+}
+
+example {
+  name: 200 Response
+  description: Created todo.
+
+  request: {
+    url: {{baseUrl}}/v1/todos
+    method: POST
+    mode: json
+    body:json: {
+      {
+        "title": "",
+        "dueAt": "",
+        "projectID": ""
+      }
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "id": "",
+          "title": "",
+          "done": false,
+          "dueAt": "",
+          "projectID": "",
+          "createdAt": ""
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: 400 Response
+  description: Missing title.
+
+  request: {
+    url: {{baseUrl}}/v1/todos
+    method: POST
+    mode: json
+    body:json: {
+      {
+        "title": "",
+        "dueAt": "",
+        "projectID": ""
+      }
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 400
+      text: Bad Request
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "error": "",
+          "message": ""
+        }
+      '''
+    }
+  }
+}

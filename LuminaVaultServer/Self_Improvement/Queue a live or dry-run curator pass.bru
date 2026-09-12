@@ -1,0 +1,70 @@
+meta {
+  name: Queue a live or dry-run curator pass
+  type: http
+  seq: 3
+  tags: [
+    Self_Improvement
+  ]
+}
+
+post {
+  url: {{baseUrl}}/v1/me/improvement/curator/runs
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "dryRun": false
+  }
+}
+
+example {
+  name: 202 Response
+  description: Run queued.
+
+  request: {
+    url: {{baseUrl}}/v1/me/improvement/curator/runs
+    method: POST
+    mode: json
+    body:json: {
+      {
+        "dryRun": false
+      }
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 202
+      text: Accepted
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "run": {
+            "id": "",
+            "kind": "curator",
+            "status": "queued",
+            "trigger": "manual",
+            "dryRun": false,
+            "modelUsed": "",
+            "reportMarkdown": "",
+            "actionsApplied": 0,
+            "actionsSkipped": 0,
+            "startedAt": "",
+            "endedAt": "",
+            "createdAt": "",
+            "failureReason": ""
+          }
+        }
+      '''
+    }
+  }
+}

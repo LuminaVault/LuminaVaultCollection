@@ -2,6 +2,9 @@ meta {
   name: teamsTransferOwner
   type: http
   seq: 9
+  tags: [
+    Teams
+  ]
 }
 
 put {
@@ -10,8 +13,55 @@ put {
   auth: inherit
 }
 
+params:path {
+  teamID:
+}
+
 body:json {
   {
     "userID": ""
+  }
+}
+
+example {
+  name: 200 Response
+  description: Ownership transferred
+
+  request: {
+    url: {{baseUrl}}/v1/teams/:teamID/owner
+    method: PUT
+    mode: json
+    params:path: {
+      teamID:
+    }
+
+    body:json: {
+      {
+        "userID": ""
+      }
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "id": "",
+          "name": "",
+          "role": "owner",
+          "archivedAt": ""
+        }
+      '''
+    }
   }
 }

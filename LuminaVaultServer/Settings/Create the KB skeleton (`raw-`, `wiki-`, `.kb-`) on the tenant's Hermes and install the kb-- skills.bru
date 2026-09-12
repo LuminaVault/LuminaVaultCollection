@@ -1,0 +1,80 @@
+meta {
+  name: Create the KB skeleton (`raw/`, `wiki/`, `.kb/`) on the tenant's Hermes and install the kb-* skills
+  type: http
+  seq: 22
+  tags: [
+    Settings
+  ]
+}
+
+post {
+  url: {{baseUrl}}/v1/hermes/mirror/vault/create
+  body: none
+  auth: inherit
+}
+
+example {
+  name: 200 Response
+  description: Created (or already existing) vault; `installedSkills` lists skills added this call.
+
+  request: {
+    url: {{baseUrl}}/v1/hermes/mirror/vault/create
+    method: POST
+    mode: none
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "vaultPath": "",
+          "alreadyExisted": false,
+          "createdDirectories": [],
+          "installedSkills": []
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: 502 Response
+  description: Hermes refused or was unreachable (stable code in `message`).
+
+  request: {
+    url: {{baseUrl}}/v1/hermes/mirror/vault/create
+    method: POST
+    mode: none
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 502
+      text: Bad Gateway
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "error": "",
+          "message": ""
+        }
+      '''
+    }
+  }
+}

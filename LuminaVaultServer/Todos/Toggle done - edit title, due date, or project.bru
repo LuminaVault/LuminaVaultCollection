@@ -1,0 +1,119 @@
+meta {
+  name: Toggle done / edit title, due date, or project
+  type: http
+  seq: 3
+  tags: [
+    Todos
+  ]
+}
+
+patch {
+  url: {{baseUrl}}/v1/todos/:id
+  body: json
+  auth: inherit
+}
+
+params:path {
+  id:
+}
+
+body:json {
+  {
+    "title": "",
+    "done": false,
+    "dueAt": "",
+    "projectID": ""
+  }
+}
+
+example {
+  name: 200 Response
+  description: Updated todo.
+
+  request: {
+    url: {{baseUrl}}/v1/todos/:id
+    method: PATCH
+    mode: json
+    params:path: {
+      id:
+    }
+
+    body:json: {
+      {
+        "title": "",
+        "done": false,
+        "dueAt": "",
+        "projectID": ""
+      }
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "id": "",
+          "title": "",
+          "done": false,
+          "dueAt": "",
+          "projectID": "",
+          "createdAt": ""
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: 404 Response
+  description: Unknown todo.
+
+  request: {
+    url: {{baseUrl}}/v1/todos/:id
+    method: PATCH
+    mode: json
+    params:path: {
+      id:
+    }
+
+    body:json: {
+      {
+        "title": "",
+        "done": false,
+        "dueAt": "",
+        "projectID": ""
+      }
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 404
+      text: Not Found
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "error": "",
+          "message": ""
+        }
+      '''
+    }
+  }
+}

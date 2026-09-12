@@ -1,0 +1,39 @@
+meta {
+  name: Revoke the active refresh token
+  type: http
+  seq: 4
+  tags: [
+    Auth
+  ]
+}
+
+post {
+  url: {{baseUrl}}/v1/auth/logout
+  body: none
+  auth: inherit
+}
+
+example {
+  name: 204 Response
+  description: Logged out.
+
+  request: {
+    url: {{baseUrl}}/v1/auth/logout
+    method: POST
+    mode: none
+  }
+
+  response: {
+    status: {
+      code: 204
+      text: No Content
+    }
+
+    body: {
+      type: text
+      content: '''
+
+      '''
+    }
+  }
+}

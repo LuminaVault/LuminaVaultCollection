@@ -1,0 +1,110 @@
+meta {
+  name: Usage trends, memory health, and recommendations for a vault
+  type: http
+  seq: 3
+  tags: [
+    Analytics
+  ]
+}
+
+get {
+  url: {{baseUrl}}/v1/analytics/overview
+  body: none
+  auth: inherit
+}
+
+params:query {
+  range: 30d
+  scope: active
+  ~range: 7d
+  ~range: 90d
+  ~scope: personal
+}
+
+example {
+  name: 200 Response
+  description: Analytics overview.
+
+  request: {
+    url: {{baseUrl}}/v1/analytics/overview
+    method: GET
+    mode: none
+    params:query: {
+      ~range: 7d
+      range: 30d
+      ~range: 90d
+      ~scope: personal
+      scope: active
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "scope": "personal",
+          "vaultId": "",
+          "range": "7d",
+          "periodStart": "",
+          "periodEnd": "",
+          "summary": {
+            "sessions": 0,
+            "aiRequests": 0,
+            "tokensIn": 0,
+            "tokensOut": 0,
+            "captures": 0,
+            "retrievals": 0,
+            "estimatedCostUsdMicros": 0
+          },
+          "daily": [
+            {
+              "date": "",
+              "sessions": 0,
+              "aiRequests": 0,
+              "tokens": 0,
+              "captures": 0,
+              "retrievals": 0,
+              "estimatedCostUsdMicros": 0
+            }
+          ],
+          "memoryHealth": {
+            "score": 0,
+            "totalMemories": 0,
+            "staleCount": 0,
+            "neverRetrievedCount": 0,
+            "unorganizedCount": 0,
+            "pendingReviewCount": 0,
+            "components": [
+              {
+                "key": "",
+                "title": "",
+                "score": 0,
+                "weight": 0
+              }
+            ]
+          },
+          "recommendations": [
+            {
+              "id": "",
+              "title": "",
+              "detail": "",
+              "severity": "info",
+              "actionTitle": "",
+              "deepLink": ""
+            }
+          ]
+        }
+      '''
+    }
+  }
+}

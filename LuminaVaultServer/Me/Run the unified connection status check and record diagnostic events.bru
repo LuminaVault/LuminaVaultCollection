@@ -1,0 +1,90 @@
+meta {
+  name: Run the unified connection status check and record diagnostic events
+  type: http
+  seq: 33
+  tags: [
+    Me
+  ]
+}
+
+post {
+  url: {{baseUrl}}/v1/me/connections/test-all
+  body: none
+  auth: inherit
+}
+
+example {
+  name: 200 Response
+  description: Per-connection test/status results.
+
+  request: {
+    url: {{baseUrl}}/v1/me/connections/test-all
+    method: POST
+    mode: none
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "results": [
+            {
+              "id": "",
+              "kind": "llm_provider",
+              "title": "",
+              "health": "connected",
+              "ok": false,
+              "checkedAt": "",
+              "statusDetail": "",
+              "errorCode": "",
+              "errorMessage": ""
+            }
+          ],
+          "checkedAt": ""
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: 401 Response
+  description: Missing / invalid credential.
+
+  request: {
+    url: {{baseUrl}}/v1/me/connections/test-all
+    method: POST
+    mode: none
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 401
+      text: Unauthorized
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "error": "",
+          "message": ""
+        }
+      '''
+    }
+  }
+}

@@ -1,0 +1,142 @@
+meta {
+  name: Run an evidence-backed reasoning query
+  type: http
+  seq: 13
+  tags: [
+    Memory
+  ]
+}
+
+post {
+  url: {{baseUrl}}/v1/knowledge/reason
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "query": "",
+    "maxDepth": 0,
+    "limit": 0
+  }
+}
+
+example {
+  name: 200 Response
+  description: Grounded reasoning result.
+
+  request: {
+    url: {{baseUrl}}/v1/knowledge/reason
+    method: POST
+    mode: json
+    body:json: {
+      {
+        "query": "",
+        "maxDepth": 0,
+        "limit": 0
+      }
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "answer": "",
+          "paths": [
+            {
+              "id": "",
+              "nodes": [
+                {
+                  "id": "",
+                  "kind": "claim",
+                  "label": "",
+                  "summary": "",
+                  "occurredAt": "",
+                  "confidence": 0,
+                  "evidence": [
+                    {
+                      "id": "",
+                      "memoryID": "",
+                      "sourceVaultFileID": "",
+                      "quote": "",
+                      "startOffset": 0,
+                      "endOffset": 0
+                    }
+                  ]
+                }
+              ],
+              "edges": [
+                {
+                  "id": "",
+                  "from": "",
+                  "to": "",
+                  "predicate": "mentions",
+                  "state": "asserted",
+                  "confidence": 0,
+                  "rationale": "",
+                  "counterEvidence": "",
+                  "evidence": [
+                    {
+                      "id": "",
+                      "memoryID": "",
+                      "sourceVaultFileID": "",
+                      "quote": "",
+                      "startOffset": 0,
+                      "endOffset": 0
+                    }
+                  ]
+                }
+              ],
+              "confidence": 0
+            }
+          ],
+          "evidence": [
+            {
+              "id": "",
+              "memoryID": "",
+              "sourceVaultFileID": "",
+              "quote": "",
+              "startOffset": 0,
+              "endOffset": 0
+            }
+          ],
+          "confidence": 0,
+          "caveats": [],
+          "suggestions": [
+            {
+              "id": "",
+              "from": "",
+              "to": "",
+              "predicate": "mentions",
+              "state": "asserted",
+              "confidence": 0,
+              "rationale": "",
+              "counterEvidence": "",
+              "evidence": [
+                {
+                  "id": "",
+                  "memoryID": "",
+                  "sourceVaultFileID": "",
+                  "quote": "",
+                  "startOffset": 0,
+                  "endOffset": 0
+                }
+              ]
+            }
+          ]
+        }
+      '''
+    }
+  }
+}

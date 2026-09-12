@@ -1,0 +1,75 @@
+meta {
+  name: Assign a profile to a Space or Job
+  type: http
+  seq: 7
+  tags: [
+    LLM
+  ]
+}
+
+put {
+  url: {{baseUrl}}/v1/router/bindings/:scope/:scopeID
+  body: json
+  auth: inherit
+}
+
+params:path {
+  scope: user
+  scope: space
+  scope: job
+  scope: workflow
+  scopeID:
+}
+
+body:json {
+  {
+    "profileID": ""
+  }
+}
+
+example {
+  name: 200 Response
+  description: Binding.
+
+  request: {
+    url: {{baseUrl}}/v1/router/bindings/:scope/:scopeID
+    method: PUT
+    mode: json
+    params:path: {
+      scope: user
+      ~scope: space
+      ~scope: job
+      ~scope: workflow
+      scopeID:
+    }
+
+    body:json: {
+      {
+        "profileID": ""
+      }
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "id": "",
+          "scope": "user",
+          "scopeID": "",
+          "profileID": ""
+        }
+      '''
+    }
+  }
+}

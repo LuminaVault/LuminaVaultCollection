@@ -1,0 +1,127 @@
+meta {
+  name: Compose a SOUL.md from structured agent traits
+  type: http
+  seq: 4
+  tags: [
+    Soul
+  ]
+}
+
+post {
+  url: {{baseUrl}}/v1/soul/compose
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "agent_name": "",
+    "tone": "warm",
+    "role": "assistant",
+    "autonomy": "ask_first",
+    "priorities": [
+      "focus"
+    ],
+    "other_priority": "",
+    "format": "bullets",
+    "length": "short",
+    "emojis": false,
+    "voice_samples": [],
+    "dry_run": false
+  }
+}
+
+docs {
+  Renders the onboarding quiz answers into the canonical template (locked core covenant + editable sections) and persists it, unless `dry_run: true` is set, in which case the composition is returned without being written.
+}
+
+example {
+  name: 200 Response
+  description: Composed SOUL.md.
+
+  request: {
+    url: {{baseUrl}}/v1/soul/compose
+    method: POST
+    mode: json
+    body:json: {
+      {
+        "agent_name": "",
+        "tone": "warm",
+        "role": "assistant",
+        "autonomy": "ask_first",
+        "priorities": [
+          "focus"
+        ],
+        "other_priority": "",
+        "format": "bullets",
+        "length": "short",
+        "emojis": false,
+        "voice_samples": [],
+        "dry_run": false
+      }
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "markdown": "",
+          "updatedAt": ""
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: 413 Response
+  description: Composed document exceeds the maximum allowed size.
+
+  request: {
+    url: {{baseUrl}}/v1/soul/compose
+    method: POST
+    mode: json
+    body:json: {
+      {
+        "agent_name": "",
+        "tone": "warm",
+        "role": "assistant",
+        "autonomy": "ask_first",
+        "priorities": [
+          "focus"
+        ],
+        "other_priority": "",
+        "format": "bullets",
+        "length": "short",
+        "emojis": false,
+        "voice_samples": [],
+        "dry_run": false
+      }
+    }
+  }
+
+  response: {
+    status: {
+      code: 413
+      text: Payload Too Large
+    }
+
+    body: {
+      type: text
+      content: '''
+
+      '''
+    }
+  }
+}

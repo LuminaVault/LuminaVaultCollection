@@ -1,0 +1,70 @@
+meta {
+  name: List the caller's reminders
+  type: http
+  seq: 1
+  tags: [
+    Reminders
+  ]
+}
+
+get {
+  url: {{baseUrl}}/v1/reminders
+  body: none
+  auth: inherit
+}
+
+params:query {
+  limit: 100
+}
+
+docs {
+  Returns pending and fired reminders for the authed tenant, newest
+  `fireAt` first. Firing is server-side (ReminderScheduler); a fired
+  one-shot reminder carries a non-null `firedAt`.
+
+}
+
+example {
+  name: 200 Response
+  description: Reminder list.
+
+  request: {
+    url: {{baseUrl}}/v1/reminders
+    method: GET
+    mode: none
+    params:query: {
+      limit: 100
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "reminders": [
+            {
+              "id": "",
+              "title": "",
+              "body": "",
+              "fireAt": "",
+              "recurrenceCron": "",
+              "firedAt": "",
+              "createdAt": ""
+            }
+          ],
+          "nextCursor": ""
+        }
+      '''
+    }
+  }
+}
