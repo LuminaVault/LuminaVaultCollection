@@ -1,0 +1,74 @@
+meta {
+  name: Stop the running chain after the agent turn in flight
+  type: http
+  seq: 10
+  tags: [
+    Agents
+  ]
+}
+
+post {
+  url: {{baseUrl}}/v1/agents/rooms/:room/stop
+  body: none
+  auth: inherit
+}
+
+params:path {
+  room:
+}
+
+example {
+  name: 202 Response
+  description: Stop recorded.
+
+  request: {
+    url: {{baseUrl}}/v1/agents/rooms/:room/stop
+    method: POST
+    mode: none
+    params:path: {
+      room:
+    }
+  }
+
+  response: {
+    status: {
+      code: 202
+      text: Accepted
+    }
+
+    body: {
+      type: text
+      content: '''
+
+      '''
+    }
+  }
+}
+
+example {
+  name: 404 Response
+  description: No such room for the caller.
+
+  request: {
+    url: {{baseUrl}}/v1/agents/rooms/:room/stop
+    method: POST
+    mode: none
+    params:path: {
+      room:
+    }
+  }
+
+  response: {
+    status: {
+      code: 404
+      text: Not Found
+    }
+
+    body: {
+      type: text
+      content: '''
+
+      '''
+    }
+  }
+}

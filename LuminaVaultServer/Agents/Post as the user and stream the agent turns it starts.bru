@@ -1,0 +1,188 @@
+meta {
+  name: Post as the user and stream the agent turns it starts
+  type: http
+  seq: 9
+  tags: [
+    Agents
+  ]
+}
+
+post {
+  url: {{baseUrl}}/v1/agents/rooms/:room/messages
+  body: json
+  auth: inherit
+}
+
+params:path {
+  room:
+}
+
+body:json {
+  {
+    "body": ""
+  }
+}
+
+docs {
+  Server-sent events, `event: agent.room`, each an `AgentRoomStreamEvent`:
+  the user's message, then `thinking` and `message` per agent turn, then
+  `done` with why the chain ended. Whoever the message names as
+  `@handle` answers; an unaddressed message goes to members set to
+  `every_human_message`. An agent reply that names another member hands
+  the turn over. At most 6 agent replies per post, never the same agent
+  twice in a row, and never past the room's token budget. Closing the
+  stream ends the chain before the next agent turn.
+
+}
+
+example {
+  name: 200 Response
+  description: The chain, as it happens.
+
+  request: {
+    url: {{baseUrl}}/v1/agents/rooms/:room/messages
+    method: POST
+    mode: json
+    params:path: {
+      room:
+    }
+
+    body:json: {
+      {
+        "body": ""
+      }
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: text/event-stream
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: text
+      content: '''
+        {
+          "kind": "message",
+          "message": {
+            "id": "",
+            "authorKind": "human",
+            "memberID": "",
+            "body": "",
+            "tokens": 0,
+            "createdAt": ""
+          },
+          "memberID": "",
+          "reason": "idle"
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: 400 Response
+  description: Empty or over-long message.
+
+  request: {
+    url: {{baseUrl}}/v1/agents/rooms/:room/messages
+    method: POST
+    mode: json
+    params:path: {
+      room:
+    }
+
+    body:json: {
+      {
+        "body": ""
+      }
+    }
+  }
+
+  response: {
+    status: {
+      code: 400
+      text: Bad Request
+    }
+
+    body: {
+      type: text
+      content: '''
+
+      '''
+    }
+  }
+}
+
+example {
+  name: 404 Response
+  description: No such room for the caller.
+
+  request: {
+    url: {{baseUrl}}/v1/agents/rooms/:room/messages
+    method: POST
+    mode: json
+    params:path: {
+      room:
+    }
+
+    body:json: {
+      {
+        "body": ""
+      }
+    }
+  }
+
+  response: {
+    status: {
+      code: 404
+      text: Not Found
+    }
+
+    body: {
+      type: text
+      content: '''
+
+      '''
+    }
+  }
+}
+
+example {
+  name: 409 Response
+  description: A chain is already running in this room.
+
+  request: {
+    url: {{baseUrl}}/v1/agents/rooms/:room/messages
+    method: POST
+    mode: json
+    params:path: {
+      room:
+    }
+
+    body:json: {
+      {
+        "body": ""
+      }
+    }
+  }
+
+  response: {
+    status: {
+      code: 409
+      text: Conflict
+    }
+
+    body: {
+      type: text
+      content: '''
+
+      '''
+    }
+  }
+}
