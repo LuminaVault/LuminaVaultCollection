@@ -1,0 +1,178 @@
+meta {
+  name: One session's log — messages, tool calls and tool results
+  type: http
+  seq: 3
+  tags: [
+    Agents
+  ]
+}
+
+get {
+  url: {{baseUrl}}/v1/agents/instances/:instance/sessions/:session/messages
+  body: none
+  auth: inherit
+}
+
+params:query {
+  @description('Hermes profile holding the session. Omit for `central` and for older Hermes.')
+  ~profile:
+}
+
+params:path {
+  instance: central
+  instance: byo
+  session:
+}
+
+example {
+  name: 200 Response
+  description: The session's messages, oldest first.
+
+  request: {
+    url: {{baseUrl}}/v1/agents/instances/:instance/sessions/:session/messages
+    method: GET
+    mode: none
+    params:query: {
+      ~profile:
+    }
+
+    params:path: {
+      instance: central
+      ~instance: byo
+      session:
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "instanceID": "",
+          "profile": "",
+          "sessionID": "",
+          "messages": [
+            {
+              "role": "",
+              "content": "",
+              "toolName": "",
+              "toolCalls": "",
+              "createdAt": ""
+            }
+          ]
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: 400 Response
+  description: A session id or profile that cannot be a path segment.
+
+  request: {
+    url: {{baseUrl}}/v1/agents/instances/:instance/sessions/:session/messages
+    method: GET
+    mode: none
+    params:query: {
+      ~profile:
+    }
+
+    params:path: {
+      instance: central
+      ~instance: byo
+      session:
+    }
+  }
+
+  response: {
+    status: {
+      code: 400
+      text: Bad Request
+    }
+
+    body: {
+      type: text
+      content: '''
+
+      '''
+    }
+  }
+}
+
+example {
+  name: 404 Response
+  description: No such instance or session for the caller.
+
+  request: {
+    url: {{baseUrl}}/v1/agents/instances/:instance/sessions/:session/messages
+    method: GET
+    mode: none
+    params:query: {
+      ~profile:
+    }
+
+    params:path: {
+      instance: central
+      ~instance: byo
+      session:
+    }
+  }
+
+  response: {
+    status: {
+      code: 404
+      text: Not Found
+    }
+
+    body: {
+      type: text
+      content: '''
+
+      '''
+    }
+  }
+}
+
+example {
+  name: 502 Response
+  description: The caller's Hermes could not be read.
+
+  request: {
+    url: {{baseUrl}}/v1/agents/instances/:instance/sessions/:session/messages
+    method: GET
+    mode: none
+    params:query: {
+      ~profile:
+    }
+
+    params:path: {
+      instance: central
+      ~instance: byo
+      session:
+    }
+  }
+
+  response: {
+    status: {
+      code: 502
+      text: Bad Gateway
+    }
+
+    body: {
+      type: text
+      content: '''
+
+      '''
+    }
+  }
+}

@@ -1,0 +1,64 @@
+meta {
+  name: The caller's agent rooms, most recently active first
+  type: http
+  seq: 5
+  tags: [
+    Agents
+  ]
+}
+
+get {
+  url: {{baseUrl}}/v1/agents/rooms
+  body: none
+  auth: inherit
+}
+
+example {
+  name: 200 Response
+  description: Rooms.
+
+  request: {
+    url: {{baseUrl}}/v1/agents/rooms
+    method: GET
+    mode: none
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "rooms": [
+            {
+              "id": "",
+              "title": "",
+              "tokenBudget": 0,
+              "spentTokens": 0,
+              "members": [
+                {
+                  "id": "",
+                  "instanceID": "central",
+                  "profile": "",
+                  "handle": "",
+                  "displayName": "",
+                  "respondMode": "mention"
+                }
+              ],
+              "createdAt": "",
+              "updatedAt": ""
+            }
+          ]
+        }
+      '''
+    }
+  }
+}

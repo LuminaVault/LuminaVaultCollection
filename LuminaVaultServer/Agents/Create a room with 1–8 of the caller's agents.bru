@@ -1,0 +1,147 @@
+meta {
+  name: Create a room with 1–8 of the caller's agents
+  type: http
+  seq: 6
+  tags: [
+    Agents
+  ]
+}
+
+post {
+  url: {{baseUrl}}/v1/agents/rooms
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "title": "",
+    "members": [
+      {
+        "instanceID": "central",
+        "profile": "",
+        "handle": "",
+        "displayName": "",
+        "respondMode": "mention"
+      }
+    ]
+  }
+}
+
+docs {
+  Members must come from `/v1/agents/room-candidates`. Handles are
+  unique in the room and match `^[a-z0-9][a-z0-9_-]{0,30}$`. The
+  caller's own Hermes can hold one seat.
+
+}
+
+example {
+  name: 200 Response
+  description: The new room.
+
+  request: {
+    url: {{baseUrl}}/v1/agents/rooms
+    method: POST
+    mode: json
+    body:json: {
+      {
+        "title": "",
+        "members": [
+          {
+            "instanceID": "central",
+            "profile": "",
+            "handle": "",
+            "displayName": "",
+            "respondMode": "mention"
+          }
+        ]
+      }
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "room": {
+            "id": "",
+            "title": "",
+            "tokenBudget": 0,
+            "spentTokens": 0,
+            "members": [
+              {
+                "id": "",
+                "instanceID": "central",
+                "profile": "",
+                "handle": "",
+                "displayName": "",
+                "respondMode": "mention"
+              }
+            ],
+            "createdAt": "",
+            "updatedAt": ""
+          },
+          "messages": [
+            {
+              "id": "",
+              "authorKind": "human",
+              "memberID": "",
+              "body": "",
+              "tokens": 0,
+              "createdAt": ""
+            }
+          ]
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: 400 Response
+  description: Invalid title, member count, member, or handle.
+
+  request: {
+    url: {{baseUrl}}/v1/agents/rooms
+    method: POST
+    mode: json
+    body:json: {
+      {
+        "title": "",
+        "members": [
+          {
+            "instanceID": "central",
+            "profile": "",
+            "handle": "",
+            "displayName": "",
+            "respondMode": "mention"
+          }
+        ]
+      }
+    }
+  }
+
+  response: {
+    status: {
+      code: 400
+      text: Bad Request
+    }
+
+    body: {
+      type: text
+      content: '''
+
+      '''
+    }
+  }
+}

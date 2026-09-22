@@ -1,0 +1,107 @@
+meta {
+  name: A room and its latest 200 messages, oldest first
+  type: http
+  seq: 7
+  tags: [
+    Agents
+  ]
+}
+
+get {
+  url: {{baseUrl}}/v1/agents/rooms/:room
+  body: none
+  auth: inherit
+}
+
+params:path {
+  room:
+}
+
+example {
+  name: 200 Response
+  description: The room.
+
+  request: {
+    url: {{baseUrl}}/v1/agents/rooms/:room
+    method: GET
+    mode: none
+    params:path: {
+      room:
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "room": {
+            "id": "",
+            "title": "",
+            "tokenBudget": 0,
+            "spentTokens": 0,
+            "members": [
+              {
+                "id": "",
+                "instanceID": "central",
+                "profile": "",
+                "handle": "",
+                "displayName": "",
+                "respondMode": "mention"
+              }
+            ],
+            "createdAt": "",
+            "updatedAt": ""
+          },
+          "messages": [
+            {
+              "id": "",
+              "authorKind": "human",
+              "memberID": "",
+              "body": "",
+              "tokens": 0,
+              "createdAt": ""
+            }
+          ]
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: 404 Response
+  description: No such room for the caller.
+
+  request: {
+    url: {{baseUrl}}/v1/agents/rooms/:room
+    method: GET
+    mode: none
+    params:path: {
+      room:
+    }
+  }
+
+  response: {
+    status: {
+      code: 404
+      text: Not Found
+    }
+
+    body: {
+      type: text
+      content: '''
+
+      '''
+    }
+  }
+}
