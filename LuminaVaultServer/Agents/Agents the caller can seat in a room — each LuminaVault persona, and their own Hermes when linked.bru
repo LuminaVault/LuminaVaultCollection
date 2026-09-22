@@ -1,0 +1,52 @@
+meta {
+  name: Agents the caller can seat in a room — each LuminaVault persona, and their own Hermes when linked
+  type: http
+  seq: 4
+  tags: [
+    Agents
+  ]
+}
+
+get {
+  url: {{baseUrl}}/v1/agents/room-candidates
+  body: none
+  auth: inherit
+}
+
+example {
+  name: 200 Response
+  description: Candidates.
+
+  request: {
+    url: {{baseUrl}}/v1/agents/room-candidates
+    method: GET
+    mode: none
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "candidates": [
+            {
+              "instanceID": "central",
+              "profile": "",
+              "displayName": "",
+              "suggestedHandle": ""
+            }
+          ]
+        }
+      '''
+    }
+  }
+}

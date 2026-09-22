@@ -1,0 +1,74 @@
+meta {
+  name: Delete a room and its messages
+  type: http
+  seq: 8
+  tags: [
+    Agents
+  ]
+}
+
+delete {
+  url: {{baseUrl}}/v1/agents/rooms/:room
+  body: none
+  auth: inherit
+}
+
+params:path {
+  room:
+}
+
+example {
+  name: 204 Response
+  description: Deleted.
+
+  request: {
+    url: {{baseUrl}}/v1/agents/rooms/:room
+    method: DELETE
+    mode: none
+    params:path: {
+      room:
+    }
+  }
+
+  response: {
+    status: {
+      code: 204
+      text: No Content
+    }
+
+    body: {
+      type: text
+      content: '''
+
+      '''
+    }
+  }
+}
+
+example {
+  name: 404 Response
+  description: No such room for the caller.
+
+  request: {
+    url: {{baseUrl}}/v1/agents/rooms/:room
+    method: DELETE
+    mode: none
+    params:path: {
+      room:
+    }
+  }
+
+  response: {
+    status: {
+      code: 404
+      text: Not Found
+    }
+
+    body: {
+      type: text
+      content: '''
+
+      '''
+    }
+  }
+}
