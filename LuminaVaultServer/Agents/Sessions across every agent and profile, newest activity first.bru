@@ -1,0 +1,125 @@
+meta {
+  name: Sessions across every agent and profile, newest activity first
+  type: http
+  seq: 2
+  tags: [
+    Agents
+  ]
+}
+
+get {
+  url: {{baseUrl}}/v1/agents/sessions
+  body: none
+  auth: inherit
+}
+
+params:query {
+  @description('Only sessions open with activity in the last five minutes.')
+  live: false
+  limit: 50
+  ~instance: central
+  ~instance: byo
+  @description('Hermes profile name. Never matches `central`.')
+  ~profile:
+  @description('Where the conversation happened — `app`, `telegram`, `discord`, `cron`, …')
+  ~source:
+}
+
+docs {
+  `central` sessions are the caller's own conversations. `byo` sessions
+  come from the caller's Hermes gateway, every profile on that machine.
+  An instance that cannot be read is listed in `errors`; the rest of
+  the list still returns.
+
+}
+
+example {
+  name: 200 Response
+  description: Sessions.
+
+  request: {
+    url: {{baseUrl}}/v1/agents/sessions
+    method: GET
+    mode: none
+    params:query: {
+      ~instance: central
+      ~instance: byo
+      ~profile:
+      ~source:
+      live: false
+      limit: 50
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "sessions": [
+            {
+              "instanceID": "",
+              "profile": "",
+              "id": "",
+              "title": "",
+              "source": "",
+              "startedAt": "",
+              "lastActiveAt": "",
+              "messageCount": 0,
+              "isActive": false,
+              "costUSD": 0
+            }
+          ],
+          "errors": [
+            {
+              "instanceID": "",
+              "message": ""
+            }
+          ]
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: 400 Response
+  description: Unknown `instance`.
+
+  request: {
+    url: {{baseUrl}}/v1/agents/sessions
+    method: GET
+    mode: none
+    params:query: {
+      ~instance: central
+      ~instance: byo
+      ~profile:
+      ~source:
+      live: false
+      limit: 50
+    }
+  }
+
+  response: {
+    status: {
+      code: 400
+      text: Bad Request
+    }
+
+    body: {
+      type: text
+      content: '''
+
+      '''
+    }
+  }
+}

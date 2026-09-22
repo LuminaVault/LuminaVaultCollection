@@ -1,0 +1,63 @@
+meta {
+  name: Where the caller's agents run — LuminaVault's own agent and their BYO Hermes
+  type: http
+  seq: 1
+  tags: [
+    Agents
+  ]
+}
+
+get {
+  url: {{baseUrl}}/v1/agents/instances
+  body: none
+  auth: inherit
+}
+
+docs {
+  `central` is always present. `byo` appears when the caller has linked
+  their own Hermes gateway; its `status` is `outdated` for a Hermes too
+  old to list profiles and `unreachable` when it does not answer.
+
+}
+
+example {
+  name: 200 Response
+  description: Agent instances.
+
+  request: {
+    url: {{baseUrl}}/v1/agents/instances
+    method: GET
+    mode: none
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "instances": [
+            {
+              "id": "",
+              "kind": "central",
+              "name": "",
+              "status": "ok",
+              "hostname": "",
+              "version": "",
+              "profiles": [],
+              "platforms": []
+            }
+          ]
+        }
+      '''
+    }
+  }
+}
