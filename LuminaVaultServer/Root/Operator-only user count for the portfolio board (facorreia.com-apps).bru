@@ -1,0 +1,113 @@
+meta {
+  name: Operator-only user count for the portfolio board (facorreia.com/apps)
+  type: http
+  seq: 3
+  tags: [
+    Root
+  ]
+}
+
+get {
+  url: {{baseUrl}}/internal/metrics
+  body: none
+  auth: inherit
+}
+
+headers {
+  @description('`Bearer <METRICS_SECRET>`')
+  Authorization:
+}
+
+docs {
+  Guarded by the METRICS_SECRET shared secret presented as a Bearer token. Returns 404 when the secret is not configured, 401 when it does not match.
+}
+
+example {
+  name: 200 Response
+  description: Total registered users.
+
+  request: {
+    url: {{baseUrl}}/internal/metrics
+    method: GET
+    mode: none
+    headers: {
+      Authorization:
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "users": 0
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: 401 Response
+  description: Secret missing or wrong.
+
+  request: {
+    url: {{baseUrl}}/internal/metrics
+    method: GET
+    mode: none
+    headers: {
+      Authorization:
+    }
+  }
+
+  response: {
+    status: {
+      code: 401
+      text: Unauthorized
+    }
+
+    body: {
+      type: text
+      content: '''
+
+      '''
+    }
+  }
+}
+
+example {
+  name: 404 Response
+  description: Endpoint disabled (no secret configured).
+
+  request: {
+    url: {{baseUrl}}/internal/metrics
+    method: GET
+    mode: none
+    headers: {
+      Authorization:
+    }
+  }
+
+  response: {
+    status: {
+      code: 404
+      text: Not Found
+    }
+
+    body: {
+      type: text
+      content: '''
+
+      '''
+    }
+  }
+}

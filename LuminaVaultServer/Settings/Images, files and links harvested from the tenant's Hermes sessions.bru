@@ -1,0 +1,74 @@
+meta {
+  name: Images, files and links harvested from the tenant's Hermes sessions
+  type: http
+  seq: 7
+  tags: [
+    Settings
+  ]
+}
+
+get {
+  url: {{baseUrl}}/v1/hermes/artifacts
+  body: none
+  auth: inherit
+}
+
+params:query {
+  limit: 50
+  ~kind: image
+  ~kind: file
+  ~kind: link
+  ~q:
+  ~before:
+}
+
+example {
+  name: 200 Response
+  description: Newest first.
+
+  request: {
+    url: {{baseUrl}}/v1/hermes/artifacts
+    method: GET
+    mode: none
+    params:query: {
+      ~kind: image
+      ~kind: file
+      ~kind: link
+      ~q:
+      ~before:
+      limit: 50
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "artifacts": [
+            {
+              "id": "",
+              "kind": "image",
+              "value": "",
+              "href": "",
+              "label": "",
+              "sessionID": "",
+              "sessionTitle": "",
+              "occurredAt": ""
+            }
+          ],
+          "nextCursor": ""
+        }
+      '''
+    }
+  }
+}
