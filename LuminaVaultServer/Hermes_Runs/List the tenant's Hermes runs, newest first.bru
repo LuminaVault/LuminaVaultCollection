@@ -15,6 +15,17 @@ get {
 
 params:query {
   limit: 20
+  @description('''
+    Narrow to the runs started by one conversation. This is how a chat
+    client recovers after losing the stream that carried a run's id —
+    it asks which runs belong to the conversation instead of scanning
+    the tenant's whole history. Runs started from the Agent Runs screen
+    have no conversation and never match. An unparseable value is
+    treated as absent rather than rejected, so a malformed link
+    degrades to the full list instead of a 400.
+
+  ''')
+  ~conversationID:
 }
 
 example {
@@ -27,6 +38,7 @@ example {
     mode: none
     params:query: {
       limit: 20
+      ~conversationID:
     }
   }
 

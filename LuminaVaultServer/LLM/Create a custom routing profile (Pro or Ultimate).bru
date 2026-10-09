@@ -352,3 +352,138 @@ example {
     }
   }
 }
+
+example {
+  name: 400 Response
+  description: '''
+    Validation failed. `router_placeholder_route` means a BYOK save
+    carried the `openRouter/auto` placeholder that this API shows in
+    place of a managed profile's routes, and the tenant has no saved
+    BYOK model to put in its place. When one is saved, the placeholder
+    is replaced by that primary and its fallbacks instead.
+
+  '''
+
+  request: {
+    url: {{baseUrl}}/v1/router
+    method: POST
+    mode: json
+    body:json: {
+      {
+        "name": "",
+        "mode": "managed",
+        "objective": {
+          "quality": 0,
+          "cost": 0,
+          "latency": 0
+        },
+        "budget": {
+          "softLimitUsdMicros": 0,
+          "hardLimitUsdMicros": 0
+        },
+        "allowedProviders": [
+          "xai"
+        ],
+        "blockedProviders": [
+          "xai"
+        ],
+        "defaultAction": {
+          "kind": "sequential",
+          "routes": [
+            {
+              "provider": "xai",
+              "model": "",
+              "inputPerMillionUsdMicros": 0,
+              "outputPerMillionUsdMicros": 0
+            }
+          ],
+          "synthesisRoute": {
+            "provider": "xai",
+            "model": "",
+            "inputPerMillionUsdMicros": 0,
+            "outputPerMillionUsdMicros": 0
+          },
+          "minimumSuccessfulResults": 0,
+          "retryPolicy": "fast",
+          "parallelStrategy": "auto",
+          "participants": [
+            {
+              "id": "",
+              "role": "",
+              "instructions": "",
+              "route": {
+                "provider": "xai",
+                "model": "",
+                "inputPerMillionUsdMicros": 0,
+                "outputPerMillionUsdMicros": 0
+              }
+            }
+          ]
+        },
+        "rules": [
+          {
+            "id": "",
+            "name": "",
+            "enabled": false,
+            "priority": 0,
+            "taskTypes": [
+              "general"
+            ],
+            "surfaces": [
+              "chat"
+            ],
+            "action": {
+              "kind": "sequential",
+              "routes": [
+                {
+                  "provider": "xai",
+                  "model": "",
+                  "inputPerMillionUsdMicros": 0,
+                  "outputPerMillionUsdMicros": 0
+                }
+              ],
+              "synthesisRoute": {
+                "provider": "xai",
+                "model": "",
+                "inputPerMillionUsdMicros": 0,
+                "outputPerMillionUsdMicros": 0
+              },
+              "minimumSuccessfulResults": 0,
+              "retryPolicy": "fast",
+              "parallelStrategy": "auto",
+              "participants": [
+                {
+                  "id": "",
+                  "role": "",
+                  "instructions": "",
+                  "route": {
+                    "provider": "xai",
+                    "model": "",
+                    "inputPerMillionUsdMicros": 0,
+                    "outputPerMillionUsdMicros": 0
+                  }
+                }
+              ]
+            }
+          }
+        ],
+        "routingPolicy": "locked",
+        "expectedRevision": 0
+      }
+    }
+  }
+
+  response: {
+    status: {
+      code: 400
+      text: Bad Request
+    }
+
+    body: {
+      type: text
+      content: '''
+
+      '''
+    }
+  }
+}

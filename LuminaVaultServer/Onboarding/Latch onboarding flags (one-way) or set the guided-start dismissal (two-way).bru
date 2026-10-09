@@ -1,5 +1,5 @@
 meta {
-  name: Latch one or more onboarding flags (one-way only)
+  name: Latch onboarding flags (one-way) or set the guided-start dismissal (two-way)
   type: http
   seq: 2
   tags: [
@@ -21,8 +21,25 @@ body:json {
     "firstCaptureCompleted": false,
     "firstKBCompileCompleted": false,
     "firstQueryCompleted": false,
-    "brainConfiguredCompleted": false
+    "brainConfiguredCompleted": false,
+    "guidedStartDismissed": false
   }
+}
+
+docs {
+  The seven completion flags are one-way latches: only `true` is
+  accepted and `false` is rejected with 400.
+
+  `guidedStartDismissed` is the one exception — it is two-way.
+  `true` stamps `guidedStartDismissedAt`, `false` clears it back to
+  null so Settings > "Show me around" can bring the card back.
+
+  Note that clients must never PATCH `firstCaptureCompleted`,
+  `firstKBCompileCompleted` or `firstQueryCompleted` for the guided
+  start card: the server latches those itself as a side effect of
+  the real work (upload/link capture, memory compile, chat reply).
+  See `LuminaVaultShared/docs/guided-start.md`.
+
 }
 
 example {
@@ -41,7 +58,8 @@ example {
         "firstCaptureCompleted": false,
         "firstKBCompileCompleted": false,
         "firstQueryCompleted": false,
-        "brainConfiguredCompleted": false
+        "brainConfiguredCompleted": false,
+        "guidedStartDismissed": false
       }
     }
   }
@@ -73,7 +91,8 @@ example {
           "firstQueryCompleted": false,
           "firstQueryCompletedAt": "",
           "brainConfiguredCompleted": false,
-          "brainConfiguredCompletedAt": ""
+          "brainConfiguredCompletedAt": "",
+          "guidedStartDismissedAt": ""
         }
       '''
     }
@@ -96,7 +115,8 @@ example {
         "firstCaptureCompleted": false,
         "firstKBCompileCompleted": false,
         "firstQueryCompleted": false,
-        "brainConfiguredCompleted": false
+        "brainConfiguredCompleted": false,
+        "guidedStartDismissed": false
       }
     }
   }

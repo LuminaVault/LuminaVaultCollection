@@ -1,33 +1,26 @@
 meta {
-  name: Uninstall a plugin
+  name: Forget the kept location fix
   type: http
-  seq: 9
+  seq: 6
   tags: [
-    Plugins
+    Me
   ]
 }
 
 delete {
-  url: {{baseUrl}}/v1/plugins/installs/:id
+  url: {{baseUrl}}/v1/me/location
   body: none
   auth: inherit
 }
 
-params:path {
-  id:
-}
-
 example {
   name: 204 Response
-  description: Uninstalled.
+  description: Forgotten.
 
   request: {
-    url: {{baseUrl}}/v1/plugins/installs/:id
+    url: {{baseUrl}}/v1/me/location
     method: DELETE
     mode: none
-    params:path: {
-      id:
-    }
   }
 
   response: {

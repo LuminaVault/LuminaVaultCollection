@@ -1,0 +1,179 @@
+meta {
+  name: Breaking-news headlines for the installed news-ticker plugin
+  type: http
+  seq: 1
+  tags: [
+    Plugins
+  ]
+}
+
+get {
+  url: {{baseUrl}}/v1/news/ticker
+  body: none
+  auth: inherit
+}
+
+params:query {
+  limit: 30
+}
+
+docs {
+  Curated general-news feeds plus the tenant's own (the plugin's `feed_urls` config), read through the cluster's shared feed aggregator. Headline, source, time and link only — never a body. 404 `plugin_not_installed` when the tenant has not installed the plugin; 409 `plugin_disabled` when it is installed but off; 503 `news_ticker_not_configured` when the server has no aggregator.
+}
+
+example {
+  name: 200 Response
+  description: Headlines.
+
+  request: {
+    url: {{baseUrl}}/v1/news/ticker
+    method: GET
+    mode: none
+    params:query: {
+      limit: 30
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "items": [
+            {
+              "id": "",
+              "title": "",
+              "url": "",
+              "source": "",
+              "sourceUrl": "",
+              "publishedAt": ""
+            }
+          ],
+          "stale": false,
+          "generatedAt": ""
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: 404 Response
+  description: Plugin not installed.
+
+  request: {
+    url: {{baseUrl}}/v1/news/ticker
+    method: GET
+    mode: none
+    params:query: {
+      limit: 30
+    }
+  }
+
+  response: {
+    status: {
+      code: 404
+      text: Not Found
+    }
+
+    body: {
+      type: text
+      content: '''
+
+      '''
+    }
+  }
+}
+
+example {
+  name: 409 Response
+  description: Plugin disabled.
+
+  request: {
+    url: {{baseUrl}}/v1/news/ticker
+    method: GET
+    mode: none
+    params:query: {
+      limit: 30
+    }
+  }
+
+  response: {
+    status: {
+      code: 409
+      text: Conflict
+    }
+
+    body: {
+      type: text
+      content: '''
+
+      '''
+    }
+  }
+}
+
+example {
+  name: 502 Response
+  description: Feed aggregator unavailable.
+
+  request: {
+    url: {{baseUrl}}/v1/news/ticker
+    method: GET
+    mode: none
+    params:query: {
+      limit: 30
+    }
+  }
+
+  response: {
+    status: {
+      code: 502
+      text: Bad Gateway
+    }
+
+    body: {
+      type: text
+      content: '''
+
+      '''
+    }
+  }
+}
+
+example {
+  name: 503 Response
+  description: News ticker not configured on this server.
+
+  request: {
+    url: {{baseUrl}}/v1/news/ticker
+    method: GET
+    mode: none
+    params:query: {
+      limit: 30
+    }
+  }
+
+  response: {
+    status: {
+      code: 503
+      text: Service Unavailable
+    }
+
+    body: {
+      type: text
+      content: '''
+
+      '''
+    }
+  }
+}

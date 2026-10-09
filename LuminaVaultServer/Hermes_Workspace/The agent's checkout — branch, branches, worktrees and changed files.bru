@@ -1,0 +1,151 @@
+meta {
+  name: The agent's checkout — branch, branches, worktrees and changed files
+  type: http
+  seq: 1
+  tags: [
+    Hermes_Workspace
+  ]
+}
+
+get {
+  url: {{baseUrl}}/v1/hermes/workspace/status
+  body: none
+  auth: inherit
+}
+
+params:query {
+  @description("Absolute path of the repository on the agent's machine.")
+  path:
+}
+
+docs {
+  A read-only view of the repository the tenant's Hermes is working in.
+  Proxies the Hermes dashboard rather than reimplementing git, so what a
+  client sees is what the agent sees.
+
+  **Read-only, deliberately.** The same upstream API can stage, commit,
+  push and open pull requests. None of that is reachable here: those need
+  an auth scope, an audit trail and a confirmation model before a browser
+  session can reach them.
+
+  `501 hermes_mirror_unsupported` when the tenant has no remote Hermes — a
+  filesystem-mirrored tenant has no checkout to inspect. Verified
+  against staging rather than assumed: the code comes from the shared
+  mirror error mapper, not from a workspace-specific one.
+
+}
+
+example {
+  name: 200 Response
+  description: Repository state.
+
+  request: {
+    url: {{baseUrl}}/v1/hermes/workspace/status
+    method: GET
+    mode: none
+    params:query: {
+      path:
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "repo": {
+            "root": "",
+            "branch": "",
+            "isDetached": false
+          },
+          "branches": [
+            {
+              "name": "",
+              "isCurrent": false
+            }
+          ],
+          "worktrees": [
+            {
+              "path": "",
+              "branch": "",
+              "isPrimary": false
+            }
+          ],
+          "changes": [
+            {
+              "path": "",
+              "added": 0,
+              "removed": 0,
+              "status": ""
+            }
+          ]
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: 400 Response
+  description: Missing or malformed path (`hermes_mirror_invalid_path`).
+
+  request: {
+    url: {{baseUrl}}/v1/hermes/workspace/status
+    method: GET
+    mode: none
+    params:query: {
+      path:
+    }
+  }
+
+  response: {
+    status: {
+      code: 400
+      text: Bad Request
+    }
+
+    body: {
+      type: text
+      content: '''
+
+      '''
+    }
+  }
+}
+
+example {
+  name: 501 Response
+  description: This tenant has no remote Hermes (`hermes_mirror_unsupported`).
+
+  request: {
+    url: {{baseUrl}}/v1/hermes/workspace/status
+    method: GET
+    mode: none
+    params:query: {
+      path:
+    }
+  }
+
+  response: {
+    status: {
+      code: 501
+      text: Not Implemented
+    }
+
+    body: {
+      type: text
+      content: '''
+
+      '''
+    }
+  }
+}

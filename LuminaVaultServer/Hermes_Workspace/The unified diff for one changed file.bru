@@ -1,0 +1,121 @@
+meta {
+  name: The unified diff for one changed file
+  type: http
+  seq: 4
+  tags: [
+    Hermes_Workspace
+  ]
+}
+
+get {
+  url: {{baseUrl}}/v1/hermes/workspace/diff
+  body: none
+  auth: inherit
+}
+
+params:query {
+  @description('Absolute path of the repository.')
+  path:
+  @description('''
+    Repository-relative path of the file. Traversal segments are
+    rejected: a file parameter that walked upward would let a caller
+    read anything the agent can reach by asking for a diff of it.
+
+  ''')
+  file:
+}
+
+example {
+  name: 200 Response
+  description: Unified diff, as text.
+
+  request: {
+    url: {{baseUrl}}/v1/hermes/workspace/diff
+    method: GET
+    mode: none
+    params:query: {
+      path:
+      file:
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "path": "",
+          "diff": "",
+          "truncated": false
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: 400 Response
+  description: Missing or malformed path.
+
+  request: {
+    url: {{baseUrl}}/v1/hermes/workspace/diff
+    method: GET
+    mode: none
+    params:query: {
+      path:
+      file:
+    }
+  }
+
+  response: {
+    status: {
+      code: 400
+      text: Bad Request
+    }
+
+    body: {
+      type: text
+      content: '''
+
+      '''
+    }
+  }
+}
+
+example {
+  name: 501 Response
+  description: This tenant has no remote Hermes.
+
+  request: {
+    url: {{baseUrl}}/v1/hermes/workspace/diff
+    method: GET
+    mode: none
+    params:query: {
+      path:
+      file:
+    }
+  }
+
+  response: {
+    status: {
+      code: 501
+      text: Not Implemented
+    }
+
+    body: {
+      type: text
+      content: '''
+
+      '''
+    }
+  }
+}
