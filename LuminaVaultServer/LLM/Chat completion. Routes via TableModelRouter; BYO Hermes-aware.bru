@@ -253,6 +253,60 @@ example {
 }
 
 example {
+  name: usageCapExceeded
+
+  request: {
+    url: {{baseUrl}}/v1/llm/chat
+    method: POST
+    mode: json
+    body:json: {
+      {
+        "model": "",
+        "messages": [
+          {
+            "role": "system",
+            "content": "",
+            "toolCalls": [
+              {}
+            ]
+          }
+        ],
+        "temperature": 0,
+        "stream": false
+      }
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 429
+      text: Too Many Requests
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "error": {
+            "code": "usage_cap_exceeded",
+            "message": "You've reached today's usage limit. Upgrade for more, or add your own API key in Settings to keep going now.",
+            "cta": [
+              "upgrade",
+              "add_key"
+            ],
+            "retryAfterSeconds": 18000
+          }
+        }
+      '''
+    }
+  }
+}
+
+example {
   name: 502 Response
   description: LLM upstream rejected, was unreachable, or all providers exhausted.
 
@@ -296,6 +350,59 @@ example {
             "code": "upstream_timeout",
             "message": "",
             "retry_after_ms": 0
+          }
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: freeLaneUnavailable
+
+  request: {
+    url: {{baseUrl}}/v1/llm/chat
+    method: POST
+    mode: json
+    body:json: {
+      {
+        "model": "",
+        "messages": [
+          {
+            "role": "system",
+            "content": "",
+            "toolCalls": [
+              {}
+            ]
+          }
+        ],
+        "temperature": 0,
+        "stream": false
+      }
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 503
+      text: Service Unavailable
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "error": {
+            "code": "free_lane_unavailable",
+            "message": "Free messages are unavailable right now. Add your own API key in Settings to keep going.",
+            "cta": [
+              "upgrade",
+              "add_key"
+            ]
           }
         }
       '''

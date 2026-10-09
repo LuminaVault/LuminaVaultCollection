@@ -1,0 +1,58 @@
+meta {
+  name: The location fix kept for offline scheduled jobs
+  type: http
+  seq: 5
+  tags: [
+    Me
+  ]
+}
+
+get {
+  url: {{baseUrl}}/v1/me/location
+  body: none
+  auth: inherit
+}
+
+docs {
+  Whenever a live device location read succeeds (the `location_recent`
+  or `weather_forecast` tools), the server keeps that one fix so a
+  scheduled job — the 07:00 weather check — still works while the phone
+  is asleep. It is overwritten, never a history, used only while
+  Location access is on, and cleared when Location access is turned off.
+
+}
+
+example {
+  name: 200 Response
+  description: The stored fix, or `cached=false`.
+
+  request: {
+    url: {{baseUrl}}/v1/me/location
+    method: GET
+    mode: none
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "cached": false,
+          "place": "",
+          "latitude": "",
+          "longitude": "",
+          "capturedAt": ""
+        }
+      '''
+    }
+  }
+}

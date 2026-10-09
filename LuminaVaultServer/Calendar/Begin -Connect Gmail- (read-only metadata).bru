@@ -1,0 +1,129 @@
+meta {
+  name: Begin "Connect Gmail" (read-only metadata)
+  type: http
+  seq: 5
+  tags: [
+    Calendar
+  ]
+}
+
+post {
+  url: {{baseUrl}}/v1/mail/gmail/connect
+  body: none
+  auth: inherit
+}
+
+params:query {
+  @description('Web only. Absolute URL on an allowed web origin.')
+  ~returnTo:
+}
+
+docs {
+  Returns Google's consent URL asking for `gmail.readonly` with
+  `include_granted_scopes=true`, so an existing Calendar grant is kept
+  and extended. Google redirects to `/v1/calendar/oauth/callback`, which
+  303s to `luminavault://oauth/google-gmail?status=ok` (iOS) or to
+  `returnTo` with `status=ok|error&reason=…` (web).
+
+  Gmail is a Google restricted scope: until the OAuth app passes
+  Google's verification only test users on the consent screen can
+  connect.
+
+}
+
+example {
+  name: 200 Response
+  description: Consent URL to open.
+
+  request: {
+    url: {{baseUrl}}/v1/mail/gmail/connect
+    method: POST
+    mode: none
+    params:query: {
+      ~returnTo:
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "authorizeURL": ""
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: 400 Response
+  description: `returnTo` is not on an allowed web origin.
+
+  request: {
+    url: {{baseUrl}}/v1/mail/gmail/connect
+    method: POST
+    mode: none
+    params:query: {
+      ~returnTo:
+    }
+  }
+
+  response: {
+    status: {
+      code: 400
+      text: Bad Request
+    }
+
+    body: {
+      type: text
+      content: '''
+
+      '''
+    }
+  }
+}
+
+example {
+  name: 503 Response
+  description: Google OAuth not configured on this server.
+
+  request: {
+    url: {{baseUrl}}/v1/mail/gmail/connect
+    method: POST
+    mode: none
+    params:query: {
+      ~returnTo:
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 503
+      text: Service Unavailable
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "error": "",
+          "message": ""
+        }
+      '''
+    }
+  }
+}

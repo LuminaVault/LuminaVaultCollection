@@ -20,6 +20,17 @@ params:query {
   ~kind: link
   ~q:
   ~before:
+  @description('''
+    Narrow to one Hermes session, so a chat surface can show just the
+    artifacts produced by the run behind the conversation on screen.
+    Artifacts are keyed by session rather than conversation, so the
+    join is conversation → run `sessionID` → artifacts; read the run's
+    `sessionID` from `GET /v1/hermes/runs?conversationID=`. An empty
+    value means no filter, which is what a client sends for a
+    conversation that has not started a run yet.
+
+  ''')
+  ~sessionID:
 }
 
 example {
@@ -37,6 +48,7 @@ example {
       ~q:
       ~before:
       limit: 50
+      ~sessionID:
     }
   }
 

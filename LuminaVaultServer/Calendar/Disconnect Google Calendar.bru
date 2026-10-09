@@ -15,7 +15,9 @@ post {
 
 docs {
   Revokes the grant at Google (best-effort), deletes the stored tokens,
-  and purges this tenant's cached Google calendar events.
+  and purges this tenant's cached Google calendar events. When the same
+  grant also serves Gmail, only the Calendar scope is dropped
+  server-side (and the cached events purged) so Gmail keeps working.
 
 }
 

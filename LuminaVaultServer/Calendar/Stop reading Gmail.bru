@@ -1,0 +1,48 @@
+meta {
+  name: Stop reading Gmail
+  type: http
+  seq: 6
+  tags: [
+    Calendar
+  ]
+}
+
+post {
+  url: {{baseUrl}}/v1/mail/gmail/disconnect
+  body: none
+  auth: inherit
+}
+
+docs {
+  When the Google grant also serves Calendar, the Gmail scope is
+  dropped server-side (Google has no per-scope revoke) and Calendar
+  stays connected. Otherwise the grant is revoked at Google and the
+  stored tokens deleted. Mail is never stored, so there is nothing
+  else to purge.
+
+}
+
+example {
+  name: 204 Response
+  description: Disconnected.
+
+  request: {
+    url: {{baseUrl}}/v1/mail/gmail/disconnect
+    method: POST
+    mode: none
+  }
+
+  response: {
+    status: {
+      code: 204
+      text: No Content
+    }
+
+    body: {
+      type: text
+      content: '''
+
+      '''
+    }
+  }
+}

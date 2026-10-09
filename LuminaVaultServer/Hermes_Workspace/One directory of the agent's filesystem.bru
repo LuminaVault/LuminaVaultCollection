@@ -1,0 +1,149 @@
+meta {
+  name: One directory of the agent's filesystem
+  type: http
+  seq: 2
+  tags: [
+    Hermes_Workspace
+  ]
+}
+
+get {
+  url: {{baseUrl}}/v1/hermes/workspace/files
+  body: none
+  auth: inherit
+}
+
+params:query {
+  @description('''
+    Absolute directory path. Required rather than defaulting to the
+    agent's working directory: a typo that silently lists somewhere
+    else reads as data loss to whoever is looking at the tree.
+
+  ''')
+  path:
+}
+
+example {
+  name: 200 Response
+  description: Directory entries.
+
+  request: {
+    url: {{baseUrl}}/v1/hermes/workspace/files
+    method: GET
+    mode: none
+    params:query: {
+      path:
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "path": "",
+          "entries": [
+            {
+              "name": "",
+              "path": "",
+              "isDirectory": false
+            }
+          ]
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: 400 Response
+  description: Missing or malformed path.
+
+  request: {
+    url: {{baseUrl}}/v1/hermes/workspace/files
+    method: GET
+    mode: none
+    params:query: {
+      path:
+    }
+  }
+
+  response: {
+    status: {
+      code: 400
+      text: Bad Request
+    }
+
+    body: {
+      type: text
+      content: '''
+
+      '''
+    }
+  }
+}
+
+example {
+  name: 404 Response
+  description: No such directory.
+
+  request: {
+    url: {{baseUrl}}/v1/hermes/workspace/files
+    method: GET
+    mode: none
+    params:query: {
+      path:
+    }
+  }
+
+  response: {
+    status: {
+      code: 404
+      text: Not Found
+    }
+
+    body: {
+      type: text
+      content: '''
+
+      '''
+    }
+  }
+}
+
+example {
+  name: 501 Response
+  description: This tenant has no remote Hermes.
+
+  request: {
+    url: {{baseUrl}}/v1/hermes/workspace/files
+    method: GET
+    mode: none
+    params:query: {
+      path:
+    }
+  }
+
+  response: {
+    status: {
+      code: 501
+      text: Not Implemented
+    }
+
+    body: {
+      type: text
+      content: '''
+
+      '''
+    }
+  }
+}

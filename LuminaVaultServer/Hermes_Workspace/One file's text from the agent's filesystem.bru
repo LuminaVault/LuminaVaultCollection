@@ -1,0 +1,138 @@
+meta {
+  name: One file's text from the agent's filesystem
+  type: http
+  seq: 3
+  tags: [
+    Hermes_Workspace
+  ]
+}
+
+get {
+  url: {{baseUrl}}/v1/hermes/workspace/file
+  body: none
+  auth: inherit
+}
+
+params:query {
+  path:
+}
+
+example {
+  name: 200 Response
+  description: File contents.
+
+  request: {
+    url: {{baseUrl}}/v1/hermes/workspace/file
+    method: GET
+    mode: none
+    params:query: {
+      path:
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "path": "",
+          "content": "",
+          "truncated": false
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: 400 Response
+  description: Missing or malformed path.
+
+  request: {
+    url: {{baseUrl}}/v1/hermes/workspace/file
+    method: GET
+    mode: none
+    params:query: {
+      path:
+    }
+  }
+
+  response: {
+    status: {
+      code: 400
+      text: Bad Request
+    }
+
+    body: {
+      type: text
+      content: '''
+
+      '''
+    }
+  }
+}
+
+example {
+  name: 404 Response
+  description: No such file.
+
+  request: {
+    url: {{baseUrl}}/v1/hermes/workspace/file
+    method: GET
+    mode: none
+    params:query: {
+      path:
+    }
+  }
+
+  response: {
+    status: {
+      code: 404
+      text: Not Found
+    }
+
+    body: {
+      type: text
+      content: '''
+
+      '''
+    }
+  }
+}
+
+example {
+  name: 501 Response
+  description: This tenant has no remote Hermes.
+
+  request: {
+    url: {{baseUrl}}/v1/hermes/workspace/file
+    method: GET
+    mode: none
+    params:query: {
+      path:
+    }
+  }
+
+  response: {
+    status: {
+      code: 501
+      text: Not Implemented
+    }
+
+    body: {
+      type: text
+      content: '''
+
+      '''
+    }
+  }
+}
