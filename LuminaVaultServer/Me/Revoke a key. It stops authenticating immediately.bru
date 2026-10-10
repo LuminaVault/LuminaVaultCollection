@@ -1,0 +1,81 @@
+meta {
+  name: Revoke a key. It stops authenticating immediately
+  type: http
+  seq: 38
+  tags: [
+    Me
+  ]
+}
+
+delete {
+  url: {{baseUrl}}/v1/me/agent-connections/:id
+  body: none
+  auth: inherit
+}
+
+params:path {
+  id:
+}
+
+example {
+  name: 204 Response
+  description: Revoked.
+
+  request: {
+    url: {{baseUrl}}/v1/me/agent-connections/:id
+    method: DELETE
+    mode: none
+    params:path: {
+      id:
+    }
+  }
+
+  response: {
+    status: {
+      code: 204
+      text: No Content
+    }
+
+    body: {
+      type: text
+      content: '''
+
+      '''
+    }
+  }
+}
+
+example {
+  name: 404 Response
+  description: No live key with this id for the caller.
+
+  request: {
+    url: {{baseUrl}}/v1/me/agent-connections/:id
+    method: DELETE
+    mode: none
+    params:path: {
+      id:
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 404
+      text: Not Found
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "error": "",
+          "message": ""
+        }
+      '''
+    }
+  }
+}
