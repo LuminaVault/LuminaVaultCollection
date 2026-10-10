@@ -1,0 +1,111 @@
+meta {
+  name: Setup snippet for a client kind, with a placeholder token
+  type: http
+  seq: 36
+  tags: [
+    Me
+  ]
+}
+
+get {
+  url: {{baseUrl}}/v1/me/agent-connections/preview
+  body: none
+  auth: inherit
+}
+
+params:query {
+  ~clientKind: claude_code
+  ~clientKind: codex
+  ~clientKind: hermes
+  ~clientKind: other
+}
+
+docs {
+  Issues nothing. Used to show the steps before a key exists.
+}
+
+example {
+  name: 200 Response
+  description: Setup instructions carrying `AgentConnectionService.placeholderToken`.
+
+  request: {
+    url: {{baseUrl}}/v1/me/agent-connections/preview
+    method: GET
+    mode: none
+    params:query: {
+      ~clientKind: claude_code
+      ~clientKind: codex
+      ~clientKind: hermes
+      ~clientKind: other
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "kind": "claude_code",
+          "url": "",
+          "token": "",
+          "configLabel": "",
+          "configLang": "",
+          "config": "",
+          "safeLabel": "",
+          "safeLang": "",
+          "safe": "",
+          "export": "",
+          "safeNote": "",
+          "prompt": ""
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: 400 Response
+  description: `invalid_client_kind`.
+
+  request: {
+    url: {{baseUrl}}/v1/me/agent-connections/preview
+    method: GET
+    mode: none
+    params:query: {
+      ~clientKind: claude_code
+      ~clientKind: codex
+      ~clientKind: hermes
+      ~clientKind: other
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 400
+      text: Bad Request
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "error": "",
+          "message": ""
+        }
+      '''
+    }
+  }
+}

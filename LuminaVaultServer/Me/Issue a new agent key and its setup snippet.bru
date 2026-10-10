@@ -1,0 +1,134 @@
+meta {
+  name: Issue a new agent key and its setup snippet
+  type: http
+  seq: 35
+  tags: [
+    Me
+  ]
+}
+
+post {
+  url: {{baseUrl}}/v1/me/agent-connections
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "name": "",
+    "clientKind": "claude_code",
+    "allowPersonalData": false,
+    "access": "read"
+  }
+}
+
+docs {
+  The response is the only place the plaintext `token` ever appears.
+  `access` defaults to `read` and `allowPersonalData` to `false`: a new
+  key can search and read the vault and nothing more until the user
+  grants more.
+
+}
+
+example {
+  name: 200 Response
+  description: The new key, its plaintext token, and setup instructions.
+
+  request: {
+    url: {{baseUrl}}/v1/me/agent-connections
+    method: POST
+    mode: json
+    body:json: {
+      {
+        "name": "",
+        "clientKind": "claude_code",
+        "allowPersonalData": false,
+        "access": "read"
+      }
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "connection": {
+            "id": "",
+            "name": "",
+            "clientKind": "claude_code",
+            "tokenPrefix": "",
+            "createdAt": "",
+            "lastUsedAt": "",
+            "allowPersonalData": false,
+            "access": "read"
+          },
+          "token": "",
+          "setup": {
+            "kind": "claude_code",
+            "url": "",
+            "token": "",
+            "configLabel": "",
+            "configLang": "",
+            "config": "",
+            "safeLabel": "",
+            "safeLang": "",
+            "safe": "",
+            "export": "",
+            "safeNote": "",
+            "prompt": ""
+          }
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: 400 Response
+  description: `name_required` or `name_too_long`.
+
+  request: {
+    url: {{baseUrl}}/v1/me/agent-connections
+    method: POST
+    mode: json
+    body:json: {
+      {
+        "name": "",
+        "clientKind": "claude_code",
+        "allowPersonalData": false,
+        "access": "read"
+      }
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 400
+      text: Bad Request
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "error": "",
+          "message": ""
+        }
+      '''
+    }
+  }
+}

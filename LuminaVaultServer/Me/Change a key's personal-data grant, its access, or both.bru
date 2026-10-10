@@ -1,0 +1,164 @@
+meta {
+  name: Change a key's personal-data grant, its access, or both
+  type: http
+  seq: 37
+  tags: [
+    Me
+  ]
+}
+
+patch {
+  url: {{baseUrl}}/v1/me/agent-connections/:id
+  body: json
+  auth: inherit
+}
+
+params:path {
+  id:
+}
+
+body:json {
+  {
+    "allowPersonalData": false,
+    "access": "read"
+  }
+}
+
+docs {
+  Fields left out stay as they are. A body naming neither field is
+  rejected. A `read` key gets an MCP tool error from every tool that
+  writes (`index`, `calendar_create`, `reminder_create`).
+
+}
+
+example {
+  name: 200 Response
+  description: The updated key.
+
+  request: {
+    url: {{baseUrl}}/v1/me/agent-connections/:id
+    method: PATCH
+    mode: json
+    params:path: {
+      id:
+    }
+
+    body:json: {
+      {
+        "allowPersonalData": false,
+        "access": "read"
+      }
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "id": "",
+          "name": "",
+          "clientKind": "claude_code",
+          "tokenPrefix": "",
+          "createdAt": "",
+          "lastUsedAt": "",
+          "allowPersonalData": false,
+          "access": "read"
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: 400 Response
+  description: `invalid_id` or `nothing_to_update`.
+
+  request: {
+    url: {{baseUrl}}/v1/me/agent-connections/:id
+    method: PATCH
+    mode: json
+    params:path: {
+      id:
+    }
+
+    body:json: {
+      {
+        "allowPersonalData": false,
+        "access": "read"
+      }
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 400
+      text: Bad Request
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "error": "",
+          "message": ""
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: 404 Response
+  description: No live key with this id for the caller.
+
+  request: {
+    url: {{baseUrl}}/v1/me/agent-connections/:id
+    method: PATCH
+    mode: json
+    params:path: {
+      id:
+    }
+
+    body:json: {
+      {
+        "allowPersonalData": false,
+        "access": "read"
+      }
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 404
+      text: Not Found
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "error": "",
+          "message": ""
+        }
+      '''
+    }
+  }
+}

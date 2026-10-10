@@ -1,0 +1,62 @@
+meta {
+  name: List the caller's live agent keys for MCP
+  type: http
+  seq: 34
+  tags: [
+    Me
+  ]
+}
+
+get {
+  url: {{baseUrl}}/v1/me/agent-connections
+  body: none
+  auth: inherit
+}
+
+docs {
+  Revoked keys are omitted. The plaintext token is never returned
+  after the response that issued it; rows carry only `tokenPrefix`.
+
+}
+
+example {
+  name: 200 Response
+  description: Live keys, newest first.
+
+  request: {
+    url: {{baseUrl}}/v1/me/agent-connections
+    method: GET
+    mode: none
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "connections": [
+            {
+              "id": "",
+              "name": "",
+              "clientKind": "claude_code",
+              "tokenPrefix": "",
+              "createdAt": "",
+              "lastUsedAt": "",
+              "allowPersonalData": false,
+              "access": "read"
+            }
+          ]
+        }
+      '''
+    }
+  }
+}
