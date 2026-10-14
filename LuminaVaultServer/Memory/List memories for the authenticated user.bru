@@ -33,6 +33,14 @@ params:query {
   ~healthFilter: unorganized
   @description('Actionable memory-health queue used by analytics recommendations.')
   ~healthFilter: unused
+  @description('Only memories of this kind. Unclassified memories never match.')
+  ~kind: preference
+  @description('Only memories of this kind. Unclassified memories never match.')
+  ~kind: decision
+  @description('Only memories of this kind. Unclassified memories never match.')
+  ~kind: fact
+  @description('Only memories of this kind. Unclassified memories never match.')
+  ~kind: note
 }
 
 example {
@@ -52,6 +60,10 @@ example {
       ~healthFilter: pending
       ~healthFilter: unorganized
       ~healthFilter: unused
+      ~kind: preference
+      ~kind: decision
+      ~kind: fact
+      ~kind: note
     }
   }
 
@@ -113,7 +125,8 @@ example {
                     "model": ""
                   }
                 ]
-              }
+              },
+              "kind": "preference"
             }
           ],
           "limit": 0,
