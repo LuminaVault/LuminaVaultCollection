@@ -19,7 +19,8 @@ body:json {
     "cron": "",
     "domain": "",
     "spec": "",
-    "spaceId": ""
+    "spaceId": "",
+    "conversationId": ""
   }
 }
 
@@ -37,7 +38,8 @@ example {
         "cron": "",
         "domain": "",
         "spec": "",
-        "spaceId": ""
+        "spaceId": "",
+        "conversationId": ""
       }
     }
   }
@@ -71,7 +73,11 @@ example {
           "dailyRunCount": 0,
           "dailyRunCap": 0,
           "apnsCategory": "chat",
-          "bodyExcerpt": ""
+          "bodyExcerpt": "",
+          "origin": {
+            "kind": "conversation",
+            "id": ""
+          }
         }
       '''
     }
