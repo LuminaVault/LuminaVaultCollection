@@ -41,6 +41,8 @@ params:query {
   ~kind: fact
   @description('Only memories of this kind. Unclassified memories never match.')
   ~kind: note
+  @description('A Space slug, or `inbox` for unfiled memories. 404 for an unknown slug.')
+  ~space:
 }
 
 example {
@@ -64,6 +66,7 @@ example {
       ~kind: decision
       ~kind: fact
       ~kind: note
+      ~space:
     }
   }
 
@@ -126,7 +129,8 @@ example {
                   }
                 ]
               },
-              "kind": "preference"
+              "kind": "preference",
+              "spaceId": ""
             }
           ],
           "limit": 0,
