@@ -1,0 +1,140 @@
+meta {
+  name: A few memories worth another look today
+  type: http
+  seq: 6
+  tags: [
+    Me
+  ]
+}
+
+get {
+  url: {{baseUrl}}/v1/me/resurface
+  body: none
+  auth: inherit
+}
+
+params:query {
+  @description('1 to 10 (default 3). Anything else is a 400.')
+  limit: 3
+}
+
+docs {
+  Deterministic, no model call. Lanes are filled in priority order and
+  deduped by memory: `due` (the user asked to see it again via
+  `soon`/`later` on `POST /v1/memory/{id}/review` and that time has
+  passed, oldest first), `onThisDay` (saved exactly a month, six months
+  or a year ago — or this month/day two or more years ago — on the
+  user's own calendar in `users.timezone`, longest ago first), and
+  `fading` (a decision or preference not looked at for more than 30
+  days, oldest first). Never returned: rejected or muted memories,
+  model-made memories still pending approval, anything reviewed in the
+  last 24 hours, and anything scheduled for a later review.
+
+}
+
+example {
+  name: 200 Response
+  description: Up to `limit` memories, in lane order.
+
+  request: {
+    url: {{baseUrl}}/v1/me/resurface
+    method: GET
+    mode: none
+    params:query: {
+      limit: 3
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "items": [
+            {
+              "memoryId": "",
+              "snippet": "",
+              "kind": "",
+              "createdAt": "",
+              "spaceId": "",
+              "reason": "due",
+              "why": ""
+            }
+          ]
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: 400 Response
+  description: Limit is not an integer between 1 and 10.
+
+  request: {
+    url: {{baseUrl}}/v1/me/resurface
+    method: GET
+    mode: none
+    params:query: {
+      limit: 3
+    }
+  }
+
+  response: {
+    status: {
+      code: 400
+      text: Bad Request
+    }
+
+    body: {
+      type: text
+      content: '''
+
+      '''
+    }
+  }
+}
+
+example {
+  name: 429 Response
+  description: Rate-limit exceeded; honour `Retry-After`.
+
+  request: {
+    url: {{baseUrl}}/v1/me/resurface
+    method: GET
+    mode: none
+    params:query: {
+      limit: 3
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 429
+      text: Too Many Requests
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "error": "",
+          "message": ""
+        }
+      '''
+    }
+  }
+}
