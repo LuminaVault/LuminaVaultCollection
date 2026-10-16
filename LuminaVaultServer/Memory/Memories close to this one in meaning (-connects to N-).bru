@@ -1,0 +1,111 @@
+meta {
+  name: Memories close to this one in meaning ("connects to N")
+  type: http
+  seq: 8
+  tags: [
+    Memory
+  ]
+}
+
+get {
+  url: {{baseUrl}}/v1/memory/:id/related
+  body: none
+  auth: inherit
+}
+
+params:query {
+  limit: 5
+}
+
+params:path {
+  id:
+}
+
+docs {
+  Nearest first, by the embedding already stored on the memory. Leaves
+  out the memory itself, rejected memories, and anything past the
+  cosine-distance floor (`memory.related.maxDistance`, default 0.45),
+  so an empty list means nothing is really connected. Reading this
+  does not count as a search hit.
+
+}
+
+example {
+  name: 200 Response
+  description: Related memories.
+
+  request: {
+    url: {{baseUrl}}/v1/memory/:id/related
+    method: GET
+    mode: none
+    params:query: {
+      limit: 5
+    }
+
+    params:path: {
+      id:
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "memoryId": "",
+          "items": [
+            {
+              "id": "",
+              "snippet": "",
+              "kind": "preference",
+              "createdAt": "",
+              "spaceId": "",
+              "similarity": 0
+            }
+          ]
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: 404 Response
+  description: No such memory in the caller's vault.
+
+  request: {
+    url: {{baseUrl}}/v1/memory/:id/related
+    method: GET
+    mode: none
+    params:query: {
+      limit: 5
+    }
+
+    params:path: {
+      id:
+    }
+  }
+
+  response: {
+    status: {
+      code: 404
+      text: Not Found
+    }
+
+    body: {
+      type: text
+      content: '''
+
+      '''
+    }
+  }
+}
