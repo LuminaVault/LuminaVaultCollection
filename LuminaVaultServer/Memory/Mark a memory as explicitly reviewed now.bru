@@ -9,12 +9,28 @@ meta {
 
 post {
   url: {{baseUrl}}/v1/memory/:id/review
-  body: none
+  body: json
   auth: inherit
 }
 
 params:path {
   id:
+}
+
+body:json {
+  {
+    "action": "kept"
+  }
+}
+
+docs {
+  Always sets `reviewedAt`, bumps `reviewCount` and records a
+  `memory_reviewed` event. The optional body decides when it resurfaces
+  in `GET /v1/me/resurface`: `kept` (the default, also what an empty
+  body means) clears any schedule; `soon` schedules it 3 days out and
+  `later` 30 days out (both lift an earlier `never`); `never` mutes it
+  for good. The memory itself is never changed or removed.
+
 }
 
 example {
@@ -24,9 +40,15 @@ example {
   request: {
     url: {{baseUrl}}/v1/memory/:id/review
     method: POST
-    mode: none
+    mode: json
     params:path: {
       id:
+    }
+
+    body:json: {
+      {
+        "action": "kept"
+      }
     }
   }
 
@@ -46,8 +68,78 @@ example {
         {
           "memoryId": "",
           "reviewedAt": "",
-          "reviewCount": 0
+          "reviewCount": 0,
+          "nextReviewAt": "",
+          "resurfaceMuted": false
         }
+      '''
+    }
+  }
+}
+
+example {
+  name: 400 Response
+  description: Body is present but not a valid `MemoryReviewRequest`.
+
+  request: {
+    url: {{baseUrl}}/v1/memory/:id/review
+    method: POST
+    mode: json
+    params:path: {
+      id:
+    }
+
+    body:json: {
+      {
+        "action": "kept"
+      }
+    }
+  }
+
+  response: {
+    status: {
+      code: 400
+      text: Bad Request
+    }
+
+    body: {
+      type: text
+      content: '''
+
+      '''
+    }
+  }
+}
+
+example {
+  name: 404 Response
+  description: No such memory in this vault.
+
+  request: {
+    url: {{baseUrl}}/v1/memory/:id/review
+    method: POST
+    mode: json
+    params:path: {
+      id:
+    }
+
+    body:json: {
+      {
+        "action": "kept"
+      }
+    }
+  }
+
+  response: {
+    status: {
+      code: 404
+      text: Not Found
+    }
+
+    body: {
+      type: text
+      content: '''
+
       '''
     }
   }
