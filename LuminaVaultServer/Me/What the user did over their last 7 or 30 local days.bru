@@ -1,0 +1,175 @@
+meta {
+  name: What the user did over their last 7 or 30 local days
+  type: http
+  seq: 5
+  tags: [
+    Me
+  ]
+}
+
+get {
+  url: {{baseUrl}}/v1/me/recap
+  body: none
+  auth: inherit
+}
+
+params:query {
+  @description('`7d` (default) or `30d`. Anything else is a 400.')
+  range: 7d
+  @description('`7d` (default) or `30d`. Anything else is a 400.')
+  ~range: 30d
+}
+
+docs {
+  Days are the user's own calendar days in `users.timezone`, oldest
+  first, with empty days included. `previousTotals` is the same-length
+  window just before, for deltas. `captures` are memories the user put
+  in (notes, links, files, chat saves); `learned` are memories Lumina
+  distilled (Sync & Learn, kept replies); `asked` are messages the user
+  sent in chat; `reviewed` are memory reviews. `shareText` holds numbers
+  only, never memory content.
+
+}
+
+example {
+  name: 200 Response
+  description: Recap for the range.
+
+  request: {
+    url: {{baseUrl}}/v1/me/recap
+    method: GET
+    mode: none
+    params:query: {
+      range: 7d
+      ~range: 30d
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "range": "7d",
+          "start": "",
+          "end": "",
+          "timezone": "",
+          "totals": {
+            "captures": 0,
+            "learned": 0,
+            "asked": 0,
+            "reviewed": 0,
+            "activeDays": 0,
+            "streakDays": 0
+          },
+          "previousTotals": {
+            "captures": 0,
+            "learned": 0,
+            "asked": 0,
+            "reviewed": 0,
+            "activeDays": 0,
+            "streakDays": 0
+          },
+          "daily": [
+            {
+              "date": "",
+              "captures": 0,
+              "learned": 0,
+              "asked": 0,
+              "reviewed": 0
+            }
+          ],
+          "kinds": {
+            "preference": 0,
+            "decision": 0,
+            "fact": 0,
+            "note": 0
+          },
+          "highlights": [
+            {
+              "kind": "decision",
+              "refId": "",
+              "title": "",
+              "date": ""
+            }
+          ],
+          "shareText": ""
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: 400 Response
+  description: Range is not `7d` or `30d`.
+
+  request: {
+    url: {{baseUrl}}/v1/me/recap
+    method: GET
+    mode: none
+    params:query: {
+      range: 7d
+      ~range: 30d
+    }
+  }
+
+  response: {
+    status: {
+      code: 400
+      text: Bad Request
+    }
+
+    body: {
+      type: text
+      content: '''
+
+      '''
+    }
+  }
+}
+
+example {
+  name: 429 Response
+  description: Rate-limit exceeded; honour `Retry-After`.
+
+  request: {
+    url: {{baseUrl}}/v1/me/recap
+    method: GET
+    mode: none
+    params:query: {
+      range: 7d
+      ~range: 30d
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 429
+      text: Too Many Requests
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "error": "",
+          "message": ""
+        }
+      '''
+    }
+  }
+}
