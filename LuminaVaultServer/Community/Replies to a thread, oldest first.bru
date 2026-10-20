@@ -1,0 +1,118 @@
+meta {
+  name: Replies to a thread, oldest first
+  type: http
+  seq: 7
+  tags: [
+    Community
+  ]
+}
+
+get {
+  url: {{baseUrl}}/v1/community/posts/:postID/replies
+  body: none
+  auth: inherit
+}
+
+params:query {
+  limit: 20
+  ~cursor:
+}
+
+params:path {
+  postID:
+}
+
+example {
+  name: 200 Response
+  description: One page.
+
+  request: {
+    url: {{baseUrl}}/v1/community/posts/:postID/replies
+    method: GET
+    mode: none
+    params:query: {
+      ~cursor:
+      limit: 20
+    }
+
+    params:path: {
+      postID:
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "items": [
+            {
+              "id": "",
+              "parentId": "",
+              "title": "",
+              "body": "",
+              "author": {
+                "kind": "user",
+                "profileId": "",
+                "handle": "",
+                "displayName": ""
+              },
+              "isDailyPost": false,
+              "aiLabel": "",
+              "status": "pending",
+              "replyCount": 0,
+              "reactionCount": 0,
+              "viewerReacted": false,
+              "isOwn": false,
+              "createdAt": "",
+              "lastActivityAt": ""
+            }
+          ],
+          "nextCursor": ""
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: 404 Response
+  description: `post_not_found`.
+
+  request: {
+    url: {{baseUrl}}/v1/community/posts/:postID/replies
+    method: GET
+    mode: none
+    params:query: {
+      ~cursor:
+      limit: 20
+    }
+
+    params:path: {
+      postID:
+    }
+  }
+
+  response: {
+    status: {
+      code: 404
+      text: Not Found
+    }
+
+    body: {
+      type: text
+      content: '''
+
+      '''
+    }
+  }
+}

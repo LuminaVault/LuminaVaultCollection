@@ -1,0 +1,92 @@
+meta {
+  name: Suspend (or with `until` null, reinstate) a member's posting (`isAdmin` only)
+  type: http
+  seq: 16
+  tags: [
+    Community
+  ]
+}
+
+post {
+  url: {{baseUrl}}/v1/community/admin/profiles/:profileID/suspend
+  body: json
+  auth: inherit
+}
+
+params:path {
+  profileID:
+}
+
+body:json {
+  {
+    "until": ""
+  }
+}
+
+example {
+  name: 204 Response
+  description: Saved.
+
+  request: {
+    url: {{baseUrl}}/v1/community/admin/profiles/:profileID/suspend
+    method: POST
+    mode: json
+    params:path: {
+      profileID:
+    }
+
+    body:json: {
+      {
+        "until": ""
+      }
+    }
+  }
+
+  response: {
+    status: {
+      code: 204
+      text: No Content
+    }
+
+    body: {
+      type: text
+      content: '''
+
+      '''
+    }
+  }
+}
+
+example {
+  name: 403 Response
+  description: `admin_required`.
+
+  request: {
+    url: {{baseUrl}}/v1/community/admin/profiles/:profileID/suspend
+    method: POST
+    mode: json
+    params:path: {
+      profileID:
+    }
+
+    body:json: {
+      {
+        "until": ""
+      }
+    }
+  }
+
+  response: {
+    status: {
+      code: 403
+      text: Forbidden
+    }
+
+    body: {
+      type: text
+      content: '''
+
+      '''
+    }
+  }
+}

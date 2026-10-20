@@ -1,0 +1,245 @@
+meta {
+  name: The user's year or month in review, as a deck of cards
+  type: http
+  seq: 7
+  tags: [
+    Me
+  ]
+}
+
+get {
+  url: {{baseUrl}}/v1/me/recap/period
+  body: none
+  auth: inherit
+}
+
+params:query {
+  period: year
+  ~period: month
+  @description('Four-digit year. Defaults to the current local year.')
+  ~year: 2000
+  @description('1–12, only with `period=month`. Defaults to the current local month.')
+  ~month: 1
+}
+
+docs {
+  Counts follow `/v1/me/recap`: `captures` are memories the user put
+  in, `learned` memories Lumina distilled, and `messagesSent` the
+  user's chat messages. Days, weekdays and hours are local to
+  `users.timezone`. A running period covers up to today
+  (`isComplete=false`) and is compared with the same stretch one
+  period earlier.
+
+  `order` is the deck to play; clients skip kinds they do not know and
+  kinds whose card is absent. `available=false` comes with an
+  `unavailableReason` and no cards.
+
+  `themes` is the one card written by a model. The first view returns
+  `status=pending` with a counted `fallbackSentence`, and the response
+  is `Cache-Control: no-cache` so a later fetch picks up the written
+  card. `shareText` holds numbers only, never memory content.
+
+}
+
+example {
+  name: 200 Response
+  description: The recap, or `available=false` with a reason.
+
+  request: {
+    url: {{baseUrl}}/v1/me/recap/period
+    method: GET
+    mode: none
+    params:query: {
+      period: year
+      ~period: month
+      ~year: 2000
+      ~month: 1
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "period": "year",
+          "year": 0,
+          "month": 0,
+          "start": "",
+          "end": "",
+          "timezone": "",
+          "isComplete": false,
+          "available": false,
+          "unavailableReason": "periodInFuture",
+          "order": [
+            "intro"
+          ],
+          "captures": {
+            "captures": 0,
+            "learned": 0,
+            "previousCaptures": 0,
+            "previousLearned": 0,
+            "series": [
+              {
+                "key": "",
+                "count": 0
+              }
+            ],
+            "byKind": [
+              {
+                "label": "",
+                "count": 0
+              }
+            ],
+            "firstCapture": {
+              "memoryId": "",
+              "date": "",
+              "title": ""
+            }
+          },
+          "peak": {
+            "busiest": {
+              "key": "",
+              "count": 0
+            },
+            "weekdayCounts": [],
+            "busiestWeekday": 0
+          },
+          "rhythm": {
+            "hourCounts": [],
+            "peakHour": 0,
+            "persona": "earlyBird"
+          },
+          "topics": {
+            "topTags": [
+              {
+                "label": "",
+                "count": 0
+              }
+            ],
+            "topSpace": {
+              "label": "",
+              "count": 0
+            }
+          },
+          "chats": {
+            "conversations": 0,
+            "messagesSent": 0,
+            "previousMessagesSent": 0
+          },
+          "skills": {
+            "runs": 0,
+            "topSkill": {
+              "label": "",
+              "count": 0
+            }
+          },
+          "streak": {
+            "longestDays": 0,
+            "longestStart": "",
+            "longestEnd": "",
+            "activeDays": 0,
+            "totalDays": 0
+          },
+          "achievements": {
+            "unlocked": 0,
+            "items": [
+              {
+                "key": "",
+                "title": "",
+                "unlockedAt": ""
+              }
+            ]
+          },
+          "themes": {
+            "status": "ready",
+            "headline": "",
+            "sentence": "",
+            "themes": [],
+            "fallbackSentence": ""
+          },
+          "shareText": "",
+          "generatedAt": ""
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: 400 Response
+  description: Unknown period, a bad year or month, or `month` with `period=year`.
+
+  request: {
+    url: {{baseUrl}}/v1/me/recap/period
+    method: GET
+    mode: none
+    params:query: {
+      period: year
+      ~period: month
+      ~year: 2000
+      ~month: 1
+    }
+  }
+
+  response: {
+    status: {
+      code: 400
+      text: Bad Request
+    }
+
+    body: {
+      type: text
+      content: '''
+
+      '''
+    }
+  }
+}
+
+example {
+  name: 429 Response
+  description: Rate-limit exceeded; honour `Retry-After`.
+
+  request: {
+    url: {{baseUrl}}/v1/me/recap/period
+    method: GET
+    mode: none
+    params:query: {
+      period: year
+      ~period: month
+      ~year: 2000
+      ~month: 1
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 429
+      text: Too Many Requests
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "error": "",
+          "message": ""
+        }
+      '''
+    }
+  }
+}

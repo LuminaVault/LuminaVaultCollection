@@ -1,0 +1,154 @@
+meta {
+  name: Reply to a thread (one level deep)
+  type: http
+  seq: 8
+  tags: [
+    Community
+  ]
+}
+
+post {
+  url: {{baseUrl}}/v1/community/posts/:postID/replies
+  body: json
+  auth: inherit
+}
+
+params:path {
+  postID:
+}
+
+body:json {
+  {
+    "body": ""
+  }
+}
+
+docs {
+  Same moderation, statuses and errors as creating a thread; 60 replies a day per member.
+}
+
+example {
+  name: 201 Response
+  description: The new reply.
+
+  request: {
+    url: {{baseUrl}}/v1/community/posts/:postID/replies
+    method: POST
+    mode: json
+    params:path: {
+      postID:
+    }
+
+    body:json: {
+      {
+        "body": ""
+      }
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 201
+      text: Created
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "id": "",
+          "parentId": "",
+          "title": "",
+          "body": "",
+          "author": {
+            "kind": "user",
+            "profileId": "",
+            "handle": "",
+            "displayName": ""
+          },
+          "isDailyPost": false,
+          "aiLabel": "",
+          "status": "pending",
+          "replyCount": 0,
+          "reactionCount": 0,
+          "viewerReacted": false,
+          "isOwn": false,
+          "createdAt": "",
+          "lastActivityAt": ""
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: 404 Response
+  description: `post_not_found`.
+
+  request: {
+    url: {{baseUrl}}/v1/community/posts/:postID/replies
+    method: POST
+    mode: json
+    params:path: {
+      postID:
+    }
+
+    body:json: {
+      {
+        "body": ""
+      }
+    }
+  }
+
+  response: {
+    status: {
+      code: 404
+      text: Not Found
+    }
+
+    body: {
+      type: text
+      content: '''
+
+      '''
+    }
+  }
+}
+
+example {
+  name: 422 Response
+  description: `invalid_body` or `moderation_rejected:<category>`.
+
+  request: {
+    url: {{baseUrl}}/v1/community/posts/:postID/replies
+    method: POST
+    mode: json
+    params:path: {
+      postID:
+    }
+
+    body:json: {
+      {
+        "body": ""
+      }
+    }
+  }
+
+  response: {
+    status: {
+      code: 422
+      text: Unprocessable Entity
+    }
+
+    body: {
+      type: text
+      content: '''
+
+      '''
+    }
+  }
+}

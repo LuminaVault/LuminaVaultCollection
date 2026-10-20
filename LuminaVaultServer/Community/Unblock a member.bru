@@ -1,0 +1,46 @@
+meta {
+  name: Unblock a member
+  type: http
+  seq: 13
+  tags: [
+    Community
+  ]
+}
+
+delete {
+  url: {{baseUrl}}/v1/community/blocks/:profileID
+  body: none
+  auth: inherit
+}
+
+params:path {
+  profileID:
+}
+
+example {
+  name: 204 Response
+  description: Unblocked.
+
+  request: {
+    url: {{baseUrl}}/v1/community/blocks/:profileID
+    method: DELETE
+    mode: none
+    params:path: {
+      profileID:
+    }
+  }
+
+  response: {
+    status: {
+      code: 204
+      text: No Content
+    }
+
+    body: {
+      type: text
+      content: '''
+
+      '''
+    }
+  }
+}

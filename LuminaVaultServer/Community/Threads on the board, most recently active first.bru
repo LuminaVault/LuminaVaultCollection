@@ -1,0 +1,139 @@
+meta {
+  name: Threads on the board, most recently active first
+  type: http
+  seq: 3
+  tags: [
+    Community
+  ]
+}
+
+get {
+  url: {{baseUrl}}/v1/community/posts
+  body: none
+  auth: inherit
+}
+
+params:query {
+  limit: 20
+  ~cursor:
+}
+
+docs {
+  Keyset-paged. Visible threads plus the caller's own `pending` ones; never anything by a member the caller blocked.
+}
+
+example {
+  name: 200 Response
+  description: One page.
+
+  request: {
+    url: {{baseUrl}}/v1/community/posts
+    method: GET
+    mode: none
+    params:query: {
+      ~cursor:
+      limit: 20
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "items": [
+            {
+              "id": "",
+              "parentId": "",
+              "title": "",
+              "body": "",
+              "author": {
+                "kind": "user",
+                "profileId": "",
+                "handle": "",
+                "displayName": ""
+              },
+              "isDailyPost": false,
+              "aiLabel": "",
+              "status": "pending",
+              "replyCount": 0,
+              "reactionCount": 0,
+              "viewerReacted": false,
+              "isOwn": false,
+              "createdAt": "",
+              "lastActivityAt": ""
+            }
+          ],
+          "nextCursor": ""
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: 400 Response
+  description: `invalid_cursor`.
+
+  request: {
+    url: {{baseUrl}}/v1/community/posts
+    method: GET
+    mode: none
+    params:query: {
+      ~cursor:
+      limit: 20
+    }
+  }
+
+  response: {
+    status: {
+      code: 400
+      text: Bad Request
+    }
+
+    body: {
+      type: text
+      content: '''
+
+      '''
+    }
+  }
+}
+
+example {
+  name: 503 Response
+  description: `community_disabled`.
+
+  request: {
+    url: {{baseUrl}}/v1/community/posts
+    method: GET
+    mode: none
+    params:query: {
+      ~cursor:
+      limit: 20
+    }
+  }
+
+  response: {
+    status: {
+      code: 503
+      text: Service Unavailable
+    }
+
+    body: {
+      type: text
+      content: '''
+
+      '''
+    }
+  }
+}

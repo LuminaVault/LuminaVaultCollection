@@ -1,0 +1,57 @@
+meta {
+  name: Publish today's AI Daily Post now (same path as the worker)
+  type: http
+  seq: 12
+  tags: [
+    Admin
+  ]
+}
+
+post {
+  url: {{baseUrl}}/v1/admin/community/daily/run
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+docs {
+  A second call the same UTC day reports the day's row without publishing again.
+}
+
+example {
+  name: 200 Response
+  description: The day's outcome.
+
+  request: {
+    url: {{baseUrl}}/v1/admin/community/daily/run
+    method: POST
+    mode: none
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "day": "",
+          "status": "claimed",
+          "postId": "",
+          "sourceKind": "curated",
+          "topicKey": ""
+        }
+      '''
+    }
+  }
+}
