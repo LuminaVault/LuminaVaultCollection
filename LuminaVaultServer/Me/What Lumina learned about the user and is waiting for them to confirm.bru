@@ -1,0 +1,182 @@
+meta {
+  name: What Lumina learned about the user and is waiting for them to confirm
+  type: http
+  seq: 7
+  tags: [
+    Me
+  ]
+}
+
+get {
+  url: {{baseUrl}}/v1/me/learned
+  body: none
+  auth: inherit
+}
+
+params:query {
+  @description('''
+    ISO 8601 date-time, with or without fractional seconds. Default
+    seven days ago. In the future, more than 90 days ago, or not a
+    date is a 400.
+
+  ''')
+  ~since:
+}
+
+docs {
+  Deterministic, no model call. `soulChanges` are proposed SOUL.md
+  changes (`kind: soul`, still `pending`), and `memories` are
+  preference and decision memories still `pending` or `auto` — never
+  rejected, never already approved — both created since `since`, newest
+  first, at most 20 each. Keep / edit / forget go through the existing
+  endpoints: `PATCH /v1/memory/{id}`, `DELETE /v1/memory/{id}` and
+  `POST /v1/me/improvement/changes/{id}/approve|reject`.
+
+  The weekly "What I learned this week" push (Sunday 18:00 local, at
+  most once a week, only when this is non-empty) opens
+  `luminavault://learned`, which reads this endpoint.
+
+}
+
+example {
+  name: 200 Response
+  description: The digest; both lists may be empty.
+
+  request: {
+    url: {{baseUrl}}/v1/me/learned
+    method: GET
+    mode: none
+    params:query: {
+      ~since:
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "since": "",
+          "until": "",
+          "soulChanges": [
+            {
+              "id": "",
+              "title": "",
+              "summary": "",
+              "createdAt": ""
+            }
+          ],
+          "memories": [
+            {
+              "id": "",
+              "snippet": "",
+              "kind": "",
+              "reviewState": "",
+              "createdAt": ""
+            }
+          ]
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: 400 Response
+  description: `since` is not a date-time, is in the future, or is more than 90 days ago.
+
+  request: {
+    url: {{baseUrl}}/v1/me/learned
+    method: GET
+    mode: none
+    params:query: {
+      ~since:
+    }
+  }
+
+  response: {
+    status: {
+      code: 400
+      text: Bad Request
+    }
+
+    body: {
+      type: text
+      content: '''
+
+      '''
+    }
+  }
+}
+
+example {
+  name: 401 Response
+  description: Missing or invalid token.
+
+  request: {
+    url: {{baseUrl}}/v1/me/learned
+    method: GET
+    mode: none
+    params:query: {
+      ~since:
+    }
+  }
+
+  response: {
+    status: {
+      code: 401
+      text: Unauthorized
+    }
+
+    body: {
+      type: text
+      content: '''
+
+      '''
+    }
+  }
+}
+
+example {
+  name: 429 Response
+  description: Rate-limit exceeded; honour `Retry-After`.
+
+  request: {
+    url: {{baseUrl}}/v1/me/learned
+    method: GET
+    mode: none
+    params:query: {
+      ~since:
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 429
+      text: Too Many Requests
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "error": "",
+          "message": ""
+        }
+      '''
+    }
+  }
+}
