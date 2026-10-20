@@ -1,0 +1,120 @@
+meta {
+  name: Moderator queue (`isAdmin` only)
+  type: http
+  seq: 14
+  tags: [
+    Community
+  ]
+}
+
+get {
+  url: {{baseUrl}}/v1/community/admin/queue
+  body: none
+  auth: inherit
+}
+
+params:query {
+  status: all
+  ~status: open
+  ~status: pending
+  ~status: hidden
+}
+
+example {
+  name: 200 Response
+  description: Posts needing a decision.
+
+  request: {
+    url: {{baseUrl}}/v1/community/admin/queue
+    method: GET
+    mode: none
+    params:query: {
+      status: all
+      ~status: open
+      ~status: pending
+      ~status: hidden
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "items": [
+            {
+              "post": {
+                "id": "",
+                "parentId": "",
+                "title": "",
+                "body": "",
+                "author": {
+                  "kind": "user",
+                  "profileId": "",
+                  "handle": "",
+                  "displayName": ""
+                },
+                "isDailyPost": false,
+                "aiLabel": "",
+                "status": "pending",
+                "replyCount": 0,
+                "reactionCount": 0,
+                "viewerReacted": false,
+                "isOwn": false,
+                "createdAt": "",
+                "lastActivityAt": ""
+              },
+              "moderationCategory": "",
+              "hiddenReason": "",
+              "openReports": 0,
+              "reportReasons": [
+                "spam"
+              ],
+              "latestReportAt": ""
+            }
+          ]
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: 403 Response
+  description: `admin_required`.
+
+  request: {
+    url: {{baseUrl}}/v1/community/admin/queue
+    method: GET
+    mode: none
+    params:query: {
+      status: all
+      ~status: open
+      ~status: pending
+      ~status: hidden
+    }
+  }
+
+  response: {
+    status: {
+      code: 403
+      text: Forbidden
+    }
+
+    body: {
+      type: text
+      content: '''
+
+      '''
+    }
+  }
+}

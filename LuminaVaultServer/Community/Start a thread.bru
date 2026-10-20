@@ -1,0 +1,204 @@
+meta {
+  name: Start a thread
+  type: http
+  seq: 4
+  tags: [
+    Community
+  ]
+}
+
+post {
+  url: {{baseUrl}}/v1/community/posts
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "title": "",
+    "body": ""
+  }
+}
+
+docs {
+  Moderated before anyone else sees it. 201 with `status: visible`, or `status: pending` when the automatic check could not run (only the author sees it until it does). 422 `moderation_rejected:<category>` when rejected. Capped at 10 threads a day per member.
+}
+
+example {
+  name: 201 Response
+  description: The new thread.
+
+  request: {
+    url: {{baseUrl}}/v1/community/posts
+    method: POST
+    mode: json
+    body:json: {
+      {
+        "title": "",
+        "body": ""
+      }
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 201
+      text: Created
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "id": "",
+          "parentId": "",
+          "title": "",
+          "body": "",
+          "author": {
+            "kind": "user",
+            "profileId": "",
+            "handle": "",
+            "displayName": ""
+          },
+          "isDailyPost": false,
+          "aiLabel": "",
+          "status": "pending",
+          "replyCount": 0,
+          "reactionCount": 0,
+          "viewerReacted": false,
+          "isOwn": false,
+          "createdAt": "",
+          "lastActivityAt": ""
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: 403 Response
+  description: `community_profile_required`, `terms_required` or `posting_suspended`.
+
+  request: {
+    url: {{baseUrl}}/v1/community/posts
+    method: POST
+    mode: json
+    body:json: {
+      {
+        "title": "",
+        "body": ""
+      }
+    }
+  }
+
+  response: {
+    status: {
+      code: 403
+      text: Forbidden
+    }
+
+    body: {
+      type: text
+      content: '''
+
+      '''
+    }
+  }
+}
+
+example {
+  name: 422 Response
+  description: `invalid_title`, `invalid_body` or `moderation_rejected:<category>`.
+
+  request: {
+    url: {{baseUrl}}/v1/community/posts
+    method: POST
+    mode: json
+    body:json: {
+      {
+        "title": "",
+        "body": ""
+      }
+    }
+  }
+
+  response: {
+    status: {
+      code: 422
+      text: Unprocessable Entity
+    }
+
+    body: {
+      type: text
+      content: '''
+
+      '''
+    }
+  }
+}
+
+example {
+  name: 429 Response
+  description: `daily_limit_reached`.
+
+  request: {
+    url: {{baseUrl}}/v1/community/posts
+    method: POST
+    mode: json
+    body:json: {
+      {
+        "title": "",
+        "body": ""
+      }
+    }
+  }
+
+  response: {
+    status: {
+      code: 429
+      text: Too Many Requests
+    }
+
+    body: {
+      type: text
+      content: '''
+
+      '''
+    }
+  }
+}
+
+example {
+  name: 503 Response
+  description: `community_disabled` or `community_posting_disabled`.
+
+  request: {
+    url: {{baseUrl}}/v1/community/posts
+    method: POST
+    mode: json
+    body:json: {
+      {
+        "title": "",
+        "body": ""
+      }
+    }
+  }
+
+  response: {
+    status: {
+      code: 503
+      text: Service Unavailable
+    }
+
+    body: {
+      type: text
+      content: '''
+
+      '''
+    }
+  }
+}

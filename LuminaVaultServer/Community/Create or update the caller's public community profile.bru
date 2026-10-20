@@ -1,0 +1,170 @@
+meta {
+  name: Create or update the caller's public community profile
+  type: http
+  seq: 2
+  tags: [
+    Community
+  ]
+}
+
+put {
+  url: {{baseUrl}}/v1/community/profile
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "handle": "",
+    "displayName": "",
+    "acceptTerms": false,
+    "termsVersion": 0
+  }
+}
+
+docs {
+  The handle (`^[a-z0-9_]{3,20}$`, not reserved, not the account username) and display name are the only things other members ever see. Accepting the current Community Guidelines is required.
+}
+
+example {
+  name: 200 Response
+  description: Saved profile.
+
+  request: {
+    url: {{baseUrl}}/v1/community/profile
+    method: PUT
+    mode: json
+    body:json: {
+      {
+        "handle": "",
+        "displayName": "",
+        "acceptTerms": false,
+        "termsVersion": 0
+      }
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "id": "",
+          "handle": "",
+          "displayName": "",
+          "termsVersion": 0,
+          "termsAcceptedAt": "",
+          "postingSuspendedUntil": ""
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: 409 Response
+  description: `handle_taken`.
+
+  request: {
+    url: {{baseUrl}}/v1/community/profile
+    method: PUT
+    mode: json
+    body:json: {
+      {
+        "handle": "",
+        "displayName": "",
+        "acceptTerms": false,
+        "termsVersion": 0
+      }
+    }
+  }
+
+  response: {
+    status: {
+      code: 409
+      text: Conflict
+    }
+
+    body: {
+      type: text
+      content: '''
+
+      '''
+    }
+  }
+}
+
+example {
+  name: 422 Response
+  description: `invalid_handle`, `invalid_display_name` or `terms_required`.
+
+  request: {
+    url: {{baseUrl}}/v1/community/profile
+    method: PUT
+    mode: json
+    body:json: {
+      {
+        "handle": "",
+        "displayName": "",
+        "acceptTerms": false,
+        "termsVersion": 0
+      }
+    }
+  }
+
+  response: {
+    status: {
+      code: 422
+      text: Unprocessable Entity
+    }
+
+    body: {
+      type: text
+      content: '''
+
+      '''
+    }
+  }
+}
+
+example {
+  name: 503 Response
+  description: `community_disabled`.
+
+  request: {
+    url: {{baseUrl}}/v1/community/profile
+    method: PUT
+    mode: json
+    body:json: {
+      {
+        "handle": "",
+        "displayName": "",
+        "acceptTerms": false,
+        "termsVersion": 0
+      }
+    }
+  }
+
+  response: {
+    status: {
+      code: 503
+      text: Service Unavailable
+    }
+
+    body: {
+      type: text
+      content: '''
+
+      '''
+    }
+  }
+}

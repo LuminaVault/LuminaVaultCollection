@@ -1,0 +1,88 @@
+meta {
+  name: Today's (UTC) AI Daily Post
+  type: http
+  seq: 10
+  tags: [
+    Community
+  ]
+}
+
+get {
+  url: {{baseUrl}}/v1/community/daily/today
+  body: none
+  auth: inherit
+}
+
+example {
+  name: 200 Response
+  description: The Daily Post (`author.kind` `ai`, `isDailyPost` true, `aiLabel` set).
+
+  request: {
+    url: {{baseUrl}}/v1/community/daily/today
+    method: GET
+    mode: none
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "id": "",
+          "parentId": "",
+          "title": "",
+          "body": "",
+          "author": {
+            "kind": "user",
+            "profileId": "",
+            "handle": "",
+            "displayName": ""
+          },
+          "isDailyPost": false,
+          "aiLabel": "",
+          "status": "pending",
+          "replyCount": 0,
+          "reactionCount": 0,
+          "viewerReacted": false,
+          "isOwn": false,
+          "createdAt": "",
+          "lastActivityAt": ""
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: 204 Response
+  description: Not published yet today.
+
+  request: {
+    url: {{baseUrl}}/v1/community/daily/today
+    method: GET
+    mode: none
+  }
+
+  response: {
+    status: {
+      code: 204
+      text: No Content
+    }
+
+    body: {
+      type: text
+      content: '''
+
+      '''
+    }
+  }
+}

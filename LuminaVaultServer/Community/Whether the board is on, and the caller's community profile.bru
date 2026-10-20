@@ -1,0 +1,53 @@
+meta {
+  name: Whether the board is on, and the caller's community profile
+  type: http
+  seq: 1
+  tags: [
+    Community
+  ]
+}
+
+get {
+  url: {{baseUrl}}/v1/community/me
+  body: none
+  auth: inherit
+}
+
+docs {
+  Always 200. `enabled: false` means the server has the board switched off — hide every community entry point. `postingEnabled: false` means read-only. A member without a profile (or with an older `termsVersion` than `termsVersionRequired`) must complete profile setup before posting.
+}
+
+example {
+  name: 200 Response
+  description: Community status for the caller.
+
+  request: {
+    url: {{baseUrl}}/v1/community/me
+    method: GET
+    mode: none
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "enabled": false,
+          "postingEnabled": false,
+          "profile": "",
+          "termsVersionRequired": 0,
+          "isModerator": false
+        }
+      '''
+    }
+  }
+}

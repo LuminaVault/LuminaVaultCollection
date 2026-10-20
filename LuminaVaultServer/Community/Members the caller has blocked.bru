@@ -1,0 +1,52 @@
+meta {
+  name: Members the caller has blocked
+  type: http
+  seq: 11
+  tags: [
+    Community
+  ]
+}
+
+get {
+  url: {{baseUrl}}/v1/community/blocks
+  body: none
+  auth: inherit
+}
+
+example {
+  name: 200 Response
+  description: Blocked members.
+
+  request: {
+    url: {{baseUrl}}/v1/community/blocks
+    method: GET
+    mode: none
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "items": [
+            {
+              "profileId": "",
+              "handle": "",
+              "displayName": "",
+              "blockedAt": ""
+            }
+          ]
+        }
+      '''
+    }
+  }
+}

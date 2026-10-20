@@ -1,0 +1,130 @@
+meta {
+  name: Hide, restore or remove a post (`isAdmin` only)
+  type: http
+  seq: 15
+  tags: [
+    Community
+  ]
+}
+
+post {
+  url: {{baseUrl}}/v1/community/admin/posts/:postID/decision
+  body: json
+  auth: inherit
+}
+
+params:path {
+  postID:
+}
+
+body:json {
+  {
+    "action": "hide",
+    "reason": ""
+  }
+}
+
+example {
+  name: 204 Response
+  description: Applied; open reports resolved.
+
+  request: {
+    url: {{baseUrl}}/v1/community/admin/posts/:postID/decision
+    method: POST
+    mode: json
+    params:path: {
+      postID:
+    }
+
+    body:json: {
+      {
+        "action": "hide",
+        "reason": ""
+      }
+    }
+  }
+
+  response: {
+    status: {
+      code: 204
+      text: No Content
+    }
+
+    body: {
+      type: text
+      content: '''
+
+      '''
+    }
+  }
+}
+
+example {
+  name: 403 Response
+  description: `admin_required`.
+
+  request: {
+    url: {{baseUrl}}/v1/community/admin/posts/:postID/decision
+    method: POST
+    mode: json
+    params:path: {
+      postID:
+    }
+
+    body:json: {
+      {
+        "action": "hide",
+        "reason": ""
+      }
+    }
+  }
+
+  response: {
+    status: {
+      code: 403
+      text: Forbidden
+    }
+
+    body: {
+      type: text
+      content: '''
+
+      '''
+    }
+  }
+}
+
+example {
+  name: 404 Response
+  description: `post_not_found`.
+
+  request: {
+    url: {{baseUrl}}/v1/community/admin/posts/:postID/decision
+    method: POST
+    mode: json
+    params:path: {
+      postID:
+    }
+
+    body:json: {
+      {
+        "action": "hide",
+        "reason": ""
+      }
+    }
+  }
+
+  response: {
+    status: {
+      code: 404
+      text: Not Found
+    }
+
+    body: {
+      type: text
+      content: '''
+
+      '''
+    }
+  }
+}
