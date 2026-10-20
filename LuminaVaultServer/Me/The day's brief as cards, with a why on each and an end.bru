@@ -1,0 +1,159 @@
+meta {
+  name: The day's brief as cards, with a why on each and an end
+  type: http
+  seq: 10
+  tags: [
+    Me
+  ]
+}
+
+get {
+  url: {{baseUrl}}/v1/me/brief
+  body: none
+  auth: inherit
+}
+
+params:query {
+  @description("Local day `yyyy-MM-dd`. Default today in the user's timezone. Not a real day is a 400.")
+  ~date:
+}
+
+docs {
+  Written when the `daily-brief` skill runs (07:00 local by default).
+  Deterministic cards first — `today` (calendar), `openLoops` (≤3
+  open commitments), `toRevisit` (one resurfaced memory), `learned`
+  (while the "What I learned" digest has something waiting) — then the
+  skill's own sections (`weather`, `inbox`, `onYourMind`, `other`).
+  Empty cards are left out. A card kind the user marked down (net
+  up − down − dismiss ≤ −2 over 14 days) moves to the bottom.
+
+  One brief per local day; re-running the skill the same day replaces
+  the cards and keeps the brief's id. The daily-brief chat message and
+  its quiet push open `luminavault://brief`, which reads this endpoint.
+
+}
+
+example {
+  name: 200 Response
+  description: The brief, or `{"brief": null}` when there is none for that day (not a 404).
+
+  request: {
+    url: {{baseUrl}}/v1/me/brief
+    method: GET
+    mode: none
+    params:query: {
+      ~date:
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "brief": ""
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: 400 Response
+  description: `date` is not `yyyy-MM-dd`.
+
+  request: {
+    url: {{baseUrl}}/v1/me/brief
+    method: GET
+    mode: none
+    params:query: {
+      ~date:
+    }
+  }
+
+  response: {
+    status: {
+      code: 400
+      text: Bad Request
+    }
+
+    body: {
+      type: text
+      content: '''
+
+      '''
+    }
+  }
+}
+
+example {
+  name: 401 Response
+  description: Missing or invalid token.
+
+  request: {
+    url: {{baseUrl}}/v1/me/brief
+    method: GET
+    mode: none
+    params:query: {
+      ~date:
+    }
+  }
+
+  response: {
+    status: {
+      code: 401
+      text: Unauthorized
+    }
+
+    body: {
+      type: text
+      content: '''
+
+      '''
+    }
+  }
+}
+
+example {
+  name: 429 Response
+  description: Rate-limit exceeded; honour `Retry-After`.
+
+  request: {
+    url: {{baseUrl}}/v1/me/brief
+    method: GET
+    mode: none
+    params:query: {
+      ~date:
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 429
+      text: Too Many Requests
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "error": "",
+          "message": ""
+        }
+      '''
+    }
+  }
+}

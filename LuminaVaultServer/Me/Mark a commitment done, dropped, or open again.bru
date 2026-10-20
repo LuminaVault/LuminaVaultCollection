@@ -1,0 +1,255 @@
+meta {
+  name: Mark a commitment done, dropped, or open again
+  type: http
+  seq: 9
+  tags: [
+    Me
+  ]
+}
+
+patch {
+  url: {{baseUrl}}/v1/me/commitments/:id
+  body: json
+  auth: inherit
+}
+
+params:path {
+  id:
+}
+
+body:json {
+  {
+    "state": "open"
+  }
+}
+
+docs {
+  `done` and `dropped` stamp `doneAt`; `open` clears it. Done and
+  dropped commitments never appear in a brief again.
+
+}
+
+example {
+  name: 200 Response
+  description: The updated commitment.
+
+  request: {
+    url: {{baseUrl}}/v1/me/commitments/:id
+    method: PATCH
+    mode: json
+    params:path: {
+      id:
+    }
+
+    body:json: {
+      {
+        "state": "open"
+      }
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "id": "",
+          "text": "",
+          "dueAt": "",
+          "state": "open",
+          "surfacedCount": 0,
+          "memoryId": "",
+          "sourceVaultFileId": "",
+          "createdAt": "",
+          "doneAt": ""
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: 400 Response
+  description: Invalid id, or `state` is not open, done or dropped.
+
+  request: {
+    url: {{baseUrl}}/v1/me/commitments/:id
+    method: PATCH
+    mode: json
+    params:path: {
+      id:
+    }
+
+    body:json: {
+      {
+        "state": "open"
+      }
+    }
+  }
+
+  response: {
+    status: {
+      code: 400
+      text: Bad Request
+    }
+
+    body: {
+      type: text
+      content: '''
+
+      '''
+    }
+  }
+}
+
+example {
+  name: 401 Response
+  description: Missing or invalid token.
+
+  request: {
+    url: {{baseUrl}}/v1/me/commitments/:id
+    method: PATCH
+    mode: json
+    params:path: {
+      id:
+    }
+
+    body:json: {
+      {
+        "state": "open"
+      }
+    }
+  }
+
+  response: {
+    status: {
+      code: 401
+      text: Unauthorized
+    }
+
+    body: {
+      type: text
+      content: '''
+
+      '''
+    }
+  }
+}
+
+example {
+  name: 404 Response
+  description: No such commitment for this user (another user's id is a 404 too).
+
+  request: {
+    url: {{baseUrl}}/v1/me/commitments/:id
+    method: PATCH
+    mode: json
+    params:path: {
+      id:
+    }
+
+    body:json: {
+      {
+        "state": "open"
+      }
+    }
+  }
+
+  response: {
+    status: {
+      code: 404
+      text: Not Found
+    }
+
+    body: {
+      type: text
+      content: '''
+
+      '''
+    }
+  }
+}
+
+example {
+  name: 409 Response
+  description: Reopening it would duplicate a commitment that is already open with the same text.
+
+  request: {
+    url: {{baseUrl}}/v1/me/commitments/:id
+    method: PATCH
+    mode: json
+    params:path: {
+      id:
+    }
+
+    body:json: {
+      {
+        "state": "open"
+      }
+    }
+  }
+
+  response: {
+    status: {
+      code: 409
+      text: Conflict
+    }
+
+    body: {
+      type: text
+      content: '''
+
+      '''
+    }
+  }
+}
+
+example {
+  name: 429 Response
+  description: Rate-limit exceeded; honour `Retry-After`.
+
+  request: {
+    url: {{baseUrl}}/v1/me/commitments/:id
+    method: PATCH
+    mode: json
+    params:path: {
+      id:
+    }
+
+    body:json: {
+      {
+        "state": "open"
+      }
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 429
+      text: Too Many Requests
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "error": "",
+          "message": ""
+        }
+      '''
+    }
+  }
+}
