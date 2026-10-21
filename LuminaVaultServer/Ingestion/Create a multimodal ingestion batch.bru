@@ -129,3 +129,51 @@ example {
     }
   }
 }
+
+example {
+  name: insufficientStorage
+
+  request: {
+    url: {{baseUrl}}/v1/ingestions
+    method: POST
+    mode: json
+    body:json: {
+      {
+        "spaceID": "",
+        "items": [
+          {
+            "kind": "file",
+            "fileName": "",
+            "contentType": "",
+            "sizeBytes": 0,
+            "sha256": "",
+            "url": ""
+          }
+        ]
+      }
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 507
+      text: Insufficient Storage
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "error": {
+            "code": "insufficient_storage",
+            "message": "LuminaVault is short on storage space right now, so this wasn't saved. Please try again later."
+          }
+        }
+      '''
+    }
+  }
+}
