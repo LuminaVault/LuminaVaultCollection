@@ -27,14 +27,20 @@ body:json {
         "allDay": false,
         "status": "",
         "organizer": "",
-        "remoteUpdatedAt": ""
+        "remoteUpdatedAt": "",
+        "attendees": [
+          {
+            "name": "",
+            "email": ""
+          }
+        ]
       }
     ]
   }
 }
 
 docs {
-  Promotes Calendar from on-demand device-RPC to a persisted server cache (`calendar_events`, source `apple_eventkit`) that the `calendar_query` Hermes tool reads in the background. Consent-gated on the `calendar` domain. Upsert key is `(tenant_id, source, external_id)`; last-writer-wins on `remoteUpdatedAt`. Cancelled events are tombstoned, not deleted.
+  Promotes Calendar from on-demand device-RPC to a persisted server cache (`calendar_events`, source `apple_eventkit`) that the `calendar_query` Hermes tool reads in the background. Consent-gated on the `calendar` domain. Upsert key is `(tenant_id, source, external_id)`; last-writer-wins on `remoteUpdatedAt`. Cancelled events are tombstoned, not deleted. `attendees` replaces the stored attendees when present (an empty array clears them) and leaves them alone when absent, so an older client does not wipe them.
 }
 
 example {
@@ -59,7 +65,13 @@ example {
             "allDay": false,
             "status": "",
             "organizer": "",
-            "remoteUpdatedAt": ""
+            "remoteUpdatedAt": "",
+            "attendees": [
+              {
+                "name": "",
+                "email": ""
+              }
+            ]
           }
         ]
       }
@@ -111,7 +123,13 @@ example {
             "allDay": false,
             "status": "",
             "organizer": "",
-            "remoteUpdatedAt": ""
+            "remoteUpdatedAt": "",
+            "attendees": [
+              {
+                "name": "",
+                "email": ""
+              }
+            ]
           }
         ]
       }

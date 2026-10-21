@@ -1,0 +1,150 @@
+meta {
+  name: The notes that bear on one upcoming meeting (pre-meeting brief)
+  type: http
+  seq: 9
+  tags: [
+    Calendar
+  ]
+}
+
+get {
+  url: {{baseUrl}}/v1/calendar/events/:id/brief
+  body: none
+  auth: inherit
+}
+
+params:path {
+  @description('The calendar event id (`CalendarEventDTO.id`, the id in `luminavault://meeting/<eventId>`).')
+  id:
+}
+
+docs {
+  The event, the caller's notes that match it, and one line on why.
+  Matching embeds the event's title, attendee names and notes once and
+  keeps only notes within the cosine-distance floor
+  (`meeting.brief.maxDistance`, default 0.40 — stricter than "connects
+  to"), nearest first, at most five, never rejected ones. When the
+  opt-in pre-meeting push went out for this event, these are the notes
+  it counted (minus any rejected or deleted since); otherwise they are
+  matched now. `memories` is empty when nothing passes the floor.
+
+  The push (opt-in via `meetingBriefEnabled` on
+  `PUT /v1/me/apns-categories`, off by default) goes out 25–35 minutes
+  before a timed, non-cancelled event, only when at least one note
+  passes the floor: `passive`, `aps.category` `meeting`, thread
+  `meeting`, deep link `luminavault://meeting/<eventId>`. It is exempt
+  from the one-a-day proactive push budget.
+
+}
+
+example {
+  name: 200 Response
+  description: The brief.
+
+  request: {
+    url: {{baseUrl}}/v1/calendar/events/:id/brief
+    method: GET
+    mode: none
+    params:path: {
+      id:
+    }
+  }
+
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+
+    status: {
+      code: 200
+      text: OK
+    }
+
+    body: {
+      type: json
+      content: '''
+        {
+          "event": {
+            "id": "",
+            "title": "",
+            "startsAt": "",
+            "endsAt": "",
+            "location": "",
+            "attendees": [
+              {
+                "name": "",
+                "email": ""
+              }
+            ]
+          },
+          "memories": [
+            {
+              "id": "",
+              "snippet": "",
+              "kind": "",
+              "createdAt": "",
+              "similarity": 0
+            }
+          ],
+          "why": ""
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: 400 Response
+  description: The id is not a UUID.
+
+  request: {
+    url: {{baseUrl}}/v1/calendar/events/:id/brief
+    method: GET
+    mode: none
+    params:path: {
+      id:
+    }
+  }
+
+  response: {
+    status: {
+      code: 400
+      text: Bad Request
+    }
+
+    body: {
+      type: text
+      content: '''
+
+      '''
+    }
+  }
+}
+
+example {
+  name: 404 Response
+  description: No such event in the caller's calendar.
+
+  request: {
+    url: {{baseUrl}}/v1/calendar/events/:id/brief
+    method: GET
+    mode: none
+    params:path: {
+      id:
+    }
+  }
+
+  response: {
+    status: {
+      code: 404
+      text: Not Found
+    }
+
+    body: {
+      type: text
+      content: '''
+
+      '''
+    }
+  }
+}
